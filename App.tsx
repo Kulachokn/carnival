@@ -1,7 +1,7 @@
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
@@ -10,20 +10,24 @@ import SucheScreen from "./screens/SucheScreen";
 import GesellschaftenScreen from "./screens/GesellschaftenScreen";
 import OrteScreen from "./screens/OrteScreen";
 
+import {Colors} from "./constants/colors"
+
 const BottomTab = createBottomTabNavigator();
 
 export default function App() {
   return (
+    <>
+    {/* <StatusBar /> */}
     <NavigationContainer>
       <BottomTab.Navigator
         screenOptions={{
-          headerStyle: { backgroundColor: "#3c0a6b" },
+          headerStyle: { backgroundColor: "#B11226" },
           headerTintColor: "white",
-          tabBarActiveTintColor: "#3c0a6b",
+          tabBarActiveTintColor: "#B11226",
         }}
       >
         <BottomTab.Screen
-          name="Termine"
+          name="Alle Termine"
           component={TermineScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
@@ -60,6 +64,7 @@ export default function App() {
         />
       </BottomTab.Navigator>
     </NavigationContainer>
+    </>
   );
 }
 
