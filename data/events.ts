@@ -5,7 +5,7 @@ export const events = [
     title: 'Der große Kölsche Countdown',
     date: '2025-02-11T19:30:00',
     location: 'Tanzbrunnen',
-    image: require('../assets/countdown.jpg'), // Add this image to assets or replace with an existing one
+    image: require('../assets/countdown.jpg'),
   },
   {
     id: '2',
