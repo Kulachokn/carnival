@@ -2,7 +2,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-// import { StyleSheet } from "react-native";
+import { Image } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
@@ -23,7 +23,26 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="MainTabs" component={MainTabs} />
-        <Stack.Screen name="Veranstaltung" component={VeranstaltungScreen} />
+        <Stack.Screen
+          name="Veranstaltung"
+          options={({ route }) => (
+            console.log("from", route.params.from),
+            {
+              headerShown: true,
+              title: "Veranstaltung",
+              headerStyle: { backgroundColor: Colors.primaryRed },
+              headerTintColor: Colors.white,
+              headerBackTitle: route.params?.from ?? "Zurück",
+              headerRight: () => (
+                <Image
+                  source={require("./assets/logo.svg")}
+                  style={{ width: 30, height: 30, marginRight: 16 }}
+                />
+              ),
+            }
+          )}
+          component={VeranstaltungScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -38,6 +57,12 @@ function MainTabs() {
         tabBarStyle: { backgroundColor: Colors.primaryRed, height: 60 },
         tabBarActiveTintColor: Colors.white,
         tabBarInactiveTintColor: Colors.card400,
+        headerRight: () => (
+                <Image
+                  source={require("./assets/logo.svg")}
+                  style={{ width: 30, height: 30, marginRight: 16 }}
+                />
+              ),
       }}
     >
       <BottomTab.Screen
@@ -67,11 +92,7 @@ function MainTabs() {
         component={GesellschaftenScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome6
-              name="masks-theater"
-              size={24}
-              color={Colors.white}
-            />
+            <FontAwesome6 name="masks-theater" size={24} color={Colors.white} />
           ),
         }}
       />
@@ -80,11 +101,7 @@ function MainTabs() {
         component={OrteScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome6
-              name="location-dot"
-              size={24}
-              color={Colors.white}
-            />
+            <FontAwesome6 name="location-dot" size={24} color={Colors.white} />
           ),
         }}
       />
@@ -92,11 +109,4 @@ function MainTabs() {
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: Colors.white,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
+

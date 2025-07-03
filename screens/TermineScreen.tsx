@@ -42,7 +42,7 @@ function TermineScreen() {
     );
 
   function onPressEvent(item: Event) {
-    navigation.navigate("Veranstaltung", { event: item });
+    navigation.navigate("Veranstaltung", { event: item, from: "Alle Termine" });
   }
 
   return (

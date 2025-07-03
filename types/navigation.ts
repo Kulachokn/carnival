@@ -1,7 +1,8 @@
-import { Event } from './event';
+import { Event } from "./event";
 
 export type RootStackParamList = {
-  Veranstaltung: { event: Event };
-   Termine: undefined;
-   MainTabs: undefined;
+  //   Veranstaltung: { event: Event };
+  Veranstaltung: { event: Event; from?: string };
+  Termine: undefined;
+  MainTabs: undefined;
 };

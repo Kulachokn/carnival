@@ -39,7 +39,7 @@ export const events = [
     id: '6',
     title: 'Der große Kölsche Countdown',
     date: '2025-09-14T13:00:00',
-    location: 'Tanzbrunnen',
+    location: 'Theater am Tanzbrunnen Rheinpark 1, 50733 Köln',
     image: require('../assets/countdown.jpg'),
   },
 ];
