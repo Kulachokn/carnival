@@ -16,8 +16,10 @@ import { Colors } from "./constants/colors";
 import { RootStackParamList } from "./types/navigation";
 
 const BottomTab = createBottomTabNavigator();
-// const Stack = createStackNavigator<RootStackParamList>();
 const TermineStack = createStackNavigator<RootStackParamList>();
+const SucheStack = createStackNavigator<RootStackParamList>();
+const GesellschaftenStack = createStackNavigator<RootStackParamList>();
+const OrteStack = createStackNavigator<RootStackParamList>();
 
 function TermineStackScreen() {
   return (
@@ -29,7 +31,7 @@ function TermineStackScreen() {
           title: "Alle Termine",
           headerStyle: { backgroundColor: Colors.primaryRed },
           headerTintColor: Colors.white,
-          headerTitleAlign: "center"
+          headerTitleAlign: "center",
         }}
       />
       <TermineStack.Screen
@@ -54,37 +56,109 @@ function TermineStackScreen() {
   );
 }
 
+function SucheStackScreen() {
+  return (
+    <SucheStack.Navigator>
+      <SucheStack.Screen
+        name="Suche"
+        component={SucheScreen}
+        options={{
+          title: "Suche",
+          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerTintColor: Colors.white,
+          headerTitleAlign: "center",
+        }}
+      />
+    </SucheStack.Navigator>
+  );
+}
+
+function GesellschaftenStackScreen() {
+  return (
+    <GesellschaftenStack.Navigator>
+      <GesellschaftenStack.Screen
+        name="Gesellschaften"
+        component={GesellschaftenScreen}
+        options={{
+          title: "Gesellschaften",
+          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerTintColor: Colors.white,
+          headerTitleAlign: "center",
+        }}
+      />
+    </GesellschaftenStack.Navigator>
+  );
+}
+
+function OrteStackScreen() {
+  return (
+    <OrteStack.Navigator>
+      <OrteStack.Screen
+        name="Orte"
+        component={OrteScreen}
+        options={{
+          title: "Orte",
+          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerTintColor: Colors.white,
+          headerTitleAlign: "center",
+        }}
+      />
+    </OrteStack.Navigator>
+  );
+}
+
 export default function App() {
   return (
     <>
-    <StatusBar style="light" />
-    <NavigationContainer>
-      <BottomTab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarStyle: { backgroundColor: Colors.primaryRed, height: 60 },
-          tabBarActiveTintColor: Colors.white,
-          tabBarInactiveTintColor: Colors.card400,
-        }}
-      >
-        <BottomTab.Screen
-           name="AlleTermineTab"
-          component={TermineStackScreen}
-          options={{
-            tabBarLabel: "Termine",
-            tabBarIcon: ({ color }) => (
-              <FontAwesome name="calendar-check-o" size={24} color={color} />
-            ),
+      <StatusBar style="light" />
+      <NavigationContainer>
+        <BottomTab.Navigator
+          screenOptions={{
+            headerShown: false,
+            tabBarStyle: { backgroundColor: Colors.primaryRed, height: 60 },
+            tabBarActiveTintColor: Colors.white,
+            tabBarInactiveTintColor: Colors.card400,
           }}
-        />
-        <BottomTab.Screen name="Suche" component={SucheScreen} />
-        <BottomTab.Screen
-          name="Gesellschaften"
-          component={GesellschaftenScreen}
-        />
-        <BottomTab.Screen name="Orte" component={OrteScreen} />
-      </BottomTab.Navigator>
-    </NavigationContainer>
+        >
+          <BottomTab.Screen
+            name="AlleTermineTab"
+            component={TermineStackScreen}
+            options={{
+              tabBarLabel: "Termine",
+              tabBarIcon: ({ color }) => (
+                <FontAwesome name="calendar-check-o" size={24} color={color} />
+              ),
+            }}
+          />
+          <BottomTab.Screen
+            name="SucheTab"
+            component={SucheStackScreen}
+            options={{
+              tabBarLabel: "Suche",
+              tabBarIcon: ({ color }) => (
+                <FontAwesome name="search" size={24} color={Colors.white} />
+              ),
+            }}
+          />
+          <BottomTab.Screen
+            name="GesellschaftenTab"
+            component={GesellschaftenStackScreen}
+            options={{
+              tabBarLabel: "Gesellschaften",
+              tabBarIcon: ({ color }) => (
+                <FontAwesome6 name="masks-theater" size={24} color={Colors.white} />
+              ),
+            }}
+          />
+          <BottomTab.Screen name="OrteTab" component={OrteStackScreen} 
+          options={{
+              tabBarLabel: "OrteTab",
+              tabBarIcon: ({ color }) => (
+                 <FontAwesome6 name="location-dot" size={24} color={Colors.white} />
+              ),
+            }}/>
+        </BottomTab.Navigator>
+      </NavigationContainer>
     </>
-  )
+  );
 }
