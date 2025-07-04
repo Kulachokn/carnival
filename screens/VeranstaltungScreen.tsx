@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Linking, Pressable, Platform } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { Colors } from '../constants/colors';
 import { Event } from '../types/event';
 import { RootStackParamList } from '../types/navigation';
-// import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 import PrimaryButton from '../components/PrimaruButton';
 
@@ -27,29 +27,38 @@ type Props = {
 const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
   const event: Event = route.params.event;
 
+  const openInMaps = () => {
+    const lat = TANZBRUNNEN_COORDS.latitude;
+    const lng = TANZBRUNNEN_COORDS.longitude;
+    const label = encodeURIComponent(event.location || 'Event Location');
+    const url = Platform.select({
+      ios: `http://maps.apple.com/?ll=${lat},${lng}&q=${label}`,
+      android: `geo:${lat},${lng}?q=${lat},${lng}(${label})`,
+      default: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`
+    });
+    Linking.openURL(url);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>{event.title}</Text>
       <View style={styles.infoCard}>
         <View style={styles.infoRow}>
           <View style={styles.infoItem}>
-            {/* <Image source={require('../assets/calendar.png')} style={styles.icon} /> */}
             <AntDesign name="calendar" size={24} color="black" />
             <Text style={styles.infoText}>{new Date(event.date).toLocaleDateString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit', year: '2-digit' })}</Text>
           </View>
           <View style={styles.infoItem}>
-            {/* <Image source={require('../assets/clock.png')} style={styles.icon} /> */}
             <Feather name="clock" size={24} color="black" />
             <Text style={styles.infoText}>{new Date(event.date).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</Text>
           </View>
           <View style={styles.infoItem}>
-            {/* <Image source={require('../assets/location-dot.png')} style={styles.icon} /> */}
             <EvilIcons name="location" size={24} color="black" />
             <Text style={styles.infoText}>{event.location}</Text>
           </View>
         </View>
       </View>
-      {/* <View style={styles.mapContainer}>
+      <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
           initialRegion={{
@@ -58,10 +67,17 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           }}
+          scrollEnabled={false}
+          zoomEnabled={false}
+          rotateEnabled={false}
+          pitchEnabled={false}
         >
           <Marker coordinate={TANZBRUNNEN_COORDS} />
         </MapView>
-      </View> */}
+        <Pressable style={styles.mapButton} onPress={openInMaps}>
+          <Text style={styles.mapButtonText}>In Maps öffnen</Text>
+        </Pressable>
+      </View>
 
       <View style={styles.btnContainer}>
       <PrimaryButton onPress={() => console.log('Tickets kaufen')}>Tickets kaufen</PrimaryButton>
@@ -122,6 +138,21 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%',
+  },
+  mapButton: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: Colors.primaryRed,
+    borderRadius: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    elevation: 2,
+  },
+  mapButtonText: {
+    color: Colors.white,
+    fontWeight: 'bold',
+    fontSize: 13,
   },
   btnContainer: {
     flexDirection: 'row',
