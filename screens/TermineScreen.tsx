@@ -24,7 +24,7 @@ function TermineScreen() {
   
   type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,
-    "Termine"
+    "Alle Termine"
   >;
 
   const navigation = useNavigation<NavigationProp>();
