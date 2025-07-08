@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Linking, Pressable, Platform } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { Colors } from '../constants/colors';
-import { Event } from '../types/event';
+import { EventOnEvent } from '../types/event';
 import { RootStackParamList } from '../types/navigation';
-import MapView, { Marker } from 'react-native-maps';
+// import MapView, { Marker } from 'react-native-maps';
 
 import PrimaryButton from '../components/PrimaruButton';
 
@@ -25,12 +25,12 @@ type Props = {
 };
 
 const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
-  const event: Event = route.params.event;
+  const event: EventOnEvent = route.params.event;
 
   const openInMaps = () => {
     const lat = TANZBRUNNEN_COORDS.latitude;
     const lng = TANZBRUNNEN_COORDS.longitude;
-    const label = encodeURIComponent(event.location || 'Event Location');
+    const label = encodeURIComponent(event.location_name || 'Event Location');
     const url = Platform.select({
       ios: `http://maps.apple.com/?ll=${lat},${lng}&q=${label}`,
       android: `geo:${lat},${lng}?q=${lat},${lng}(${label})`,
@@ -41,25 +41,25 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>{event.title}</Text>
+      <Text style={styles.title}>{event.name}</Text>
       <View style={styles.infoCard}>
         <View style={styles.infoRow}>
           <View style={styles.infoItem}>
             <AntDesign name="calendar" size={24} color="black" />
-            <Text style={styles.infoText}>{new Date(event.date).toLocaleDateString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit', year: '2-digit' })}</Text>
+            <Text style={styles.infoText}>{new Date(event.start).toLocaleDateString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit', year: '2-digit' })}</Text>
           </View>
           <View style={styles.infoItem}>
             <Feather name="clock" size={24} color="black" />
-            <Text style={styles.infoText}>{new Date(event.date).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</Text>
+            <Text style={styles.infoText}>{new Date(event.start).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</Text>
           </View>
           <View style={styles.infoItem}>
             <EvilIcons name="location" size={24} color="black" />
-            <Text style={styles.infoText}>{event.location}</Text>
+            <Text style={styles.infoText}>{event.location_name}</Text>
           </View>
         </View>
       </View>
       <View style={styles.mapContainer}>
-        <MapView
+        {/* <MapView
           style={styles.map}
           initialRegion={{
             latitude: TANZBRUNNEN_COORDS.latitude,
@@ -73,7 +73,7 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
           pitchEnabled={false}
         >
           <Marker coordinate={TANZBRUNNEN_COORDS} />
-        </MapView>
+        </MapView> */}
         <Pressable style={styles.mapButton} onPress={openInMaps}>
           <Text style={styles.mapButtonText}>In Maps öffnen</Text>
         </Pressable>

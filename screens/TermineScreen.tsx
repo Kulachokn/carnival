@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,19 +7,22 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-import { events } from "../data/events";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import EventCard from "../components/EventCard";
 
 import { Colors } from "../constants/colors";
-import { Event } from "../types/event";
+
+import { EventOnEvent} from "../types/event"
 import { RootStackParamList } from "../types/navigation";
+
+import api from '../api/services';
 
 const today = new Date();
 
 function TermineScreen() {
+  const [events, setEvents] = useState<EventOnEvent[]>([]);
   const [showUpcoming, setShowUpcoming] = useState(true);
   
   type NavigationProp = NativeStackNavigationProp<
@@ -29,19 +32,25 @@ function TermineScreen() {
 
   const navigation = useNavigation<NavigationProp>();
 
-  const filteredEvents = events
-    .filter((event) =>
-      showUpcoming
-        ? new Date(event.date) >= today
-        : new Date(event.date) < today
-    )
-    .sort((a, b) =>
-      showUpcoming
-        ? new Date(a.date).getTime() - new Date(b.date).getTime()
-        : new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+  useEffect(()=> {
+    api.fetchEvents().then((res) =>  {
+      setEvents(res)})
+  })
 
-  function onPressEvent(item: Event) {
+  const filteredEvents = events
+    .filter((event) => {
+      const eventDate = new Date(event.start * 1000); // Convert UNIX seconds to JS Date
+      return showUpcoming ? eventDate >= today : eventDate < today;
+    })
+    .sort((a, b) => {
+      const aDate = new Date(a.start * 1000);
+      const bDate = new Date(b.start * 1000);
+      return showUpcoming
+        ? aDate.getTime() - bDate.getTime()
+        : bDate.getTime() - aDate.getTime();
+    });
+
+  function onPressEvent(item: EventOnEvent) {
     navigation.navigate("Veranstaltung", { event: item, from: "Alle Termine" });
   }
 
@@ -74,14 +83,14 @@ function TermineScreen() {
       </View>
       <FlatList
         data={filteredEvents}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Pressable onPress={() => onPressEvent(item)}>
             <EventCard
-              image={item.image}
-              date={item.date}
-              title={item.title}
-              location={item.location}
+              // image={item.image_url}
+              start={item.start ? new Date(item.start * 1000).toLocaleString() : ""}
+              name={item.name}
+              location={item.location_name ?? ""}
             />
           </Pressable>
         )}

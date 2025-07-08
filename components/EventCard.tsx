@@ -4,9 +4,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../constants/colors';
 
 interface EventCardProps {
-  image: any;
-  date: string;
-  title: string;
+  image?: any;
+  start: string;
+  name: string;
   location: string;
 }
 
@@ -20,12 +20,12 @@ function formatDate(dateString: string) {
   }) + ' · ' + date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 }
 
-const EventCard: React.FC<EventCardProps> = ({ image, date, title, location }) => (
+const EventCard: React.FC<EventCardProps> = ({ image, start, name, location }) => (
   <View style={styles.card}>
     <Image source={image} style={styles.cardImage} />
     <View style={styles.cardContent}>
-      <Text style={styles.cardDate}>{formatDate(date)}</Text>
-      <Text style={styles.cardTitle}>{title}</Text>
+      <Text style={styles.cardDate}>{formatDate(start)}</Text>
+      <Text style={styles.cardTitle}>{name}</Text>
       <View style={styles.cardLocationRow}>
         <FontAwesome name="map-marker" size={16} color="#B11226" style={{ marginRight: 4 }} />
         <Text style={styles.cardLocation}>{location}</Text>

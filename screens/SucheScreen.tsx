@@ -1,19 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  Platform,
-  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-// import ModalSelector from "react-native-modal-selector";
+import ModalSelector from "react-native-modal-selector";
 
 import { Colors } from "../constants/colors";
 import { events } from "../data/events";
+import { EventOnEvent } from "../types/event";
 
 // Set German locale for calendar
 LocaleConfig.locales["de"] = {
@@ -70,41 +69,85 @@ function SucheScreen() {
   const [date, setDate] = useState<Date | null>(null);
   const [isCalendarVisible, setCalendarVisible] = useState(false);
   const [category, setCategory] = useState<string | null>(null);
-  const [filteredEvents, setFilteredEvents] = useState(events);
 
-  const filterEvents = () => {
-    let filtered = events;
-    if (search) {
-      filtered = filtered.filter(
-        (e) =>
-          e.title.toLowerCase().includes(search.toLowerCase()) ||
-          e.location.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-    if (date) {
-      if ((date as any).start && (date as any).end) {
-        // Week filter
-        const start = (date as any).start;
-        const end = (date as any).end;
-        filtered = filtered.filter((e) => {
-          const eventDate = new Date(e.date);
-          return eventDate >= start && eventDate <= end;
-        });
-      } else {
-        // Single day filter
-        const d = (date as Date).toISOString().slice(0, 10);
-        filtered = filtered.filter((e) => e.date.slice(0, 10) === d);
-      }
-    }
-    if (category) {
-      filtered = filtered.filter((e) => e.category === category);
-    }
-    setFilteredEvents(filtered);
-  };
+  const [events, setEvents] = useState<EventOnEvent[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<EventOnEvent[]>([]);
+   const [categories, setCategories] = useState<
+    { label: string; value: string }[]
+  >([]);
+ 
+  //==============================================================
+//   useEffect(() => {
+//     const fetchEvents = async () => {
+//       try {
+//         const res = await fetch(
+//           "https://appsolutjeck.de/wp-json/eventon/events"
+//         );
+//         const data = await res.json();
+//         const eventsArray: EventOnEvent[] = Object.values(data);
 
-  React.useEffect(() => {
-    filterEvents();
-  }, [search, date, category]);
+//         setEvents(eventsArray);
+//         setFilteredEvents(eventsArray);
+     
+//         // Витягуємо категорії
+//         const categoryMap = new Map<string, string>();
+//         eventsArray.forEach((event: any) => {
+//           if (event.event_type) {
+//             Object.entries(event.event_type).forEach(([id, name]) => {
+//               categoryMap.set(id, name as string);
+//             });
+//           }
+//         });
+
+//         const categoriesList = Array.from(categoryMap.entries()).map(
+//           ([id, name]) => ({ label: name, value: id })
+//         );
+//         setCategories(categoriesList);
+//       } catch (e) {
+//         console.error("Fehler beim Laden:", e);
+//       }
+//     };
+
+//     fetchEvents();
+//   }, []);
+  //==============================================================
+
+//   useEffect(() => {
+//     let filtered = events;
+
+//     if (search) {
+//       filtered = filtered.filter(
+//         (e: any) =>
+//           e.name?.toLowerCase().includes(search.toLowerCase()) ||
+//           e.location_name?.toLowerCase().includes(search.toLowerCase())
+//       );
+//     }
+
+//     if (date) {
+//       if ((date as any).start && (date as any).end) {
+//         const start = (date as any).start;
+//         const end = (date as any).end;
+//         filtered = filtered.filter((e: any) => {
+//           const eventDate = new Date(e.start * 1000);
+//           return eventDate >= start && eventDate <= end;
+//         });
+//       } else {
+//         const selected = new Date(date).toISOString().slice(0, 10);
+//         filtered = filtered.filter((e: any) => {
+//           const eventDate = new Date(e.start * 1000).toISOString().slice(0, 10);
+//           return eventDate === selected;
+//         });
+//       }
+//     }
+
+//     if (category) {
+//       filtered = filtered.filter(
+//         (e: any) => e.event_type && Object.keys(e.event_type).includes(category)
+//       );
+//     }
+
+//     setFilteredEvents(filtered);
+//   }, [search, date, category, events]);
 
   // Helper to check which date filter is active
   const isToday =
@@ -234,11 +277,14 @@ function SucheScreen() {
           </TouchableOpacity>
         </View>
       )}
-      {/* <Text style={styles.label}>Kategorie</Text>
+      <Text style={styles.label}>Kategorie</Text>
       <ModalSelector
         data={[
           { label: "Kategorie wählen", value: null },
-          ...categories.map((cat) => ({ label: cat.label, value: cat.value })),
+          ...categories.map((category) => ({
+            label: category.label,
+            value: category.value,
+          })),
         ]}
         initValue={
           category
@@ -256,7 +302,7 @@ function SucheScreen() {
         cancelText="Abbrechen"
         cancelTextStyle={styles.modalSelectorCancel}
         backdropPressToClose={true}
-      /> */}
+      />
       <Text style={styles.label}>Ergebnisse</Text>
       {filteredEvents.length === 0 ? (
         <Text style={{ color: Colors.text500, marginTop: 10 }}>
@@ -265,7 +311,7 @@ function SucheScreen() {
       ) : (
         filteredEvents.map((event) => (
           <View
-            key={event.id}
+            key={event.name+event.start}
             style={{
               padding: 10,
               borderBottomWidth: 1,
@@ -273,11 +319,11 @@ function SucheScreen() {
             }}
           >
             <Text style={{ fontWeight: "bold", color: Colors.text800 }}>
-              {event.title}
+              {event.name}
             </Text>
-            <Text style={{ color: Colors.text700 }}>{event.location}</Text>
+            <Text style={{ color: Colors.text700 }}>{event.location_name}</Text>
             <Text style={{ color: Colors.text500 }}>
-              {new Date(event.date).toLocaleDateString("de-DE")}
+              {new Date(event.start).toLocaleDateString("de-DE")}
             </Text>
           </View>
         ))
