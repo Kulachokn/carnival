@@ -32,6 +32,12 @@ function TermineStackScreen() {
           headerStyle: { backgroundColor: Colors.primaryRed },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
+           headerRight: () => (
+            <Image
+              source={require("./assets/logo.svg")}
+              style={{ width: 30, height: 30, marginRight: 16 }}
+            />
+          ),
         }}
       />
       <TermineStack.Screen
@@ -68,6 +74,24 @@ function SucheStackScreen() {
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
         }}
+      />
+      <SucheStack.Screen
+        name="Veranstaltung"
+        component={VeranstaltungScreen}
+        options={({ route }) => ({
+          headerShown: true,
+          title: "Veranstaltung",
+          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerTintColor: Colors.white,
+          headerBackTitle: route.params?.from ?? "Zurück",
+          headerTitleAlign: "center",
+          headerRight: () => (
+            <Image
+              source={require("./assets/logo.svg")}
+              style={{ width: 30, height: 30, marginRight: 16 }}
+            />
+          ),
+        })}
       />
     </SucheStack.Navigator>
   );

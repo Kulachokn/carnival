@@ -5,14 +5,21 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Pressable,
+  FlatList
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 // import ModalSelector from "react-native-modal-selector";
 
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types/navigation";
+
 import { Colors } from "../constants/colors";
 import api from "../api/services";
 import { EventOnEvent } from "../types/event";
+import EventCard from "../components/EventCard";
 
 // Set German locale for calendar
 LocaleConfig.locales["de"] = {
@@ -70,6 +77,13 @@ function SucheScreen() {
     { label: string; value: string }[]
   >([]);
 
+    type NavigationProp = NativeStackNavigationProp<
+      RootStackParamList,
+      "Suche"
+    >;
+  
+    const navigation = useNavigation<NavigationProp>();
+
   useEffect(() => {
     // Fetch events and extract categories
     api.fetchEvents().then((eventsArray) => {
@@ -93,6 +107,15 @@ function SucheScreen() {
 
   useEffect(() => {
     let filtered = events;
+
+    // Only show events today or in the future
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    filtered = filtered.filter((e: EventOnEvent) => {
+      const eventDate = new Date(e.start * 1000);
+      eventDate.setHours(0, 0, 0, 0);
+      return eventDate >= today;
+    });
 
     if (search) {
       filtered = filtered.filter(
@@ -141,6 +164,10 @@ function SucheScreen() {
   const isToday = date && !(date as any).start && !(date as any).end && new Date(date).getTime() === today.getTime();
   const isTomorrow = date && !(date as any).start && !(date as any).end && new Date(date).getTime() === tomorrow.getTime();
   const isThisWeek = date && (date as any).start && (date as any).end;
+
+  function onPressEvent(item: EventOnEvent) {
+    navigation.navigate("Veranstaltung", { event: item, from: "Suche" });
+  }
 
   return (
     <View style={styles.container}>
@@ -288,24 +315,39 @@ function SucheScreen() {
           Keine Ergebnisse gefunden.
         </Text>
       ) : (
-        filteredEvents.map((event) => (
-          <View
-            key={event.id}
-            style={{
-              padding: 10,
-              borderBottomWidth: 1,
-              borderColor: Colors.card400,
-            }}
-          >
-            <Text style={{ fontWeight: "bold", color: Colors.text800 }}>
-              {event.name}
-            </Text>
-            <Text style={{ color: Colors.text700 }}>{event.location_name}</Text>
-            <Text style={{ color: Colors.text500 }}>
-              {new Date(event.start * 1000).toLocaleDateString("de-DE")}
-            </Text>
-          </View>
-        ))
+        // filteredEvents.map((event) => (
+        //   <View
+        //     key={event.id}
+        //     style={{
+        //       padding: 10,
+        //       borderBottomWidth: 1,
+        //       borderColor: Colors.card400,
+        //     }}
+        //   >
+        //     <Text style={{ fontWeight: "bold", color: Colors.text800 }}>
+        //       {event.name}
+        //     </Text>
+        //     <Text style={{ color: Colors.text700 }}>{event.location_name}</Text>
+        //     <Text style={{ color: Colors.text500 }}>
+        //       {new Date(event.start * 1000).toLocaleDateString("de-DE")}
+        //     </Text>
+        //   </View>
+        // ))
+        <FlatList
+        data={filteredEvents}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <Pressable onPress={() => onPressEvent(item)}>
+            <EventCard
+              // image={item.image_url}
+              start={item.start}
+              name={item.name}
+              location={item.location_name ?? ""}
+            />
+          </Pressable>
+        )}
+        contentContainerStyle={{ paddingBottom: 16 }}
+      />
       )}
     </View>
   );
