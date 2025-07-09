@@ -20,7 +20,7 @@ function formatDate(timestamp: number) {
   }) + ' · ' + date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 }
 
-const EventCard: React.FC<EventCardProps> = ({ image, start, name, location }) => (
+const EventCard: React.FC<EventCardProps> = React.memo (({ image, start, name, location }) => (
   <View style={styles.card}>
     {/* <Image source={image} style={styles.cardImage} /> */}
     <View style={styles.cardContent}>
@@ -33,7 +33,7 @@ const EventCard: React.FC<EventCardProps> = ({ image, start, name, location }) =
     </View>
     <FontAwesome name="chevron-right" size={20} color="#B11226" style={styles.cardArrow} />
   </View>
-);
+));
 
 const styles = StyleSheet.create({
   card: {

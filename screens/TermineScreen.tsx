@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -26,7 +26,6 @@ today.setHours(0, 0, 0, 0);
 function TermineScreen() {
   const [events, setEvents] = useState<EventOnEvent[]>([]);
   const [showUpcoming, setShowUpcoming] = useState(true);
-  const [categories, setCategories] = useState<{ value: string; label: string }[]>([]);
   
   type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -38,17 +37,6 @@ function TermineScreen() {
   useEffect(() => {
     api.fetchEvents().then((res) => {
       setEvents(res);
-      // Extract unique categories from all events
-      const categoryMap = new Map<string, string>();
-      res.forEach((event) => {
-        if (event.event_type) {
-          Object.entries(event.event_type).forEach(([id, name]) => {
-            categoryMap.set(id, name as string);
-          });
-        }
-      });
-      const categoriesList = Array.from(categoryMap.entries()).map(([id, name]) => ({ value: id, label: name }));
-      setCategories(categoriesList);
     });
   }, [])
 
@@ -69,6 +57,23 @@ function TermineScreen() {
   function onPressEvent(item: EventOnEvent) {
     navigation.navigate("Veranstaltung", { event: item, from: "Alle Termine" });
   }
+
+  // Memoized renderItem for FlatList
+  const renderItem = useCallback(
+    ({ item }: { item: EventOnEvent }) => (
+      <Pressable onPress={() => onPressEvent(item)}>
+        <EventCard
+          // image={item.image_url}
+          start={item.start}
+          name={item.name}
+          location={item.location_name ?? ""}
+        />
+      </Pressable>
+    ),
+    [] // onPressEvent is stable, or wrap with useCallback if not
+  );
+
+  // Optionally, if EventCard is not memoized, wrap it with React.memo in its file
 
   return (
     <View style={styles.container}>
@@ -100,17 +105,14 @@ function TermineScreen() {
       <FlatList
         data={filteredEvents}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <Pressable onPress={() => onPressEvent(item)}>
-            <EventCard
-              // image={item.image_url}
-              start={item.start}
-              name={item.name}
-              location={item.location_name ?? ""}
-            />
-          </Pressable>
-        )}
+        renderItem={renderItem}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        windowSize={7}
+        removeClippedSubviews={true}
         contentContainerStyle={{ paddingBottom: 16 }}
+        // Optionally, if all EventCards have the same height, add getItemLayout
+        // getItemLayout={(data, index) => ({ length: 120, offset: 120 * index, index })}
       />
     </View>
   );
