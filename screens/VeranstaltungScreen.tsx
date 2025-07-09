@@ -89,8 +89,7 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
       <View style={styles.infoBox}>
         <Text style={styles.infoTitle}>Informationen</Text>
         <Text style={styles.infoDescription}>
-          Lorem ipsum dolor sit amet consectetur. Sollicitudin scelerisque elementum donec est purus. Urna dis enim justo quisque morbi mus.
-              
+       {event.details || event.content || 'Keine weiteren Informationen verfügbar.'} 
         </Text>
       </View>
     </ScrollView>

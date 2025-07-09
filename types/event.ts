@@ -16,6 +16,7 @@ export interface EventOnEvent {
   category_id?: string;
   event_subtitle?: string;
   details?: string;
+  content?: string;
   learnmore_link?: string;
   // Organization fields
   organizer?: string;

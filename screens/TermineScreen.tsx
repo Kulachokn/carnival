@@ -19,11 +19,14 @@ import { RootStackParamList } from "../types/navigation";
 
 import api from '../api/services';
 
+// Set today to midnight to avoid time-of-day issues
 const today = new Date();
+today.setHours(0, 0, 0, 0);
 
 function TermineScreen() {
   const [events, setEvents] = useState<EventOnEvent[]>([]);
   const [showUpcoming, setShowUpcoming] = useState(true);
+  const [categories, setCategories] = useState<{ value: string; label: string }[]>([]);
   
   type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -32,14 +35,27 @@ function TermineScreen() {
 
   const navigation = useNavigation<NavigationProp>();
 
-  useEffect(()=> {
-    api.fetchEvents().then((res) =>  {
-      setEvents(res)})
-  })
+  useEffect(() => {
+    api.fetchEvents().then((res) => {
+      setEvents(res);
+      // Extract unique categories from all events
+      const categoryMap = new Map<string, string>();
+      res.forEach((event) => {
+        if (event.event_type) {
+          Object.entries(event.event_type).forEach(([id, name]) => {
+            categoryMap.set(id, name as string);
+          });
+        }
+      });
+      const categoriesList = Array.from(categoryMap.entries()).map(([id, name]) => ({ value: id, label: name }));
+      setCategories(categoriesList);
+    });
+  }, [])
 
   const filteredEvents = events
     .filter((event) => {
-      const eventDate = new Date(event.start * 1000); // Convert UNIX seconds to JS Date
+      const eventDate = new Date(event.start * 1000);
+      eventDate.setHours(0, 0, 0, 0);
       return showUpcoming ? eventDate >= today : eventDate < today;
     })
     .sort((a, b) => {
@@ -88,7 +104,7 @@ function TermineScreen() {
           <Pressable onPress={() => onPressEvent(item)}>
             <EventCard
               // image={item.image_url}
-              start={item.start ? new Date(item.start * 1000).toLocaleString() : ""}
+              start={item.start}
               name={item.name}
               location={item.location_name ?? ""}
             />

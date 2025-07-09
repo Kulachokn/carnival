@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import ModalSelector from "react-native-modal-selector";
+// import ModalSelector from "react-native-modal-selector";
 
 import { Colors } from "../constants/colors";
-import { events } from "../data/events";
+import api from "../api/services";
 import { EventOnEvent } from "../types/event";
 
 // Set German locale for calendar
@@ -58,12 +58,6 @@ LocaleConfig.locales["de"] = {
 };
 LocaleConfig.defaultLocale = "de";
 
-// const categories = [
-//   { label: "Option 1", value: "option1" },
-//   { label: "Option 2", value: "option2" },
-//   { label: "Option 3", value: "option3" },
-// ];
-
 function SucheScreen() {
   const [search, setSearch] = useState("");
   const [date, setDate] = useState<Date | null>(null);
@@ -72,95 +66,80 @@ function SucheScreen() {
 
   const [events, setEvents] = useState<EventOnEvent[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<EventOnEvent[]>([]);
-   const [categories, setCategories] = useState<
+  const [categories, setCategories] = useState<
     { label: string; value: string }[]
   >([]);
- 
-  //==============================================================
-//   useEffect(() => {
-//     const fetchEvents = async () => {
-//       try {
-//         const res = await fetch(
-//           "https://appsolutjeck.de/wp-json/eventon/events"
-//         );
-//         const data = await res.json();
-//         const eventsArray: EventOnEvent[] = Object.values(data);
 
-//         setEvents(eventsArray);
-//         setFilteredEvents(eventsArray);
-     
-//         // Витягуємо категорії
-//         const categoryMap = new Map<string, string>();
-//         eventsArray.forEach((event: any) => {
-//           if (event.event_type) {
-//             Object.entries(event.event_type).forEach(([id, name]) => {
-//               categoryMap.set(id, name as string);
-//             });
-//           }
-//         });
+  useEffect(() => {
+    // Fetch events and extract categories
+    api.fetchEvents().then((eventsArray) => {
+      setEvents(eventsArray);
+      setFilteredEvents(eventsArray);
+      // Extract unique categories from all events
+      const categoryMap = new Map<string, string>();
+      eventsArray.forEach((event) => {
+        if (event.event_type) {
+          Object.entries(event.event_type).forEach(([id, name]) => {
+            categoryMap.set(id, name as string);
+          });
+        }
+      });
+      const categoriesList = Array.from(categoryMap.entries()).map(
+        ([id, name]) => ({ label: name, value: id })
+      );
+      setCategories(categoriesList);
+    });
+  }, []);
 
-//         const categoriesList = Array.from(categoryMap.entries()).map(
-//           ([id, name]) => ({ label: name, value: id })
-//         );
-//         setCategories(categoriesList);
-//       } catch (e) {
-//         console.error("Fehler beim Laden:", e);
-//       }
-//     };
+  useEffect(() => {
+    let filtered = events;
 
-//     fetchEvents();
-//   }, []);
-  //==============================================================
+    if (search) {
+      filtered = filtered.filter(
+        (e: EventOnEvent) =>
+          e.name?.toLowerCase().includes(search.toLowerCase()) ||
+          e.location_name?.toLowerCase().includes(search.toLowerCase())
+      );
+    }
 
-//   useEffect(() => {
-//     let filtered = events;
+    if (date) {
+      if ((date as any).start && (date as any).end) {
+        // Week filter
+        const start = (date as any).start;
+        const end = (date as any).end;
+        filtered = filtered.filter((e: EventOnEvent) => {
+          const eventDate = new Date(e.start * 1000);
+          eventDate.setHours(0, 0, 0, 0);
+          return eventDate >= start && eventDate <= end;
+        });
+      } else {
+        // Single day filter
+        const selected = new Date(date);
+        selected.setHours(0, 0, 0, 0);
+        filtered = filtered.filter((e: EventOnEvent) => {
+          const eventDate = new Date(e.start * 1000);
+          eventDate.setHours(0, 0, 0, 0);
+          return eventDate.getTime() === selected.getTime();
+        });
+      }
+    }
 
-//     if (search) {
-//       filtered = filtered.filter(
-//         (e: any) =>
-//           e.name?.toLowerCase().includes(search.toLowerCase()) ||
-//           e.location_name?.toLowerCase().includes(search.toLowerCase())
-//       );
-//     }
+    if (category) {
+      filtered = filtered.filter(
+        (e: EventOnEvent) => e.event_type && Object.keys(e.event_type).includes(category)
+      );
+    }
 
-//     if (date) {
-//       if ((date as any).start && (date as any).end) {
-//         const start = (date as any).start;
-//         const end = (date as any).end;
-//         filtered = filtered.filter((e: any) => {
-//           const eventDate = new Date(e.start * 1000);
-//           return eventDate >= start && eventDate <= end;
-//         });
-//       } else {
-//         const selected = new Date(date).toISOString().slice(0, 10);
-//         filtered = filtered.filter((e: any) => {
-//           const eventDate = new Date(e.start * 1000).toISOString().slice(0, 10);
-//           return eventDate === selected;
-//         });
-//       }
-//     }
-
-//     if (category) {
-//       filtered = filtered.filter(
-//         (e: any) => e.event_type && Object.keys(e.event_type).includes(category)
-//       );
-//     }
-
-//     setFilteredEvents(filtered);
-//   }, [search, date, category, events]);
+    setFilteredEvents(filtered);
+  }, [search, date, category, events]);
 
   // Helper to check which date filter is active
-  const isToday =
-    date &&
-    !(date as any).start &&
-    !(date as any).end &&
-    new Date(date).toDateString() === new Date().toDateString();
-  const isTomorrow =
-    date &&
-    !(date as any).start &&
-    !(date as any).end &&
-    new Date(date).toDateString() ===
-      new Date(Date.now() + 86400000).toDateString();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const isToday = date && !(date as any).start && !(date as any).end && new Date(date).getTime() === today.getTime();
+  const isTomorrow = date && !(date as any).start && !(date as any).end && new Date(date).getTime() === tomorrow.getTime();
   const isThisWeek = date && (date as any).start && (date as any).end;
 
   return (
@@ -278,7 +257,7 @@ function SucheScreen() {
         </View>
       )}
       <Text style={styles.label}>Kategorie</Text>
-      <ModalSelector
+      {/* <ModalSelector
         data={[
           { label: "Kategorie wählen", value: null },
           ...categories.map((category) => ({
@@ -302,7 +281,7 @@ function SucheScreen() {
         cancelText="Abbrechen"
         cancelTextStyle={styles.modalSelectorCancel}
         backdropPressToClose={true}
-      />
+      /> */}
       <Text style={styles.label}>Ergebnisse</Text>
       {filteredEvents.length === 0 ? (
         <Text style={{ color: Colors.text500, marginTop: 10 }}>
@@ -311,7 +290,7 @@ function SucheScreen() {
       ) : (
         filteredEvents.map((event) => (
           <View
-            key={event.name+event.start}
+            key={event.id}
             style={{
               padding: 10,
               borderBottomWidth: 1,
@@ -323,7 +302,7 @@ function SucheScreen() {
             </Text>
             <Text style={{ color: Colors.text700 }}>{event.location_name}</Text>
             <Text style={{ color: Colors.text500 }}>
-              {new Date(event.start).toLocaleDateString("de-DE")}
+              {new Date(event.start * 1000).toLocaleDateString("de-DE")}
             </Text>
           </View>
         ))

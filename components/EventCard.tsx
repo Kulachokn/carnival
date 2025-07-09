@@ -4,14 +4,14 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../constants/colors';
 
 interface EventCardProps {
-  image?: any;
-  start: string;
+  image?: string;
+  start: number;
   name: string;
   location: string;
 }
 
-function formatDate(dateString: string) {
-  const date = new Date(dateString);
+function formatDate(timestamp: number) {
+  const date = new Date(timestamp * 1000);
   return date.toLocaleDateString('de-DE', {
     weekday: 'short',
     day: '2-digit',
@@ -22,7 +22,7 @@ function formatDate(dateString: string) {
 
 const EventCard: React.FC<EventCardProps> = ({ image, start, name, location }) => (
   <View style={styles.card}>
-    <Image source={image} style={styles.cardImage} />
+    {/* <Image source={image} style={styles.cardImage} /> */}
     <View style={styles.cardContent}>
       <Text style={styles.cardDate}>{formatDate(start)}</Text>
       <Text style={styles.cardTitle}>{name}</Text>
