@@ -129,6 +129,11 @@ class EventOnAPIService {
     return null;
   }
 
+  // Public method to get cached events
+  async getCachedEvents(): Promise<EventOnEvent[] | null> {
+    return await this.loadFromCache('events');
+  }
+
   // Construct full banner image URL
   getBannerImageUrl(imageName: string): string {
     return `${API_CONFIG.banner.baseUrl}${API_CONFIG.banner.imageBasePath}${imageName}`;
