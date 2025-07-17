@@ -5,8 +5,7 @@ interface FilterOptions {
   events: EventOnEvent[];
   search: string;
   date: Date | { start: Date; end: Date } | null;
-//   categories: string | null;
-    categories: { label: string; value: string }[] | null;
+  category: string | null;
 }
 
 function isDateRange(
@@ -19,7 +18,7 @@ export default function useFilteredEvents({
   events,
   search,
   date,
-  categories,
+  category,
 }: FilterOptions): EventOnEvent[] {
   return useMemo(() => {
     let filtered = [...events];
@@ -34,11 +33,11 @@ export default function useFilteredEvents({
     });
 
     if (search) {
-      const s = search.toLowerCase();
+      const searchLower = search.toLowerCase();
       filtered = filtered.filter(
-        (e) =>
-          e.name?.toLowerCase().includes(s) ||
-          e.location_name?.toLowerCase().includes(s)
+        (event) =>
+          event.name?.toLowerCase().includes(searchLower) ||
+          event.location_name?.toLowerCase().includes(searchLower)
       );
     }
 
@@ -61,16 +60,15 @@ export default function useFilteredEvents({
       }
     }
 
-    if (categories && categories.length > 0) {}
-    console.log(categories);
-    // if (categories && categories.length > 0) {
-//   const selectedIds = categories.map(c => c.value);
-//   filtered = filtered.filter((e) =>
-//     e.event_type && Object.keys(e.event_type).some(id => selectedIds.includes(id))
-//   );
-// }
+ if (category) {
+  filtered = filtered.filter(
+    (event) => event.event_type && Object.keys(event.event_type).includes(category)
+  );
+}
+   
+
 
 
     return filtered;
-  }, [events, search, date, categories]);
+  }, [events, search, date, category]);
 }

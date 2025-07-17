@@ -20,6 +20,8 @@ import { EventOnEvent } from "../types/event";
 import EventCard from "../components/EventCard";
 import useFilteredEvents from "../hooks/useFilteredEvents";
 
+import CategoryDropdown from '../components/CategoryDropdown';
+
 LocaleConfig.locales["de"] = {
   monthNames: [
     "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -48,13 +50,15 @@ function formatDate(date: Date): string {
 function SucheScreen() {
   const [pendingSearch, setPendingSearch] = useState("");
   const [pendingDate, setPendingDate] = useState<Date | { start: Date; end: Date } | null>(null);
-  const [pendingCategories, setPendingCategories] = useState<
-    { label: string; value: string }[]
-  >([]);
+  const [pendingCategory, setPendingCategory] = useState<
+    { label: string; value: string } | null
+  >(null);
 
   const [search, setSearch] = useState("");
   const [date, setDate] = useState<Date | { start: Date; end: Date } | null>(null);
-  const [categories, setCategories] = useState<
+  const [category, setCategory] = useState<{ label: string; value: string } | null>(null);
+
+  const [categoriesList, setCategoriesList] = useState<
     { label: string; value: string }[]
   >([]);
 
@@ -70,8 +74,8 @@ function SucheScreen() {
       setEvents(eventsArray ?? []);
 
       // Extract unique categories
-    const categoryMap = new Map<string, string>();
-    events.forEach((event) => {
+   const categoryMap = new Map<string, string>();
+    (eventsArray ?? []).forEach((event) => {
       if (event.event_type) {
         Object.entries(event.event_type).forEach(([id, name]) => {
           categoryMap.set(id, name as string);
@@ -82,8 +86,7 @@ function SucheScreen() {
     const categoriesList = Array.from(categoryMap.entries()).map(
       ([id, name]) => ({ label: name, value: id })
     );
-    console.log(categories);
-    setCategories(categoriesList);
+    setCategoriesList(categoriesList);
     
     });
   }, []);
@@ -91,19 +94,19 @@ function SucheScreen() {
   const isModified =
     search !== pendingSearch ||
     JSON.stringify(date) !== JSON.stringify(pendingDate) ||
-    categories !== pendingCategories;
+    JSON.stringify(category) !== JSON.stringify(pendingCategory);
 
   const filteredEvents = useFilteredEvents({
     events,
     search,
     date,
-    categories,
+    category: category ? category.value : null,
   });
 
   const handleSearch = () => {
     setSearch(pendingSearch);
     setDate(pendingDate);
-    setCategories(pendingCategories);
+    setCategory(pendingCategory);
     setHasSearched(true);
   };
 
@@ -275,6 +278,12 @@ function SucheScreen() {
           </TouchableOpacity>
         </View>
       )}
+
+<CategoryDropdown
+  categories={categoriesList}
+  selectedCategory={pendingCategory}
+  onSelectCategory={setPendingCategory}
+/>
 
       <TouchableOpacity
         style={[
