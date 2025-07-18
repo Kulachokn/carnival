@@ -20,19 +20,45 @@ import { EventOnEvent } from "../types/event";
 import EventCard from "../components/EventCard";
 import useFilteredEvents from "../hooks/useFilteredEvents";
 
-import CategoryDropdown from '../components/CategoryDropdown';
+import CategoryDropdown from "../components/CategoryDropdown";
 
 LocaleConfig.locales["de"] = {
   monthNames: [
-    "Januar", "Februar", "März", "April", "Mai", "Juni",
-    "Juli", "August", "September", "Oktober", "November", "Dezember"
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
   ],
   monthNamesShort: [
-    "Jan.", "Feb.", "März", "Apr.", "Mai", "Juni",
-    "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."
+    "Jan.",
+    "Feb.",
+    "März",
+    "Apr.",
+    "Mai",
+    "Juni",
+    "Juli",
+    "Aug.",
+    "Sept.",
+    "Okt.",
+    "Nov.",
+    "Dez.",
   ],
   dayNames: [
-    "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"
+    "Sonntag",
+    "Montag",
+    "Dienstag",
+    "Mittwoch",
+    "Donnerstag",
+    "Freitag",
+    "Samstag",
   ],
   dayNamesShort: ["So.", "Mo.", "Di.", "Mi.", "Do.", "Fr.", "Sa."],
   today: "Heute",
@@ -49,14 +75,22 @@ function formatDate(date: Date): string {
 
 function SucheScreen() {
   const [pendingSearch, setPendingSearch] = useState("");
-  const [pendingDate, setPendingDate] = useState<Date | { start: Date; end: Date } | null>(null);
-  const [pendingCategory, setPendingCategory] = useState<
-    { label: string; value: string } | null
+  const [pendingDate, setPendingDate] = useState<
+    Date | { start: Date; end: Date } | null
   >(null);
+  const [pendingCategory, setPendingCategory] = useState<{
+    label: string;
+    value: string;
+  } | null>(null);
 
   const [search, setSearch] = useState("");
-  const [date, setDate] = useState<Date | { start: Date; end: Date } | null>(null);
-  const [category, setCategory] = useState<{ label: string; value: string } | null>(null);
+  const [date, setDate] = useState<Date | { start: Date; end: Date } | null>(
+    null
+  );
+  const [category, setCategory] = useState<{
+    label: string;
+    value: string;
+  } | null>(null);
 
   const [categoriesList, setCategoriesList] = useState<
     { label: string; value: string }[]
@@ -74,20 +108,19 @@ function SucheScreen() {
       setEvents(eventsArray ?? []);
 
       // Extract unique categories
-   const categoryMap = new Map<string, string>();
-    (eventsArray ?? []).forEach((event) => {
-      if (event.event_type) {
-        Object.entries(event.event_type).forEach(([id, name]) => {
-          categoryMap.set(id, name as string);
-        });
-      }
-    });
+      const categoryMap = new Map<string, string>();
+      (eventsArray ?? []).forEach((event) => {
+        if (event.event_type) {
+          Object.entries(event.event_type).forEach(([id, name]) => {
+            categoryMap.set(id, name as string);
+          });
+        }
+      });
 
-    const categoriesList = Array.from(categoryMap.entries()).map(
-      ([id, name]) => ({ label: name, value: id })
-    );
-    setCategoriesList(categoriesList);
-    
+      const categoriesList = Array.from(categoryMap.entries()).map(
+        ([id, name]) => ({ label: name, value: id })
+      );
+      setCategoriesList(categoriesList);
     });
   }, []);
 
@@ -125,7 +158,8 @@ function SucheScreen() {
     "getTime" in pendingDate &&
     new Date(pendingDate).getTime() === tomorrow.getTime();
 
-  const isThisWeek = pendingDate && "start" in pendingDate && "end" in pendingDate;
+  const isThisWeek =
+    pendingDate && "start" in pendingDate && "end" in pendingDate;
 
   function onPressEvent(item: EventOnEvent) {
     navigation.navigate("Veranstaltung", { event: item, from: "Suche" });
@@ -209,7 +243,9 @@ function SucheScreen() {
             Ausgewähltes Datum:{" "}
             {(() => {
               if ("start" in pendingDate && "end" in pendingDate) {
-                return `${formatDate(pendingDate.start)} – ${formatDate(pendingDate.end)}`;
+                return `${formatDate(pendingDate.start)} – ${formatDate(
+                  pendingDate.end
+                )}`;
               } else {
                 return formatDate(new Date(pendingDate));
               }
@@ -279,11 +315,11 @@ function SucheScreen() {
         </View>
       )}
 
-<CategoryDropdown
-  categories={categoriesList}
-  selectedCategory={pendingCategory}
-  onSelectCategory={setPendingCategory}
-/>
+      <CategoryDropdown
+        categories={categoriesList}
+        selectedCategory={pendingCategory}
+        onSelectCategory={setPendingCategory}
+      />
 
       <TouchableOpacity
         style={[
@@ -297,7 +333,7 @@ function SucheScreen() {
       </TouchableOpacity>
 
       <Text style={styles.label}>Ergebnisse</Text>
-         {hasSearched ? (
+      {hasSearched ? (
         filteredEvents.length === 0 ? (
           <Text style={{ color: Colors.text500, marginTop: 10 }}>
             Keine Ergebnisse gefunden.

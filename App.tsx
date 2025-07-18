@@ -11,6 +11,7 @@ import SucheScreen from "./screens/SucheScreen";
 import GesellschaftenScreen from "./screens/GesellschaftenScreen";
 import OrteScreen from "./screens/OrteScreen";
 import VeranstaltungScreen from "./screens/VeranstaltungScreen";
+import GesellschaftScreen from "./screens/GesellschaftScreen";
 
 import { Colors } from "./constants/colors";
 import { RootStackParamList } from "./types/navigation";
@@ -109,6 +110,24 @@ function GesellschaftenStackScreen() {
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
         }}
+      />
+      <GesellschaftenStack.Screen
+        name="Gesellschaft"
+        component={GesellschaftScreen}
+        options={({ route }) => ({
+          headerShown: true,
+          title: "Gesellschaft",
+          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerTintColor: Colors.white,
+          headerBackTitle: route.params?.from ?? "Zurück",
+          headerTitleAlign: "center",
+          headerRight: () => (
+            <Image
+              source={require("./assets/logo.svg")}
+              style={{ width: 30, height: 30, marginRight: 16 }}
+            />
+          ),
+        })}
       />
     </GesellschaftenStack.Navigator>
   );

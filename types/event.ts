@@ -19,8 +19,12 @@ export interface EventOnEvent {
   content?: string;
   learnmore_link?: string;
   // Organization fields
-  organizer?: string;
+  organizer_name?: string;
   organizer_term?: string;
+  organizer_tax?: number;
+  organizer_link?: string;
+  organizer_desc?: string;
+  organizer_email?: string;
   // Location fields  
   location_name?: string;
   location_address?: string;
