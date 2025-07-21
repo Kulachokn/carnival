@@ -5,65 +5,22 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Pressable,
-  FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Calendar, LocaleConfig } from "react-native-calendars";
+import { Calendar } from "react-native-calendars";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../types/navigation";
+import { EventOnEvent } from "../types/event";
 import { Colors } from "../constants/colors";
 import api from "../api/services";
-import { EventOnEvent } from "../types/event";
-import EventCard from "../components/EventCard";
 import useFilteredEvents from "../hooks/useFilteredEvents";
-
 import CategoryDropdown from "../components/CategoryDropdown";
+import EventList from "../components/EventList";
+import { configureGermanCalendarLocale } from "../constants/calendarLocale";
 
-LocaleConfig.locales["de"] = {
-  monthNames: [
-    "Januar",
-    "Februar",
-    "März",
-    "April",
-    "Mai",
-    "Juni",
-    "Juli",
-    "August",
-    "September",
-    "Oktober",
-    "November",
-    "Dezember",
-  ],
-  monthNamesShort: [
-    "Jan.",
-    "Feb.",
-    "März",
-    "Apr.",
-    "Mai",
-    "Juni",
-    "Juli",
-    "Aug.",
-    "Sept.",
-    "Okt.",
-    "Nov.",
-    "Dez.",
-  ],
-  dayNames: [
-    "Sonntag",
-    "Montag",
-    "Dienstag",
-    "Mittwoch",
-    "Donnerstag",
-    "Freitag",
-    "Samstag",
-  ],
-  dayNamesShort: ["So.", "Mo.", "Di.", "Mi.", "Do.", "Fr.", "Sa."],
-  today: "Heute",
-};
-LocaleConfig.defaultLocale = "de";
+configureGermanCalendarLocale();
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString("de-DE", {
@@ -339,20 +296,10 @@ function SucheScreen() {
             Keine Ergebnisse gefunden.
           </Text>
         ) : (
-          <FlatList
-            data={filteredEvents}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <Pressable onPress={() => onPressEvent(item)}>
-                <EventCard
-                  start={item.start}
-                  name={item.name}
-                  location={item.location_name ?? ""}
-                />
-              </Pressable>
-            )}
-            contentContainerStyle={{ paddingBottom: 16 }}
-          />
+        <EventList
+          events={filteredEvents}
+          onPressEvent={onPressEvent}
+        />
         )
       ) : (
         <Text style={{ color: Colors.text500, marginTop: 10 }}>
