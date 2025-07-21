@@ -125,6 +125,21 @@ function GesellschaftenStackScreen() {
           ),
         })}
       />
+      <GesellschaftenStack.Screen
+        name="Veranstaltung"
+        component={VeranstaltungScreen}
+        options={({ route }) => ({
+          headerShown: true,
+          title: "Veranstaltung",
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerTintColor: Colors.white,
+          headerBackTitle: route.params?.from ?? "Zurück",
+          headerTitleAlign: "center",
+          headerRight: () => (
+            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+          ),
+        })}
+      />
     </GesellschaftenStack.Navigator>
   );
 }
