@@ -2,7 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Image } from "react-native";
+// import { Image } from "react-native";
+import Logo from "./assets/logo.svg";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
@@ -30,14 +31,11 @@ function TermineStackScreen() {
         component={TermineScreen}
         options={{
           title: "Alle Termine",
-          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
-           headerRight: () => (
-            <Image
-              source={require("./assets/logo.svg")}
-              style={{ width: 30, height: 30, marginRight: 16 }}
-            />
+          headerRight: () => (
+            <Logo width={40} height={40} style={{ marginRight: 16 }} />
           ),
         }}
       />
@@ -47,15 +45,12 @@ function TermineStackScreen() {
         options={({ route }) => ({
           headerShown: true,
           title: "Veranstaltung",
-          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
           headerRight: () => (
-            <Image
-              source={require("./assets/logo.svg")}
-              style={{ width: 30, height: 30, marginRight: 16 }}
-            />
+            <Logo width={40} height={40} style={{ marginRight: 16 }} />
           ),
         })}
       />
@@ -71,9 +66,12 @@ function SucheStackScreen() {
         component={SucheScreen}
         options={{
           title: "Suche",
-          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
+          headerRight: () => (
+            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+          ),
         }}
       />
       <SucheStack.Screen
@@ -82,15 +80,12 @@ function SucheStackScreen() {
         options={({ route }) => ({
           headerShown: true,
           title: "Veranstaltung",
-          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
           headerRight: () => (
-            <Image
-              source={require("./assets/logo.svg")}
-              style={{ width: 30, height: 30, marginRight: 16 }}
-            />
+            <Logo width={40} height={40} style={{ marginRight: 16 }} />
           ),
         })}
       />
@@ -106,9 +101,12 @@ function GesellschaftenStackScreen() {
         component={GesellschaftenScreen}
         options={{
           title: "Gesellschaften",
-          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
+          headerRight: () => (
+            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+          ),
         }}
       />
       <GesellschaftenStack.Screen
@@ -117,15 +115,13 @@ function GesellschaftenStackScreen() {
         options={({ route }) => ({
           headerShown: true,
           title: "Gesellschaft",
-          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
+          headerBackTitleStyle: { fontSize: 18 },
           headerTitleAlign: "center",
           headerRight: () => (
-            <Image
-              source={require("./assets/logo.svg")}
-              style={{ width: 30, height: 30, marginRight: 16 }}
-            />
+            <Logo width={40} height={40} style={{ marginRight: 16 }} />
           ),
         })}
       />
@@ -141,9 +137,12 @@ function OrteStackScreen() {
         component={OrteScreen}
         options={{
           title: "Orte",
-          headerStyle: { backgroundColor: Colors.primaryRed },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
+          headerRight: () => (
+            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+          ),
         }}
       />
     </OrteStack.Navigator>
@@ -189,17 +188,28 @@ export default function App() {
             options={{
               tabBarLabel: "Gesellschaften",
               tabBarIcon: ({ color }) => (
-                <FontAwesome6 name="masks-theater" size={24} color={Colors.white} />
+                <FontAwesome6
+                  name="masks-theater"
+                  size={24}
+                  color={Colors.white}
+                />
               ),
             }}
           />
-          <BottomTab.Screen name="OrteTab" component={OrteStackScreen} 
-          options={{
+          <BottomTab.Screen
+            name="OrteTab"
+            component={OrteStackScreen}
+            options={{
               tabBarLabel: "OrteTab",
               tabBarIcon: ({ color }) => (
-                 <FontAwesome6 name="location-dot" size={24} color={Colors.white} />
+                <FontAwesome6
+                  name="location-dot"
+                  size={24}
+                  color={Colors.white}
+                />
               ),
-            }}/>
+            }}
+          />
         </BottomTab.Navigator>
       </NavigationContainer>
     </>
