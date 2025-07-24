@@ -34,9 +34,11 @@ function groupByFirstLetter(orgs: Gesellschaft[]) {
 }
 
 function GesellschaftenScreen() {
-      type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Gesellschaften">;
-      const navigation = useNavigation<NavigationProp>();
- 
+  type NavigationProp = NativeStackNavigationProp<
+    RootStackParamList,
+    "Gesellschaften"
+  >;
+  const navigation = useNavigation<NavigationProp>();
 
   const [allOrgs, setAllOrgs] = useState<Gesellschaft[]>([]);
   const [search, setSearch] = useState("");
@@ -45,17 +47,16 @@ function GesellschaftenScreen() {
     api.getCachedEvents().then((eventsArray) => {
       const orgMap = new Map<string, Gesellschaft>();
       (eventsArray ?? []).forEach((event) => {
-        if (event.organizer_name && event.organizer_tax) {
-          // Use organizer_tax as the unique key if available, else organizer_name
+      
           orgMap.set(String(event.organizer_tax), {
-            name: event.organizer_name,
-            tax: event.organizer_tax,
-            link: event.organizer_link,
-            desc: event.organizer_desc,
-            email: event.organizer_email,
-            permalink: event.organizer_link,
+            name: event.organizer_name ?? "",
+            tax: event.organizer_tax ?? 0,
+            link: event.organizer_link ?? "",
+            desc: event.organizer_desc ?? "",
+            email: event.organizer_email ?? "",
+            permalink: event.organizer_link ?? "",
           });
-        }
+        
       });
       setAllOrgs(Array.from(orgMap.values()));
     });

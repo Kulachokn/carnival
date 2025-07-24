@@ -29,7 +29,7 @@ function GesellschaftScreen({ route }: Props) {
   const [events, setEvents] = useState<EventOnEvent[]>([]);
 
   const org: Gesellschaft = route.params.gesellschaft;
-  console.log(route.params);
+  // console.log(route.params);
 
   type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,

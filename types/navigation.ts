@@ -1,5 +1,6 @@
 import { Gesellschaft } from './gesellschaft';
 import { EventOnEvent } from "./event";
+import {Veranstaltungsort} from "./Veranstaltungsort";
 
 export type RootStackParamList = {
   Veranstaltung: { event: EventOnEvent; from?: string };
@@ -7,5 +8,5 @@ export type RootStackParamList = {
   Suche: undefined;
   Gesellschaften: undefined;
   Gesellschaft: {gesellschaft: Gesellschaft; from?: string};
-  Orte: undefined;
+  Orte: {orte: Veranstaltungsort; from?: string};
 };
