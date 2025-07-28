@@ -1,6 +1,6 @@
 export interface Veranstaltungsort {
   locTax: number;
-  locName: string;
+  name: string;
   locDesc: string;
   locAddress: string;
   locationLink: string;

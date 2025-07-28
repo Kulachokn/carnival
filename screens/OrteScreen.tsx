@@ -14,12 +14,13 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/navigation";
 
 import { Veranstaltungsort } from "../types/Veranstaltungsort";
+import { groupByFirstLetter } from "../utils/groupByFirstLetter";
 
 function OrteScreen() {
   type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Orte">;
   const navigation = useNavigation<NavigationProp>();
 
-  const [allOrgs, setAllOrgs] = useState<Veranstaltungsort[]>([]);
+  const [allLocs, setAllLocs] = useState<Veranstaltungsort[]>([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -28,7 +29,7 @@ function OrteScreen() {
       (eventsArray ?? []).forEach((event) => {
         if (event.organizer_name && event.organizer_tax) {
           ortMap.set(String(event.location_tax), {
-            locName: event.location_name ?? "",
+            name: event.location_name ?? "",
             locTax: Number(event.location_tax ?? 0),
             locationLink: event.location_link ?? "",
             locDesc: event.location_desc ?? "",
@@ -36,8 +37,21 @@ function OrteScreen() {
           });
         }
       });
+      setAllLocs(Array.from(ortMap.values()));
     });
-  });
+  }, []);
+
+  const filteredLocs = useMemo(() => {
+    if (!search) return allLocs;
+    return allLocs.filter((loc) =>
+      loc.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [allLocs, search]);
+
+  const sections = useMemo(
+    () => groupByFirstLetter(filteredLocs),
+    [filteredLocs]
+  );
 
   return (
     <View>

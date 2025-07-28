@@ -14,24 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/navigation";
 
-function groupByFirstLetter(orgs: Gesellschaft[]) {
-  const groups: { title: string; data: Gesellschaft[] }[] = [];
-  const grouped: { [key: string]: Gesellschaft[] } = {};
-
-  orgs.forEach((org) => {
-    const letter = org.name[0].toUpperCase();
-    if (!grouped[letter]) grouped[letter] = [];
-    grouped[letter].push(org);
-  });
-
-  Object.keys(grouped)
-    .sort()
-    .forEach((letter) => {
-      groups.push({ title: letter, data: grouped[letter] });
-    });
-
-  return groups;
-}
+import { groupByFirstLetter } from "../utils/groupByFirstLetter";
 
 function GesellschaftenScreen() {
   type NavigationProp = NativeStackNavigationProp<
@@ -70,7 +53,7 @@ function GesellschaftenScreen() {
   }, [allOrgs, search]);
 
   const sections = useMemo(
-    () => groupByFirstLetter(filteredOrgs),
+    () => groupByFirstLetter<Gesellschaft>(filteredOrgs),
     [filteredOrgs]
   );
 
