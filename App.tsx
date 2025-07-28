@@ -13,6 +13,7 @@ import GesellschaftenScreen from "./screens/GesellschaftenScreen";
 import OrteScreen from "./screens/OrteScreen";
 import VeranstaltungScreen from "./screens/VeranstaltungScreen";
 import GesellschaftScreen from "./screens/GesellschaftScreen";
+import VeranstaltungsortScreen from "./screens/VeranstaltungsortScreen";
 
 import { Colors } from "./constants/colors";
 import { RootStackParamList } from "./types/navigation";
@@ -159,6 +160,21 @@ function OrteStackScreen() {
             <Logo width={40} height={40} style={{ marginRight: 16 }} />
           ),
         }}
+      />
+       <OrteStack.Screen
+        name="Veranstaltungsort"
+        component={VeranstaltungsortScreen}
+        options={({ route }) => ({
+          headerShown: true,
+          title: "Veranstaltungsort",
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerTintColor: Colors.white,
+          headerBackTitle: route.params?.from ?? "Zurück",
+          headerTitleAlign: "center",
+          headerRight: () => (
+            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+          ),
+        })}
       />
     </OrteStack.Navigator>
   );

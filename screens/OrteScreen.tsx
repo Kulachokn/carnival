@@ -91,8 +91,6 @@ function OrteScreen() {
   );
 }
 
-export default OrteScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -137,3 +135,5 @@ const styles = StyleSheet.create({
     color: Colors.text800,
   },
 });
+
+export default OrteScreen;
