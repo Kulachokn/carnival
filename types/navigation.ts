@@ -9,4 +9,5 @@ export type RootStackParamList = {
   Gesellschaften: undefined;
   Gesellschaft: {gesellschaft: Gesellschaft; from?: string};
   Orte: {orte: Veranstaltungsort; from?: string};
+  Veranstaltungsort: { ort: Veranstaltungsort; from?: string };
 };

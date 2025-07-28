@@ -49,14 +49,45 @@ function OrteScreen() {
   }, [allLocs, search]);
 
   const sections = useMemo(
-    () => groupByFirstLetter(filteredLocs),
+    () => groupByFirstLetter<Veranstaltungsort>(filteredLocs),
     [filteredLocs]
   );
 
+  function onPressOrt(item: Veranstaltungsort) {
+    navigation.navigate("Veranstaltungsort", {
+      ort: item,
+      from: "Orte",
+    });
+  }
+
   return (
-    <View>
-      <Text>Orte Screen</Text>
-    </View>
+    <View style={styles.container}>
+         <View style={styles.searchBox}>
+           <TextInput
+             style={styles.input}
+             placeholder="Suche"
+             placeholderTextColor={Colors.text500}
+             value={search}
+             onChangeText={setSearch}
+           />
+         </View>
+         <SectionList
+           sections={sections}
+           keyExtractor={(item) => String(item.locTax)}
+           renderSectionHeader={({ section: { title } }) => (
+             <Text style={styles.sectionHeader}>{title}</Text>
+           )}
+           renderItem={({ item }) => (
+             <Pressable
+               style={styles.itemBox}
+               onPress={() => onPressOrt(item)}
+             >
+               <Text style={styles.itemText}>{item.name}</Text>
+             </Pressable>
+           )}
+           contentContainerStyle={{ paddingBottom: 16 }}
+         />
+       </View>
   );
 }
 
@@ -67,5 +98,42 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white,
     paddingTop: 0,
+  },
+  searchBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.card200,
+    borderRadius: 16,
+    margin: 16,
+    marginBottom: 18,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    color: Colors.text800,
+    backgroundColor: "transparent",
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  sectionHeader: {
+    fontWeight: "bold",
+    fontSize: 24,
+    color: Colors.primaryRed,
+    marginLeft: 16,
+    marginTop: 12,
+    marginBottom: 4,
+  },
+  itemBox: {
+    backgroundColor: Colors.card100,
+    borderRadius: 12,
+    marginHorizontal: 16,
+    marginBottom: 8,
+    padding: 14,
+  },
+  itemText: {
+    fontSize: 16,
+    color: Colors.text800,
   },
 });
