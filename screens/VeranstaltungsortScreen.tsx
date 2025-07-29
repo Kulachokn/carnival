@@ -16,19 +16,19 @@ const VeranstaltungsortScreen: React.FC<Props> = ({ route }) => {
   const { ort } = route.params;
 
   const handleCopyAddress = () => {
-    Clipboard.setStringAsync(ort.locAddress);
+    Clipboard.setStringAsync(ort.address);
     Alert.alert('Adresse kopiert');
   };
 
   const handleOpenWebsite = () => {
-    if (ort.locationLink) {
-      Linking.openURL(ort.locationLink);
+    if (ort.link) {
+      Linking.openURL(ort.link);
     }
   };
 
   const handleRoute = () => {
     // Open Google Maps with the address
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ort.locAddress)}`;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ort.address)}`;
     Linking.openURL(url);
   };
 
@@ -43,7 +43,7 @@ const VeranstaltungsortScreen: React.FC<Props> = ({ route }) => {
           <Feather name="copy" size={20} color={Colors.text800} style={{ marginLeft: 8 }} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.addressText}>{ort.locAddress}</Text>
+      <Text style={styles.addressText}>{ort.address}</Text>
       <TouchableOpacity style={styles.websiteBtn} onPress={handleOpenWebsite}>
         <Text style={styles.websiteBtnText}>Website des Veranstalters</Text>
       </TouchableOpacity>

@@ -1,12 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  SectionList,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import { Colors } from "../constants/colors";
 import api from "../api/services";
 import { Gesellschaft } from "../types/gesellschaft";
@@ -15,6 +8,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/navigation";
 
 import { groupByFirstLetter } from "../utils/groupByFirstLetter";
+import AlphabeticalSectionList from "../components/AlphabeticalSectionList";
 
 function GesellschaftenScreen() {
   type NavigationProp = NativeStackNavigationProp<
@@ -30,16 +24,14 @@ function GesellschaftenScreen() {
     api.getCachedEvents().then((eventsArray) => {
       const orgMap = new Map<string, Gesellschaft>();
       (eventsArray ?? []).forEach((event) => {
-      
-          orgMap.set(String(event.organizer_tax), {
-            name: event.organizer_name ?? "",
-            tax: event.organizer_tax ?? 0,
-            link: event.organizer_link ?? "",
-            desc: event.organizer_desc ?? "",
-            email: event.organizer_email ?? "",
-            permalink: event.organizer_link ?? "",
-          });
-        
+        orgMap.set(String(event.organizer_tax), {
+          name: event.organizer_name ?? "",
+          tax: event.organizer_tax ?? 0,
+          link: event.organizer_link ?? "",
+          desc: event.organizer_desc ?? "",
+          email: event.organizer_email ?? "",
+          permalink: event.organizer_link ?? "",
+        });
       });
       setAllOrgs(Array.from(orgMap.values()));
     });
@@ -75,21 +67,18 @@ function GesellschaftenScreen() {
           onChangeText={setSearch}
         />
       </View>
-      <SectionList
+      <AlphabeticalSectionList
         sections={sections}
-        keyExtractor={(item) => String(item.tax)}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.sectionHeader}>{title}</Text>
-        )}
-        renderItem={({ item }) => (
+        keyExtractor={(item: Gesellschaft) => String(item.tax)}
+        renderItem={(item: Gesellschaft) => (
           <Pressable
-            style={styles.itemBox}
             onPress={() => onPressGesellschaft(item)}
+            style={styles.itemBox}
           >
             <Text style={styles.itemText}>{item.name}</Text>
           </Pressable>
         )}
-        contentContainerStyle={{ paddingBottom: 16 }}
+        onPressItem={onPressGesellschaft}
       />
     </View>
   );
@@ -118,14 +107,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     paddingHorizontal: 10,
     paddingVertical: 8,
-  },
-  sectionHeader: {
-    fontWeight: "bold",
-    fontSize: 24,
-    color: Colors.primaryRed,
-    marginLeft: 16,
-    marginTop: 12,
-    marginBottom: 4,
   },
   itemBox: {
     backgroundColor: Colors.card100,

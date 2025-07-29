@@ -1,12 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  SectionList,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import { Colors } from "../constants/colors";
 import api from "../api/services";
 import { useNavigation } from "@react-navigation/native";
@@ -15,6 +8,7 @@ import { RootStackParamList } from "../types/navigation";
 
 import { Veranstaltungsort } from "../types/Veranstaltungsort";
 import { groupByFirstLetter } from "../utils/groupByFirstLetter";
+import AlphabeticalSectionList from "../components/AlphabeticalSectionList";
 
 function OrteScreen() {
   type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Orte">;
@@ -30,10 +24,10 @@ function OrteScreen() {
         if (event.organizer_name && event.organizer_tax) {
           ortMap.set(String(event.location_tax), {
             name: event.location_name ?? "",
-            locTax: Number(event.location_tax ?? 0),
-            locationLink: event.location_link ?? "",
-            locDesc: event.location_desc ?? "",
-            locAddress: event.location_address ?? "",
+            tax: Number(event.location_tax ?? 0),
+            link: event.location_link ?? "",
+            desc: event.location_desc ?? "",
+            address: event.location_address ?? "",
           });
         }
       });
@@ -62,32 +56,26 @@ function OrteScreen() {
 
   return (
     <View style={styles.container}>
-         <View style={styles.searchBox}>
-           <TextInput
-             style={styles.input}
-             placeholder="Suche"
-             placeholderTextColor={Colors.text500}
-             value={search}
-             onChangeText={setSearch}
-           />
-         </View>
-         <SectionList
-           sections={sections}
-           keyExtractor={(item) => String(item.locTax)}
-           renderSectionHeader={({ section: { title } }) => (
-             <Text style={styles.sectionHeader}>{title}</Text>
-           )}
-           renderItem={({ item }) => (
-             <Pressable
-               style={styles.itemBox}
-               onPress={() => onPressOrt(item)}
-             >
-               <Text style={styles.itemText}>{item.name}</Text>
-             </Pressable>
-           )}
-           contentContainerStyle={{ paddingBottom: 16 }}
-         />
-       </View>
+      <View style={styles.searchBox}>
+        <TextInput
+          style={styles.input}
+          placeholder="Suche"
+          placeholderTextColor={Colors.text500}
+          value={search}
+          onChangeText={setSearch}
+        />
+      </View>
+      <AlphabeticalSectionList
+        sections={sections}
+        keyExtractor={(item: Veranstaltungsort) => String(item.tax)}
+        renderItem={(item: Veranstaltungsort) => (
+          <Pressable onPress={() => onPressOrt(item)} style={styles.itemBox}>
+            <Text style={styles.itemText}>{item.name}</Text>
+          </Pressable>
+        )}
+        onPressItem={onPressOrt}
+      />
+    </View>
   );
 }
 
@@ -114,14 +102,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     paddingHorizontal: 10,
     paddingVertical: 8,
-  },
-  sectionHeader: {
-    fontWeight: "bold",
-    fontSize: 24,
-    color: Colors.primaryRed,
-    marginLeft: 16,
-    marginTop: 12,
-    marginBottom: 4,
   },
   itemBox: {
     backgroundColor: Colors.card100,
