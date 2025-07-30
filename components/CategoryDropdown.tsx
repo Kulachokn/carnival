@@ -12,7 +12,6 @@ interface CategoryDropdownProps {
 }
 
 export default function CategoryDropdown({ categories, selectedCategory, onSelectCategory }: CategoryDropdownProps) {
-//  console.log('Dropdown categories:', categories);
     return (
     <SelectDropdown
       data={categories}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList, Pressable } from 'react-native';
+
 import EventCard from './EventCard';
 import { EventOnEvent } from '../types/event';
 
@@ -19,7 +20,6 @@ const EventList: React.FC<EventListProps> = ({ events, onPressEvent }) => {
             start={item.start}
             name={item.name}
             location={item.location_name ?? ''}
-            // image={item.image_url}
           />
         </Pressable>
       )}

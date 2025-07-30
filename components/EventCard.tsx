@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../constants/colors';
 
@@ -22,7 +22,6 @@ function formatDate(timestamp: number) {
 
 const EventCard: React.FC<EventCardProps> = React.memo (({ image, start, name, location }) => (
   <View style={styles.card}>
-    {/* <Image source={image} style={styles.cardImage} /> */}
     <View style={styles.cardContent}>
       <Text style={styles.cardDate}>{formatDate(start)}</Text>
       <Text style={styles.cardTitle}>{name}</Text>
