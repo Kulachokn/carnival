@@ -60,14 +60,12 @@ export default function useFilteredEvents({
       }
     }
 
- if (category) {
-  filtered = filtered.filter(
-    (event) => event.event_type && Object.keys(event.event_type).includes(category)
-  );
-}
-   
-
-
+    if (category) {
+      filtered = filtered.filter(
+        (event) =>
+          event.event_type && Object.keys(event.event_type).includes(category)
+      );
+    }
 
     return filtered;
   }, [events, search, date, category]);

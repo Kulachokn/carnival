@@ -1,16 +1,24 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Linking, Pressable, Platform } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { Colors } from '../constants/colors';
-import { EventOnEvent } from '../types/event';
-import { RootStackParamList } from '../types/navigation';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Linking,
+  Pressable,
+  Platform,
+} from "react-native";
+import { RouteProp } from "@react-navigation/native";
+
+import Feather from "@expo/vector-icons/Feather";
+
 // import MapView, { Marker } from 'react-native-maps';
 
-import PrimaryButton from '../components/PrimaruButton';
-
-import AntDesign from '@expo/vector-icons/AntDesign';
-import Feather from '@expo/vector-icons/Feather';
-import EvilIcons from '@expo/vector-icons/EvilIcons';
+import { Colors } from "../constants/colors";
+import { RootStackParamList } from "../types/navigation";
+import { EventOnEvent } from "../types/event";
+import PrimaryButton from "../components/PrimaruButton";
+import { InfoRow } from "../components/InfoRow";
 
 // Dummy coordinates for Tanzbrunnen, Cologne
 const TANZBRUNNEN_COORDS = {
@@ -18,7 +26,10 @@ const TANZBRUNNEN_COORDS = {
   longitude: 6.9747,
 };
 
-type VeranstaltungScreenRouteProp = RouteProp<RootStackParamList, 'Veranstaltung'>;
+type VeranstaltungScreenRouteProp = RouteProp<
+  RootStackParamList,
+  "Veranstaltung"
+>;
 
 type Props = {
   route: VeranstaltungScreenRouteProp;
@@ -30,11 +41,11 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
   const openInMaps = () => {
     const lat = TANZBRUNNEN_COORDS.latitude;
     const lng = TANZBRUNNEN_COORDS.longitude;
-    const label = encodeURIComponent(event.location_name || 'Event Location');
+    const label = encodeURIComponent(event.location_name || "Event Location");
     const url = Platform.select({
       ios: `http://maps.apple.com/?ll=${lat},${lng}&q=${label}`,
       android: `geo:${lat},${lng}?q=${lat},${lng}(${label})`,
-      default: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`
+      default: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
     });
     Linking.openURL(url);
   };
@@ -43,20 +54,7 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>{event.name}</Text>
       <View style={styles.infoCard}>
-        <View style={styles.infoRow}>
-          <View style={styles.infoItem}>
-            <AntDesign name="calendar" size={24} color="black" />
-            <Text style={styles.infoText}>{formatDate(event.start)}</Text>
-          </View>
-          <View style={styles.infoItem}>
-            <Feather name="clock" size={24} color="black" />
-            <Text style={styles.infoText}>{formatTime(event.start)} Uhr</Text>
-          </View>
-          <View style={styles.infoItem}>
-            <EvilIcons name="location" size={24} color="black" />
-            <Text style={styles.infoText}>{event.location_name}</Text>
-          </View>
-        </View>
+        <InfoRow event={event} />
       </View>
       <View style={styles.mapContainer}>
         {/* <MapView
@@ -80,8 +78,10 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
       </View>
 
       <View style={styles.btnContainer}>
-      <PrimaryButton onPress={() => console.log('Tickets kaufen')}>Tickets kaufen</PrimaryButton>
-      <Feather name="share" size={24} color={Colors.primaryRed} />
+        <PrimaryButton onPress={() => console.log("Tickets kaufen")}>
+          Tickets kaufen
+        </PrimaryButton>
+        <Feather name="share" size={24} color={Colors.primaryRed} />
       </View>
       <View style={styles.adContainer}>
         <Text style={styles.adText}>Werbung</Text>
@@ -89,28 +89,14 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
       <View style={styles.infoBox}>
         <Text style={styles.infoTitle}>Informationen</Text>
         <Text style={styles.infoDescription}>
-       {event.details || event.content || 'Keine weiteren Informationen verfügbar.'} 
+          {event.details ||
+            event.content ||
+            "Keine weiteren Informationen verfügbar."}
         </Text>
       </View>
     </ScrollView>
   );
 };
-
-function formatDate(timestamp: number) {
-  const date = new Date(timestamp * 1000);
-  const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
-  const day = days[date.getDay()];
-  const dd = String(date.getDate()).padStart(2, '0');
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
-  const yy = String(date.getFullYear()).slice(-2);
-  return `${day}, ${dd}.${mm}.${yy}`;
-}
-function formatTime(timestamp: number) {
-  const date = new Date(timestamp * 1000);
-  const hh = String(date.getHours()).padStart(2, '0');
-  const min = String(date.getMinutes()).padStart(2, '0');
-  return `${hh}:${min}`;
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -120,7 +106,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.text800,
     marginBottom: 25,
   },
@@ -130,32 +116,19 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 30,
   },
-  infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  infoItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  infoText: {
-    color: Colors.text800,
-    fontSize: 13,
-    textAlign: 'center',
-    marginTop: 8,
-  },
+
   mapContainer: {
     borderRadius: 16,
-    overflow: 'hidden',
+    overflow: "hidden",
     height: 160,
     marginBottom: 30,
   },
   map: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   mapButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 10,
     right: 10,
     backgroundColor: Colors.primaryRed,
@@ -166,21 +139,21 @@ const styles = StyleSheet.create({
   },
   mapButtonText: {
     color: Colors.white,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 13,
   },
   btnContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     marginBottom: 16,
   },
   adContainer: {
     backgroundColor: Colors.card200,
     borderRadius: 12,
     height: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 16,
   },
   adText: {
@@ -194,7 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   infoTitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
     marginBottom: 8,
     color: Colors.text800,

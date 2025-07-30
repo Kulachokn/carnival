@@ -1,10 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, View, TouchableOpacity, Linking, Alert } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
+
+import * as Clipboard from 'expo-clipboard';
+
 import { Colors } from '../constants/colors';
 import { RootStackParamList } from '../types/navigation';
 import Feather from '@expo/vector-icons/Feather';
-import * as Clipboard from 'expo-clipboard';
+
 
 type VeranstaltungsortScreenRouteProp = RouteProp<RootStackParamList, 'Veranstaltungsort'>;
 

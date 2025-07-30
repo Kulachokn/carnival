@@ -161,7 +161,7 @@ function OrteStackScreen() {
           ),
         }}
       />
-       <OrteStack.Screen
+      <OrteStack.Screen
         name="Veranstaltungsort"
         component={VeranstaltungsortScreen}
         options={({ route }) => ({
