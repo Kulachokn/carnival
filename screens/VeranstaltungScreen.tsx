@@ -20,6 +20,7 @@ import { EventOnEvent } from "../types/event";
 import PrimaryButton from "../components/PrimaruButton";
 import { InfoRow } from "../components/InfoRow";
 import { InfoBox } from "../components/InfoBox";
+import { EventMap } from "../components/EventMap";
 
 type VeranstaltungScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -118,40 +119,13 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
         <InfoRow event={event} />
       </View>
 
-      <View style={styles.mapContainer}>
-        {isLoadingMap ? (
-          <ActivityIndicator size="large" color={Colors.primaryRed} />
-        ) : coords ? (
-          <>
-            <MapView
-              style={styles.map}
-              initialRegion={{
-                ...coords,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-              }}
-              scrollEnabled={true}
-              zoomEnabled={true}
-              rotateEnabled={true}
-              pitchEnabled={true}
-            >
-              <Marker
-                coordinate={coords}
-                title={event.location_name || event.name}
-              />
-            </MapView>
-            <Pressable style={styles.mapButtonFloating} onPress={openInMaps}>
-              <Feather
-                name="external-link"
-                size={24}
-                color={Colors.primaryRed}
-              />
-            </Pressable>
-          </>
-        ) : (
-          <Text style={styles.mapError}>Adresse nicht gefunden</Text>
-        )}
-      </View>
+      <EventMap
+        coords={coords}
+        isLoading={isLoadingMap}
+        locationName={event.location_name}
+        eventName={event.name}
+        onPressMapButton={openInMaps}
+      />
 
       <View style={styles.btnContainer}>
         <PrimaryButton onPress={handleBuyTickets}>Tickets kaufen</PrimaryButton>
@@ -183,32 +157,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     marginBottom: 30,
-  },
-  mapContainer: {
-    borderRadius: 16,
-    overflow: "hidden",
-    height: 180,
-    marginBottom: 30,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  map: {
-    width: "100%",
-    height: "100%",
-  },
-  mapError: {
-    color: Colors.text500,
-    fontSize: 14,
-  },
-  mapButtonFloating: {
-    position: "absolute",
-    bottom: 12,
-    right: 12,
-    backgroundColor: Colors.white,
-    borderRadius: 16,
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    elevation: 2,
   },
   btnContainer: {
     flexDirection: "row",
