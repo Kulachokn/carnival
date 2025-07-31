@@ -24,6 +24,7 @@ export interface EventOnEvent {
   location_country?: string;
  
   id: number;
+  permalink: string;
 }
 
 export interface EventOnResponse {

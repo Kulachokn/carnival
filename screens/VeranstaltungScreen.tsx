@@ -7,6 +7,7 @@ import {
   Linking,
   Pressable,
   Platform,
+  Alert,
 } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 
@@ -19,6 +20,7 @@ import { RootStackParamList } from "../types/navigation";
 import { EventOnEvent } from "../types/event";
 import PrimaryButton from "../components/PrimaruButton";
 import { InfoRow } from "../components/InfoRow";
+import { InfoBox } from "../components/InfoBox";
 
 // Dummy coordinates for Tanzbrunnen, Cologne
 const TANZBRUNNEN_COORDS = {
@@ -37,6 +39,7 @@ type Props = {
 
 const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
   const event: EventOnEvent = route.params.event;
+    console.log('Event:', event);
 
   const openInMaps = () => {
     const lat = TANZBRUNNEN_COORDS.latitude;
@@ -48,6 +51,15 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
       default: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
     });
     Linking.openURL(url);
+  };
+  const handleBuyTickets = () => {
+    if (event.learnmore_link) {
+      Linking.openURL(event.learnmore_link).catch(() => {
+        Alert.alert("Fehler", "Die Website konnte nicht geöffnet werden.");
+      });
+    } else {
+      Alert.alert("Keine Tickets", "Für diese Veranstaltung sind keine Tickets verfügbar.");
+    }
   };
 
   return (
@@ -72,28 +84,20 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
         >
           <Marker coordinate={TANZBRUNNEN_COORDS} />
         </MapView> */}
-        <Pressable style={styles.mapButton} onPress={openInMaps}>
-          <Text style={styles.mapButtonText}>In Maps öffnen</Text>
-        </Pressable>
       </View>
 
       <View style={styles.btnContainer}>
-        <PrimaryButton onPress={() => console.log("Tickets kaufen")}>
+        <PrimaryButton onPress={handleBuyTickets}>
           Tickets kaufen
         </PrimaryButton>
-        <Feather name="share" size={24} color={Colors.primaryRed} />
+        <Pressable style={styles.mapButton} onPress={openInMaps}>
+          <Feather name="external-link" size={24} color={Colors.primaryRed} />
+        </Pressable>
       </View>
       <View style={styles.adContainer}>
         <Text style={styles.adText}>Werbung</Text>
       </View>
-      <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>Informationen</Text>
-        <Text style={styles.infoDescription}>
-          {event.details ||
-            event.content ||
-            "Keine weiteren Informationen verfügbar."}
-        </Text>
-      </View>
+      <InfoBox event={event} />
     </ScrollView>
   );
 };
@@ -116,7 +120,6 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 30,
   },
-
   mapContainer: {
     borderRadius: 16,
     overflow: "hidden",
@@ -128,19 +131,11 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   mapButton: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    backgroundColor: Colors.primaryRed,
+    backgroundColor: Colors.white,
     borderRadius: 16,
     paddingVertical: 6,
     paddingHorizontal: 14,
     elevation: 2,
-  },
-  mapButtonText: {
-    color: Colors.white,
-    fontWeight: "bold",
-    fontSize: 13,
   },
   btnContainer: {
     flexDirection: "row",
@@ -159,22 +154,6 @@ const styles = StyleSheet.create({
   adText: {
     color: Colors.text500,
     fontSize: 16,
-  },
-  infoBox: {
-    backgroundColor: Colors.card100,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 24,
-  },
-  infoTitle: {
-    fontWeight: "bold",
-    fontSize: 16,
-    marginBottom: 8,
-    color: Colors.text800,
-  },
-  infoDescription: {
-    color: Colors.text700,
-    fontSize: 15,
   },
 });
 
