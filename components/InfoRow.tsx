@@ -10,15 +10,15 @@ export function InfoRow( {event} : {event:EventOnEvent}) {
     return (
          <View style={styles.infoRow}>
                   <View style={styles.infoItem}>
-                    <AntDesign name="calendar" size={24} color="black" />
+                    <AntDesign name="calendar" size={24} color={Colors.text800} />
                     <Text style={styles.infoText}>{formatDate(event.start)}</Text>
                   </View>
                   <View style={styles.infoItem}>
-                    <Feather name="clock" size={24} color="black" />
+                    <Feather name="clock" size={24} color={Colors.text800} />
                     <Text style={styles.infoText}>{formatTime(event.start)} Uhr</Text>
                   </View>
                   <View style={styles.infoItem}>
-                    <Ionicons name="location-outline" size={25} color="black" />
+                    <Ionicons name="location-outline" size={25} color={Colors.text800} />
                     <Text style={styles.infoText}>{he.decode(event.location_name)}</Text>
                   </View>
                 </View>

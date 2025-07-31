@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   Linking,
-  Pressable,
   Platform,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import { RouteProp } from "@react-navigation/native";
-import MapView, { Marker } from "react-native-maps";
-import Feather from "@expo/vector-icons/Feather";
 
 import { Colors } from "../constants/colors";
 import { RootStackParamList } from "../types/navigation";
@@ -21,6 +17,7 @@ import PrimaryButton from "../components/PrimaruButton";
 import { InfoRow } from "../components/InfoRow";
 import { InfoBox } from "../components/InfoBox";
 import { EventMap } from "../components/EventMap";
+import { useGeocodeAddress } from "../hooks/useGeocodeAddress";
 
 type VeranstaltungScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -34,51 +31,7 @@ type Props = {
 const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
   const event: EventOnEvent = route.params.event;
 
-  const [coords, setCoords] = useState<null | {
-    latitude: number;
-    longitude: number;
-  }>(null);
-  const [isLoadingMap, setIsLoadingMap] = useState(true);
-
-  useEffect(() => {
-    const fetchCoordinates = async () => {
-      try {
-        const fullAddress = `${event.location_address || ""}, Germany`;
-        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-          fullAddress
-        )}&format=json&limit=1`;
-
-        const response = await fetch(url, {
-          headers: {
-            "User-Agent": "VeranstaltungApp/1.0", // required for Nominatim
-          },
-        });
-
-        if (!response.ok) {
-          console.warn("Geocoding failed, status code:", response.status);
-          return;
-        }
-
-        const data = await response.json();
-
-        if (data.length > 0) {
-          const location = data[0];
-          setCoords({
-            latitude: parseFloat(location.lat),
-            longitude: parseFloat(location.lon),
-          });
-        } else {
-          console.warn("Adresse nicht gefunden:", fullAddress);
-        }
-      } catch (error) {
-        console.error("Fehler bei der Geokodierung:", error);
-      } finally {
-        setIsLoadingMap(false);
-      }
-    };
-
-    fetchCoordinates();
-  }, [event]);
+  const { coords, isLoading } = useGeocodeAddress(event.location_address);
 
   const openInMaps = () => {
     if (!coords) {
@@ -121,7 +74,7 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
 
       <EventMap
         coords={coords}
-        isLoading={isLoadingMap}
+        isLoading={isLoading}
         locationName={event.location_name}
         eventName={event.name}
         onPressMapButton={openInMaps}
