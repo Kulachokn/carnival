@@ -155,9 +155,6 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
 
       <View style={styles.btnContainer}>
         <PrimaryButton onPress={handleBuyTickets}>Tickets kaufen</PrimaryButton>
-        {/* <Pressable style={styles.mapButton} onPress={openInMaps}>
-          <Feather name="external-link" size={24} color={Colors.primaryRed} />
-        </Pressable> */}
       </View>
 
       <View style={styles.adContainer}>
@@ -190,7 +187,7 @@ const styles = StyleSheet.create({
   mapContainer: {
     borderRadius: 16,
     overflow: "hidden",
-    height: 160,
+    height: 180,
     marginBottom: 30,
     justifyContent: "center",
     alignItems: "center",

@@ -1,10 +1,9 @@
 import {View, Text, StyleSheet} from 'react-native';
-
+import he from "he";
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 
 import { formatDate, formatTime } from '../utils/formatDateTime';
 import { Colors } from "../constants/colors";
-
 import { EventOnEvent } from "../types/event";
 
 export function InfoRow( {event} : {event:EventOnEvent}) {
@@ -20,7 +19,7 @@ export function InfoRow( {event} : {event:EventOnEvent}) {
                   </View>
                   <View style={styles.infoItem}>
                     <Ionicons name="location-outline" size={25} color="black" />
-                    <Text style={styles.infoText}>{event.location_name}</Text>
+                    <Text style={styles.infoText}>{he.decode(event.location_name)}</Text>
                   </View>
                 </View>
     )

@@ -16,7 +16,7 @@ export interface EventOnEvent {
   organizer_email?: string;
   // Location fields  
   location_tax?: string;
-  location_name?: string;
+  location_name: string;
   location_address?: string;
   location_link?: string;
   location_desc?: string;
