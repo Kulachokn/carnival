@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Calendar } from "react-native-calendars";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -19,16 +18,11 @@ import useFilteredEvents from "../hooks/useFilteredEvents";
 import CategoryDropdown from "../components/CategoryDropdown";
 import EventList from "../components/EventList";
 import { configureGermanCalendarLocale } from "../constants/calendarLocale";
+import { formatDate } from "../utils/formatDate";
+import DateQuickSelect from "../components/DateQuickSelect";
+import CalendarModal from "../components/CalendarModal";
 
 configureGermanCalendarLocale();
-
-function formatDate(date: Date): string {
-  return date.toLocaleDateString("de-DE", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-}
 
 function SucheScreen() {
   const [pendingSearch, setPendingSearch] = useState("");
@@ -141,58 +135,34 @@ function SucheScreen() {
       </View>
 
       <Text style={styles.label}>Datum</Text>
-      <View style={styles.dateRow}>
-        <TouchableOpacity
-          style={[styles.dateBtn, isToday && styles.dateBtnActive]}
-          onPress={() => {
-            setPendingDate(new Date());
-            setCalendarVisible(false);
-          }}
-        >
-          <Text
-            style={[styles.dateBtnText, isToday && styles.dateBtnTextActive]}
-          >
-            Heute
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.dateBtn, isTomorrow && styles.dateBtnActive]}
-          onPress={() => {
-            const tmr = new Date(Date.now() + 86400000);
-            tmr.setHours(0, 0, 0, 0);
-            setPendingDate(tmr);
-            setCalendarVisible(false);
-          }}
-        >
-          <Text
-            style={[styles.dateBtnText, isTomorrow && styles.dateBtnTextActive]}
-          >
-            Morgen
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.dateBtn, isThisWeek && styles.dateBtnActive]}
-          onPress={() => {
-            const now = new Date();
-            const day = now.getDay();
-            const diffToMonday = (day === 0 ? -6 : 1) - day;
-            const monday = new Date(now);
-            monday.setDate(now.getDate() + diffToMonday);
-            monday.setHours(0, 0, 0, 0);
-            const sunday = new Date(monday);
-            sunday.setDate(monday.getDate() + 6);
-            sunday.setHours(23, 59, 59, 999);
-            setPendingDate({ start: monday, end: sunday });
-            setCalendarVisible(false);
-          }}
-        >
-          <Text
-            style={[styles.dateBtnText, isThisWeek && styles.dateBtnTextActive]}
-          >
-            Diese Woche
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <DateQuickSelect
+        isToday={isToday}
+        isTomorrow={isTomorrow}
+        isThisWeek={isThisWeek}
+        onSelectToday={() => {
+          setPendingDate(new Date());
+          setCalendarVisible(false);
+        }}
+        onSelectTomorrow={() => {
+          const tmr = new Date(Date.now() + 86400000);
+          tmr.setHours(0, 0, 0, 0);
+          setPendingDate(tmr);
+          setCalendarVisible(false);
+        }}
+        onSelectThisWeek={() => {
+          const now = new Date();
+          const day = now.getDay();
+          const diffToMonday = (day === 0 ? -6 : 1) - day;
+          const monday = new Date(now);
+          monday.setDate(now.getDate() + diffToMonday);
+          monday.setHours(0, 0, 0, 0);
+          const sunday = new Date(monday);
+          sunday.setDate(monday.getDate() + 6);
+          sunday.setHours(23, 59, 59, 999);
+          setPendingDate({ start: monday, end: sunday });
+          setCalendarVisible(false);
+        }}
+      />
 
       {pendingDate && (
         <View style={{ marginBottom: 12 }}>
@@ -225,43 +195,10 @@ function SucheScreen() {
 
       {isCalendarVisible && (
         <View style={styles.calendarModal}>
-          <Calendar
-            onDayPress={(day) => {
-              const selected = new Date(day.dateString);
-              selected.setHours(0, 0, 0, 0);
-              setPendingDate(selected);
-              setCalendarVisible(false);
-            }}
-            markedDates={
-              pendingDate && "getTime" in pendingDate
-                ? {
-                    [(pendingDate as Date).toISOString().slice(0, 10)]: {
-                      selected: true,
-                      selectedColor: Colors.primaryRed,
-                      selectedTextColor: Colors.white,
-                    },
-                  }
-                : {}
-            }
-            theme={{
-              backgroundColor: Colors.white,
-              calendarBackground: Colors.white,
-              textSectionTitleColor: Colors.text500,
-              selectedDayBackgroundColor: Colors.primaryRed,
-              selectedDayTextColor: Colors.white,
-              todayTextColor: Colors.primaryRed,
-              dayTextColor: Colors.text800,
-              textDisabledColor: Colors.text500,
-              monthTextColor: Colors.primaryRed,
-              arrowColor: Colors.primaryRed,
-              textDayFontWeight: "bold",
-              textMonthFontWeight: "bold",
-              textDayHeaderFontWeight: "bold",
-              textDayFontSize: 16,
-              textMonthFontSize: 18,
-              textDayHeaderFontSize: 14,
-            }}
-            enableSwipeMonths={true}
+          <CalendarModal
+            pendingDate={pendingDate}
+            setPendingDate={setPendingDate}
+            setCalendarVisible={setCalendarVisible}
           />
           <TouchableOpacity
             style={styles.calendarCloseBtn}
@@ -271,7 +208,6 @@ function SucheScreen() {
           </TouchableOpacity>
         </View>
       )}
-
       <CategoryDropdown
         categories={categoriesList}
         selectedCategory={pendingCategory}
@@ -296,10 +232,7 @@ function SucheScreen() {
             Keine Ergebnisse gefunden.
           </Text>
         ) : (
-        <EventList
-          events={filteredEvents}
-          onPressEvent={onPressEvent}
-        />
+          <EventList events={filteredEvents} onPressEvent={onPressEvent} />
         )
       ) : (
         <Text style={{ color: Colors.text500, marginTop: 10 }}>
@@ -337,31 +270,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
     color: Colors.text800,
-  },
-  dateRow: {
-    flexDirection: "row",
-    marginBottom: 12,
-  },
-  dateBtn: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: Colors.card400,
-    borderRadius: 8,
-    paddingVertical: 10,
-    marginHorizontal: 4,
-    alignItems: "center",
-    backgroundColor: Colors.white,
-  },
-  dateBtnActive: {
-    backgroundColor: Colors.primaryRed,
-    borderColor: Colors.primaryRed,
-  },
-  dateBtnText: {
-    color: Colors.text800,
-    fontWeight: "bold",
-  },
-  dateBtnTextActive: {
-    color: Colors.white,
   },
   chooseDateBtn: {
     backgroundColor: Colors.primaryRed,

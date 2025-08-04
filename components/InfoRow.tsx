@@ -2,7 +2,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import he from "he";
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 
-import { formatDate, formatTime } from '../utils/formatDateTime';
+import { formatDate, formatTime } from '../utils/formatFunctions';
 import { Colors } from "../constants/colors";
 import { EventOnEvent } from "../types/event";
 
