@@ -2,10 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-// import { Image } from "react-native";
 import Logo from "./assets/logo.svg";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { Pressable } from "react-native";
+import { Linking } from "react-native";
 
 import TermineScreen from "./screens/TermineScreen";
 import SucheScreen from "./screens/SucheScreen";
@@ -35,8 +36,13 @@ function TermineStackScreen() {
           headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
-            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            <Pressable
+              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
+            >
+              <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            </Pressable>
           ),
         }}
       />
@@ -50,8 +56,13 @@ function TermineStackScreen() {
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
-            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            <Pressable
+              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
+            >
+              <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            </Pressable>
           ),
         })}
       />
@@ -70,8 +81,13 @@ function SucheStackScreen() {
           headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
-            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            <Pressable
+              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
+            >
+              <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            </Pressable>
           ),
         }}
       />
@@ -85,8 +101,13 @@ function SucheStackScreen() {
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
-            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            <Pressable
+              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
+            >
+              <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            </Pressable>
           ),
         })}
       />
@@ -105,8 +126,13 @@ function GesellschaftenStackScreen() {
           headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
-            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            <Pressable
+              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
+            >
+              <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            </Pressable>
           ),
         }}
       />
@@ -121,8 +147,13 @@ function GesellschaftenStackScreen() {
           headerBackTitle: route.params?.from ?? "Zurück",
           headerBackTitleStyle: { fontSize: 18 },
           headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
-            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            <Pressable
+              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
+            >
+              <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            </Pressable>
           ),
         })}
       />
@@ -136,8 +167,13 @@ function GesellschaftenStackScreen() {
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
-            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            <Pressable
+              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
+            >
+              <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            </Pressable>
           ),
         })}
       />
@@ -156,8 +192,13 @@ function OrteStackScreen() {
           headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
-            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            <Pressable
+              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
+            >
+              <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            </Pressable>
           ),
         }}
       />
@@ -171,8 +212,13 @@ function OrteStackScreen() {
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
-            <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            <Pressable
+              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
+            >
+              <Logo width={40} height={40} style={{ marginRight: 16 }} />
+            </Pressable>
           ),
         })}
       />
@@ -188,9 +234,20 @@ export default function App() {
         <BottomTab.Navigator
           screenOptions={{
             headerShown: false,
-            tabBarStyle: { backgroundColor: Colors.primaryRed, height: 60 },
+            tabBarStyle: {
+              backgroundColor: Colors.primaryRed,
+              height: 80,
+              paddingTop: 5,
+            },
+            tabBarLabelStyle: {
+              fontSize: 14,
+              fontWeight: "bold",
+            },
             tabBarActiveTintColor: Colors.white,
             tabBarInactiveTintColor: Colors.card400,
+            tabBarIconStyle: {
+              marginBottom: 5,
+            },
           }}
         >
           <BottomTab.Screen
@@ -201,6 +258,8 @@ export default function App() {
               tabBarIcon: ({ color }) => (
                 <FontAwesome name="calendar-check-o" size={24} color={color} />
               ),
+              tabBarActiveTintColor: Colors.white,
+              tabBarInactiveTintColor: Colors.card400,
             }}
           />
           <BottomTab.Screen
@@ -209,8 +268,10 @@ export default function App() {
             options={{
               tabBarLabel: "Suche",
               tabBarIcon: ({ color }) => (
-                <FontAwesome name="search" size={24} color={Colors.white} />
+                <FontAwesome name="search" size={24} color={color} />
               ),
+              tabBarActiveTintColor: Colors.white,
+              tabBarInactiveTintColor: Colors.card400,
             }}
           />
           <BottomTab.Screen
@@ -219,12 +280,10 @@ export default function App() {
             options={{
               tabBarLabel: "Gesellschaften",
               tabBarIcon: ({ color }) => (
-                <FontAwesome6
-                  name="masks-theater"
-                  size={24}
-                  color={Colors.white}
-                />
+                <FontAwesome6 name="masks-theater" size={24} color={color} />
               ),
+              tabBarActiveTintColor: Colors.white,
+              tabBarInactiveTintColor: Colors.card400,
             }}
           />
           <BottomTab.Screen
@@ -233,12 +292,10 @@ export default function App() {
             options={{
               tabBarLabel: "OrteTab",
               tabBarIcon: ({ color }) => (
-                <FontAwesome6
-                  name="location-dot"
-                  size={24}
-                  color={Colors.white}
-                />
+                <FontAwesome6 name="location-dot" size={24} color={color} />
               ),
+              tabBarActiveTintColor: Colors.white,
+              tabBarInactiveTintColor: Colors.card400,
             }}
           />
         </BottomTab.Navigator>
