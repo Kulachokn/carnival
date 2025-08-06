@@ -18,7 +18,7 @@ import useFilteredEvents from "../hooks/useFilteredEvents";
 import CategoryDropdown from "../components/CategoryDropdown";
 import EventList from "../components/EventList";
 import { configureGermanCalendarLocale } from "../constants/calendarLocale";
-import { formatDate } from "../utils/formatDate";
+import { formatShortDate } from "../utils/formatFunctions";
 import DateQuickSelect from "../components/DateQuickSelect";
 import CalendarModal from "../components/CalendarModal";
 
@@ -170,11 +170,11 @@ function SucheScreen() {
             Ausgewähltes Datum:{" "}
             {(() => {
               if ("start" in pendingDate && "end" in pendingDate) {
-                return `${formatDate(pendingDate.start)} – ${formatDate(
-                  pendingDate.end
+                return `${formatShortDate(pendingDate.start.getTime() / 1000)} – ${formatShortDate(
+                  pendingDate.end.getTime() / 1000
                 )}`;
               } else {
-                return formatDate(new Date(pendingDate));
+                return formatShortDate((pendingDate as Date).getTime() / 1000);
               }
             })()}
           </Text>

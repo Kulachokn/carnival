@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+
+import { formatDateTimeShort } from '../utils/formatFunctions';
 import { Colors } from '../constants/colors';
 
 interface EventCardProps {
@@ -10,27 +12,17 @@ interface EventCardProps {
   location: string;
 }
 
-function formatDate(timestamp: number) {
-  const date = new Date(timestamp * 1000);
-  return date.toLocaleDateString('de-DE', {
-    weekday: 'short',
-    day: '2-digit',
-    month: '2-digit',
-    year: '2-digit',
-  }) + ' · ' + date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-}
-
 const EventCard: React.FC<EventCardProps> = React.memo (({ image, start, name, location }) => (
   <View style={styles.card}>
     <View style={styles.cardContent}>
-      <Text style={styles.cardDate}>{formatDate(start)}</Text>
+      <Text style={styles.cardDate}>{formatDateTimeShort(start)}</Text>
       <Text style={styles.cardTitle}>{name}</Text>
       <View style={styles.cardLocationRow}>
-        <FontAwesome name="map-marker" size={16} color="#B11226" style={{ marginRight: 4 }} />
+        <FontAwesome name="map-marker" size={16} color={Colors.primaryRed} style={{ marginRight: 4 }} />
         <Text style={styles.cardLocation}>{location}</Text>
       </View>
     </View>
-    <FontAwesome name="chevron-right" size={20} color="#B11226" style={styles.cardArrow} />
+    <FontAwesome name="chevron-right" size={20} color={Colors.primaryRed} style={styles.cardArrow} />
   </View>
 ));
 
