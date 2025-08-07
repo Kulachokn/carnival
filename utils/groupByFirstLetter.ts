@@ -5,7 +5,8 @@ export function groupByFirstLetter<T>(
   const groups: { [letter: string]: T[] } = {};
   items.forEach((item) => {
     const label = getItemLabel(item);
-    const letter = label[0]?.toUpperCase() || "#";
+    if (!label || !label[0]) return; 
+    const letter = label[0].toUpperCase();
     if (!groups[letter]) groups[letter] = [];
     groups[letter].push(item);
   });

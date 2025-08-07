@@ -290,7 +290,7 @@ export default function App() {
             name="OrteTab"
             component={OrteStackScreen}
             options={{
-              tabBarLabel: "OrteTab",
+              tabBarLabel: "Orte",
               tabBarIcon: ({ color }) => (
                 <FontAwesome6 name="location-dot" size={24} color={color} />
               ),
