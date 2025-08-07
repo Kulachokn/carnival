@@ -3,10 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -21,6 +19,7 @@ import { configureGermanCalendarLocale } from "../constants/calendarLocale";
 import { formatShortDate } from "../utils/formatFunctions";
 import DateQuickSelect from "../components/DateQuickSelect";
 import CalendarModal from "../components/CalendarModal";
+import InputSearch from "../components/InputSearch";
 
 configureGermanCalendarLocale();
 
@@ -118,22 +117,7 @@ function SucheScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchBox}>
-        <Ionicons
-          name="search"
-          size={22}
-          color={Colors.text500}
-          style={{ marginLeft: 10 }}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Suche"
-          placeholderTextColor={Colors.text500}
-          value={pendingSearch}
-          onChangeText={setPendingSearch}
-        />
-      </View>
-
+      <InputSearch value={pendingSearch} onChangeText={setPendingSearch} />
       <Text style={styles.label}>Datum</Text>
       <DateQuickSelect
         isToday={isToday}
@@ -170,9 +154,9 @@ function SucheScreen() {
             Ausgewähltes Datum:{" "}
             {(() => {
               if ("start" in pendingDate && "end" in pendingDate) {
-                return `${formatShortDate(pendingDate.start.getTime() / 1000)} – ${formatShortDate(
-                  pendingDate.end.getTime() / 1000
-                )}`;
+                return `${formatShortDate(
+                  pendingDate.start.getTime() / 1000
+                )} – ${formatShortDate(pendingDate.end.getTime() / 1000)}`;
               } else {
                 return formatShortDate((pendingDate as Date).getTime() / 1000);
               }
@@ -248,22 +232,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white,
     padding: 16,
-  },
-  searchBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Colors.card200,
-    borderRadius: 16,
-    marginBottom: 18,
-    paddingVertical: 8,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: Colors.text800,
-    backgroundColor: "transparent",
-    paddingHorizontal: 10,
-    paddingVertical: 8,
   },
   label: {
     fontWeight: "bold",

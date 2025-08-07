@@ -1,6 +1,9 @@
 import React, { useMemo } from "react";
-import { View, TextInput, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+
 import AlphabeticalSectionList from "./AlphabeticalSectionList";
+import InputSearch from "./InputSearch";
+
 import { groupByFirstLetter } from "../utils/groupByFirstLetter";
 import { Colors } from "../constants/colors";
 
@@ -37,16 +40,11 @@ export default function SearchableAlphabeticalList<T>({
   );
 
   return (
-    <View>
-      <View style={styles.searchBox}>
-        <TextInput
-          style={styles.input}
-          placeholder="Suche"
-          placeholderTextColor={Colors.text500}
-          value={search}
-          onChangeText={onSearchChange}
-        />
-      </View>
+    <View style={styles.container}>
+      <InputSearch
+        value={search}
+        onChangeText={onSearchChange}
+      />
       <AlphabeticalSectionList
         sections={sections}
         keyExtractor={getItemKey}
@@ -60,23 +58,10 @@ export default function SearchableAlphabeticalList<T>({
 }
 
 const styles = StyleSheet.create({
-  searchBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Colors.card200,
-    borderRadius: 16,
-    margin: 16,
-    marginBottom: 18,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  input: {
+  container: {
     flex: 1,
-    fontSize: 16,
-    color: Colors.text800,
-    backgroundColor: "transparent",
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    backgroundColor: Colors.white,
+    padding: 16,
   },
   itemBox: {
     backgroundColor: Colors.card100,
