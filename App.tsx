@@ -244,7 +244,7 @@ export default function App() {
               fontWeight: "bold",
             },
             tabBarActiveTintColor: Colors.white,
-            tabBarInactiveTintColor: Colors.card400,
+            tabBarInactiveTintColor: Colors.card100,
             tabBarIconStyle: {
               marginBottom: 5,
             },
@@ -259,7 +259,7 @@ export default function App() {
                 <FontAwesome name="calendar-check-o" size={24} color={color} />
               ),
               tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card400,
+              tabBarInactiveTintColor: Colors.card100,
             }}
           />
           <BottomTab.Screen
@@ -271,7 +271,7 @@ export default function App() {
                 <FontAwesome name="search" size={24} color={color} />
               ),
               tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card400,
+              tabBarInactiveTintColor: Colors.card100,
             }}
           />
           <BottomTab.Screen
@@ -283,7 +283,7 @@ export default function App() {
                 <FontAwesome6 name="masks-theater" size={24} color={color} />
               ),
               tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card400,
+              tabBarInactiveTintColor: Colors.card100,
             }}
           />
           <BottomTab.Screen
@@ -295,7 +295,7 @@ export default function App() {
                 <FontAwesome6 name="location-dot" size={24} color={color} />
               ),
               tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card400,
+              tabBarInactiveTintColor: Colors.card100,
             }}
           />
         </BottomTab.Navigator>

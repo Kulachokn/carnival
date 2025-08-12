@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "dev.kunoichi.carnival"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,6 +40,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/0b6d4bc7-25a6-4247-bc60-7532aa2beef0"
-    }
+    },
+    "owner": "kunoichi_dev"
   }
 }

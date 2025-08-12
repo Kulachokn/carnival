@@ -142,3 +142,51 @@ class EventOnAPIService {
 
 const api = new EventOnAPIService();
 export default api;
+
+
+const BASE_URL = 'https://www.appsolutjeck.de/wp-json';
+// Fixed category IDs (set in stone)
+const CATEGORY_IDS = {
+  BANNER_DETAILS: 3151,
+  BANNER_LIST: 3150,
+  BANNER_START: 3152
+};
+
+type BannerPost = { id: number; [key: string]: any };
+
+// ## Get Banners by Type
+// ### Banner-Details
+
+export async function getBannerDetails(): Promise<Banner[]> {
+  const response = await fetch(`${BASE_URL}/wp/v2/banner?banner-categories=${CATEGORY_IDS.BANNER_DETAILS}`);
+  const posts: BannerPost[] = await response.json();
+
+  
+  const banners = await Promise.all(
+    posts.map((p: BannerPost) => fetch(`${BASE_URL}/acf/v3/banner/${p.id}`).then(r => r.json()))
+  );
+  return banners; // Returns ARRAY: [{id, acf: {banner_image_url, banner_url}}, ...]
+};
+
+// ### Banner-List
+
+export async function getBannerList(): Promise<Banner[]> {
+  const response = await fetch(`${BASE_URL}/wp/v2/banner?banner-categories=${CATEGORY_IDS.BANNER_LIST}`);
+  const posts = await response.json();
+  // console.log(posts);
+  const banners = await Promise.all(
+    posts.map((p: BannerPost) => fetch(`${BASE_URL}/acf/v3/banner/${p.id}`).then(r => r.json()))
+  );
+  return banners; // Returns ARRAY: [{id, acf: {banner_image_url, banner_url}}, ...]
+};
+
+// ### Banner-Start
+export async function getBannerStart(): Promise<Banner[]> {
+  const response = await fetch(`${BASE_URL}/wp/v2/banner?banner-categories=${CATEGORY_IDS.BANNER_START}`);
+  const posts = await response.json();
+  
+  const banners = await Promise.all(
+    posts.map((p: BannerPost) => fetch(`${BASE_URL}/acf/v3/banner/${p.id}`).then(r => r.json()))
+  );
+  return banners; // Returns ARRAY: [{id, acf: {banner_image_url, banner_url}}, ...]
+};

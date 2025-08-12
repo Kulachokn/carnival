@@ -186,3 +186,658 @@ const obj6 = {
   time_ext_type: "n",
   year_long_event: "no",
 };
+
+// [
+//   {
+//     id: 18034,
+//     date: "2025-08-11T09:56:25",
+//     date_gmt: "2025-08-11T09:56:25",
+//     guid: {
+//       rendered: "https://www.appsolutjeck.de/?post_type=banner&#038;p=18034",
+//     },
+//     modified: "2025-08-11T10:13:05",
+//     modified_gmt: "2025-08-11T10:13:05",
+//     slug: "listen-banner",
+//     status: "publish",
+//     type: "banner",
+//     link: "https://www.appsolutjeck.de/banner/listen-banner/",
+//     title: { rendered: "Listen Banner" },
+//     content: { rendered: "", protected: false },
+//     featured_media: 0,
+//     template: "",
+//     meta: {
+//       _acf_changed: false,
+//       _monsterinsights_skip_tracking: false,
+//       _monsterinsights_sitenote_active: false,
+//       _monsterinsights_sitenote_note: "",
+//       _monsterinsights_sitenote_category: 0,
+//     },
+//     "banner-categories": [3150],
+//     class_list: [
+//       "post-18034",
+//       "banner",
+//       "type-banner",
+//       "status-publish",
+//       "hentry",
+//       "banner-categories-banner-list",
+//     ],
+//     acf: {
+//       banner_url: "https://banner.com",
+//       banner_image_url:
+//         "https://www.appsolutjeck.de/wp-content/uploads/2024/07/header-banner-1.jpg",
+//     },
+//     yoast_head:
+//       '<!-- This site is optimized with the Yoast SEO plugin v25.6 - https://yoast.com/wordpress/plugins/seo/ -->\n<title>Listen Banner - AppSolut Jeck</title>\n<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />\n<link rel="canonical" href="https://www.appsolutjeck.de/banner/listen-banner/" />\n<meta property="og:locale" content="de_DE" />\n<meta property="og:type" content="article" />\n<meta property="og:title" content="Listen Banner - AppSolut Jeck" />\n<meta property="og:url" content="https://www.appsolutjeck.de/banner/listen-banner/" />\n<meta property="og:site_name" content="AppSolut Jeck" />\n<meta property="article:publisher" content="https://www.facebook.com/appsolutjeck/" />\n<meta property="article:modified_time" content="2025-08-11T10:13:05+00:00" />\n<meta property="og:image" content="https://www.appsolutjeck.de/wp-content/uploads/2016/09/logo.gif" />\n\t<meta property="og:image:width" content="90" />\n\t<meta property="og:image:height" content="83" />\n\t<meta property="og:image:type" content="image/gif" />\n<meta name="twitter:card" content="summary_large_image" />\n<meta name="twitter:site" content="@appsolutjeck" />\n<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.appsolutjeck.de/banner/listen-banner/","url":"https://www.appsolutjeck.de/banner/listen-banner/","name":"Listen Banner - AppSolut Jeck","isPartOf":{"@id":"https://www.appsolutjeck.de/#website"},"datePublished":"2025-08-11T09:56:25+00:00","dateModified":"2025-08-11T10:13:05+00:00","breadcrumb":{"@id":"https://www.appsolutjeck.de/banner/listen-banner/#breadcrumb"},"inLanguage":"de","potentialAction":[{"@type":"ReadAction","target":["https://www.appsolutjeck.de/banner/listen-banner/"]}]},{"@type":"BreadcrumbList","@id":"https://www.appsolutjeck.de/banner/listen-banner/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.appsolutjeck.de/"},{"@type":"ListItem","position":2,"name":"Listen Banner"}]},{"@type":"WebSite","@id":"https://www.appsolutjeck.de/#website","url":"https://www.appsolutjeck.de/","name":"AppSolut Jeck","description":"AppSolut Jeck \u2013 der Blog zum K\u00f6lner Karneval","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.appsolutjeck.de/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"de"}]}</script>\n<!-- / Yoast SEO plugin. -->',
+//     yoast_head_json: {
+//       title: "Listen Banner - AppSolut Jeck",
+//       robots: {
+//         index: "index",
+//         follow: "follow",
+//         "max-snippet": "max-snippet:-1",
+//         "max-image-preview": "max-image-preview:large",
+//         "max-video-preview": "max-video-preview:-1",
+//       },
+//       canonical: "https://www.appsolutjeck.de/banner/listen-banner/",
+//       og_locale: "de_DE",
+//       og_type: "article",
+//       og_title: "Listen Banner - AppSolut Jeck",
+//       og_url: "https://www.appsolutjeck.de/banner/listen-banner/",
+//       og_site_name: "AppSolut Jeck",
+//       article_publisher: "https://www.facebook.com/appsolutjeck/",
+//       article_modified_time: "2025-08-11T10:13:05+00:00",
+//       og_image: [
+//         {
+//           width: 90,
+//           height: 83,
+//           url: "https://www.appsolutjeck.de/wp-content/uploads/2016/09/logo.gif",
+//           type: "image/gif",
+//         },
+//       ],
+//       twitter_card: "summary_large_image",
+//       twitter_site: "@appsolutjeck",
+//       schema: {
+//         "@context": "https://schema.org",
+//         "@graph": [
+//           {
+//             "@type": "WebPage",
+//             "@id": "https://www.appsolutjeck.de/banner/listen-banner/",
+//             url: "https://www.appsolutjeck.de/banner/listen-banner/",
+//             name: "Listen Banner - AppSolut Jeck",
+//             isPartOf: { "@id": "https://www.appsolutjeck.de/#website" },
+//             datePublished: "2025-08-11T09:56:25+00:00",
+//             dateModified: "2025-08-11T10:13:05+00:00",
+//             breadcrumb: {
+//               "@id":
+//                 "https://www.appsolutjeck.de/banner/listen-banner/#breadcrumb",
+//             },
+//             inLanguage: "de",
+//             potentialAction: [
+//               {
+//                 "@type": "ReadAction",
+//                 target: ["https://www.appsolutjeck.de/banner/listen-banner/"],
+//               },
+//             ],
+//           },
+//           {
+//             "@type": "BreadcrumbList",
+//             "@id":
+//               "https://www.appsolutjeck.de/banner/listen-banner/#breadcrumb",
+//             itemListElement: [
+//               {
+//                 "@type": "ListItem",
+//                 position: 1,
+//                 name: "Startseite",
+//                 item: "https://www.appsolutjeck.de/",
+//               },
+//               { "@type": "ListItem", position: 2, name: "Listen Banner" },
+//             ],
+//           },
+//           {
+//             "@type": "WebSite",
+//             "@id": "https://www.appsolutjeck.de/#website",
+//             url: "https://www.appsolutjeck.de/",
+//             name: "AppSolut Jeck",
+//             description:
+//               "AppSolut Jeck \u2013 der Blog zum K\u00f6lner Karneval",
+//             potentialAction: [
+//               {
+//                 "@type": "SearchAction",
+//                 target: {
+//                   "@type": "EntryPoint",
+//                   urlTemplate:
+//                     "https://www.appsolutjeck.de/?s={search_term_string}",
+//                 },
+//                 "query-input": {
+//                   "@type": "PropertyValueSpecification",
+//                   valueRequired: true,
+//                   valueName: "search_term_string",
+//                 },
+//               },
+//             ],
+//             inLanguage: "de",
+//           },
+//         ],
+//       },
+//     },
+//     _links: {
+//       self: [
+//         {
+//           href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner/18034",
+//           targetHints: { allow: ["GET"] },
+//         },
+//       ],
+//       collection: [
+//         { href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner" },
+//       ],
+//       about: [
+//         { href: "https://www.appsolutjeck.de/wp-json/wp/v2/types/banner" },
+//       ],
+//       "wp:attachment": [
+//         {
+//           href: "https://www.appsolutjeck.de/wp-json/wp/v2/media?parent=18034",
+//         },
+//       ],
+//       "wp:term": [
+//         {
+//           taxonomy: "banner-categories",
+//           embeddable: true,
+//           href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner-categories?post=18034",
+//         },
+//       ],
+//       curies: [
+//         { name: "wp", href: "https://api.w.org/{rel}", templated: true },
+//       ],
+//     },
+//   },
+// ];
+
+[
+  {
+    id: 18034,
+    date: "2025-08-11T09:56:25",
+    date_gmt: "2025-08-11T09:56:25",
+    guid: {
+      rendered: "https://www.appsolutjeck.de/?post_type=banner&#038;p=18034",
+    },
+    modified: "2025-08-11T10:13:05",
+    modified_gmt: "2025-08-11T10:13:05",
+    slug: "listen-banner",
+    status: "publish",
+    type: "banner",
+    link: "https://www.appsolutjeck.de/banner/listen-banner/",
+    title: { rendered: "Listen Banner" },
+    content: { rendered: "", protected: false },
+    featured_media: 0,
+    template: "",
+    meta: {
+      _acf_changed: false,
+      _monsterinsights_skip_tracking: false,
+      _monsterinsights_sitenote_active: false,
+      _monsterinsights_sitenote_note: "",
+      _monsterinsights_sitenote_category: 0,
+    },
+    "banner-categories": [3150],
+    class_list: [
+      "post-18034",
+      "banner",
+      "type-banner",
+      "status-publish",
+      "hentry",
+      "banner-categories-banner-list",
+    ],
+    acf: {
+      banner_url: "https://banner.com",
+      banner_image_url:
+        "https://www.appsolutjeck.de/wp-content/uploads/2024/07/header-banner-1.jpg",
+    },
+    yoast_head:
+      '<!-- This site is optimized with the Yoast SEO plugin v25.6 - https://yoast.com/wordpress/plugins/seo/ -->\n<title>Listen Banner - AppSolut Jeck</title>\n<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />\n<link rel="canonical" href="https://www.appsolutjeck.de/banner/listen-banner/" />\n<meta property="og:locale" content="de_DE" />\n<meta property="og:type" content="article" />\n<meta property="og:title" content="Listen Banner - AppSolut Jeck" />\n<meta property="og:url" content="https://www.appsolutjeck.de/banner/listen-banner/" />\n<meta property="og:site_name" content="AppSolut Jeck" />\n<meta property="article:publisher" content="https://www.facebook.com/appsolutjeck/" />\n<meta property="article:modified_time" content="2025-08-11T10:13:05+00:00" />\n<meta property="og:image" content="https://www.appsolutjeck.de/wp-content/uploads/2016/09/logo.gif" />\n\t<meta property="og:image:width" content="90" />\n\t<meta property="og:image:height" content="83" />\n\t<meta property="og:image:type" content="image/gif" />\n<meta name="twitter:card" content="summary_large_image" />\n<meta name="twitter:site" content="@appsolutjeck" />\n<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.appsolutjeck.de/banner/listen-banner/","url":"https://www.appsolutjeck.de/banner/listen-banner/","name":"Listen Banner - AppSolut Jeck","isPartOf":{"@id":"https://www.appsolutjeck.de/#website"},"datePublished":"2025-08-11T09:56:25+00:00","dateModified":"2025-08-11T10:13:05+00:00","breadcrumb":{"@id":"https://www.appsolutjeck.de/banner/listen-banner/#breadcrumb"},"inLanguage":"de","potentialAction":[{"@type":"ReadAction","target":["https://www.appsolutjeck.de/banner/listen-banner/"]}]},{"@type":"BreadcrumbList","@id":"https://www.appsolutjeck.de/banner/listen-banner/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.appsolutjeck.de/"},{"@type":"ListItem","position":2,"name":"Listen Banner"}]},{"@type":"WebSite","@id":"https://www.appsolutjeck.de/#website","url":"https://www.appsolutjeck.de/","name":"AppSolut Jeck","description":"AppSolut Jeck \u2013 der Blog zum K\u00f6lner Karneval","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.appsolutjeck.de/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"de"}]}</script>\n<!-- / Yoast SEO plugin. -->',
+    yoast_head_json: {
+      title: "Listen Banner - AppSolut Jeck",
+      robots: {
+        index: "index",
+        follow: "follow",
+        "max-snippet": "max-snippet:-1",
+        "max-image-preview": "max-image-preview:large",
+        "max-video-preview": "max-video-preview:-1",
+      },
+      canonical: "https://www.appsolutjeck.de/banner/listen-banner/",
+      og_locale: "de_DE",
+      og_type: "article",
+      og_title: "Listen Banner - AppSolut Jeck",
+      og_url: "https://www.appsolutjeck.de/banner/listen-banner/",
+      og_site_name: "AppSolut Jeck",
+      article_publisher: "https://www.facebook.com/appsolutjeck/",
+      article_modified_time: "2025-08-11T10:13:05+00:00",
+      og_image: [
+        {
+          width: 90,
+          height: 83,
+          url: "https://www.appsolutjeck.de/wp-content/uploads/2016/09/logo.gif",
+          type: "image/gif",
+        },
+      ],
+      twitter_card: "summary_large_image",
+      twitter_site: "@appsolutjeck",
+      schema: {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://www.appsolutjeck.de/banner/listen-banner/",
+            url: "https://www.appsolutjeck.de/banner/listen-banner/",
+            name: "Listen Banner - AppSolut Jeck",
+            isPartOf: { "@id": "https://www.appsolutjeck.de/#website" },
+            datePublished: "2025-08-11T09:56:25+00:00",
+            dateModified: "2025-08-11T10:13:05+00:00",
+            breadcrumb: {
+              "@id":
+                "https://www.appsolutjeck.de/banner/listen-banner/#breadcrumb",
+            },
+            inLanguage: "de",
+            potentialAction: [
+              {
+                "@type": "ReadAction",
+                target: ["https://www.appsolutjeck.de/banner/listen-banner/"],
+              },
+            ],
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id":
+              "https://www.appsolutjeck.de/banner/listen-banner/#breadcrumb",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Startseite",
+                item: "https://www.appsolutjeck.de/",
+              },
+              { "@type": "ListItem", position: 2, name: "Listen Banner" },
+            ],
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.appsolutjeck.de/#website",
+            url: "https://www.appsolutjeck.de/",
+            name: "AppSolut Jeck",
+            description:
+              "AppSolut Jeck \u2013 der Blog zum K\u00f6lner Karneval",
+            potentialAction: [
+              {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate:
+                    "https://www.appsolutjeck.de/?s={search_term_string}",
+                },
+                "query-input": {
+                  "@type": "PropertyValueSpecification",
+                  valueRequired: true,
+                  valueName: "search_term_string",
+                },
+              },
+            ],
+            inLanguage: "de",
+          },
+        ],
+      },
+    },
+    _links: {
+      self: [
+        {
+          href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner/18034",
+          targetHints: { allow: ["GET"] },
+        },
+      ],
+      collection: [
+        { href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner" },
+      ],
+      about: [
+        { href: "https://www.appsolutjeck.de/wp-json/wp/v2/types/banner" },
+      ],
+      "wp:attachment": [
+        {
+          href: "https://www.appsolutjeck.de/wp-json/wp/v2/media?parent=18034",
+        },
+      ],
+      "wp:term": [
+        {
+          taxonomy: "banner-categories",
+          embeddable: true,
+          href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner-categories?post=18034",
+        },
+      ],
+      curies: [
+        { name: "wp", href: "https://api.w.org/{rel}", templated: true },
+      ],
+    },
+  },
+  {
+    id: 18032,
+    date: "2025-08-11T09:52:25",
+    date_gmt: "2025-08-11T09:52:25",
+    guid: {
+      rendered: "https://www.appsolutjeck.de/?post_type=banner&#038;p=18032",
+    },
+    modified: "2025-08-11T10:13:40",
+    modified_gmt: "2025-08-11T10:13:40",
+    slug: "details-banner",
+    status: "publish",
+    type: "banner",
+    link: "https://www.appsolutjeck.de/banner/details-banner/",
+    title: { rendered: "Details Banner" },
+    content: { rendered: "", protected: false },
+    featured_media: 0,
+    template: "",
+    meta: {
+      _acf_changed: false,
+      _monsterinsights_skip_tracking: false,
+      _monsterinsights_sitenote_active: false,
+      _monsterinsights_sitenote_note: "",
+      _monsterinsights_sitenote_category: 0,
+    },
+    "banner-categories": [3151],
+    class_list: [
+      "post-18032",
+      "banner",
+      "type-banner",
+      "status-publish",
+      "hentry",
+      "banner-categories-banner-details",
+    ],
+    acf: {
+      banner_url: "https://test.de",
+      banner_image_url:
+        "https://www.appsolutjeck.de/wp-content/uploads/2025/08/black-friday-1898114-1280.webp",
+    },
+    yoast_head:
+      '<!-- This site is optimized with the Yoast SEO plugin v25.6 - https://yoast.com/wordpress/plugins/seo/ -->\n<title>Details Banner - AppSolut Jeck</title>\n<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />\n<link rel="canonical" href="https://www.appsolutjeck.de/banner/details-banner/" />\n<meta property="og:locale" content="de_DE" />\n<meta property="og:type" content="article" />\n<meta property="og:title" content="Details Banner - AppSolut Jeck" />\n<meta property="og:url" content="https://www.appsolutjeck.de/banner/details-banner/" />\n<meta property="og:site_name" content="AppSolut Jeck" />\n<meta property="article:publisher" content="https://www.facebook.com/appsolutjeck/" />\n<meta property="article:modified_time" content="2025-08-11T10:13:40+00:00" />\n<meta property="og:image" content="https://www.appsolutjeck.de/wp-content/uploads/2016/09/logo.gif" />\n\t<meta property="og:image:width" content="90" />\n\t<meta property="og:image:height" content="83" />\n\t<meta property="og:image:type" content="image/gif" />\n<meta name="twitter:card" content="summary_large_image" />\n<meta name="twitter:site" content="@appsolutjeck" />\n<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.appsolutjeck.de/banner/details-banner/","url":"https://www.appsolutjeck.de/banner/details-banner/","name":"Details Banner - AppSolut Jeck","isPartOf":{"@id":"https://www.appsolutjeck.de/#website"},"datePublished":"2025-08-11T09:52:25+00:00","dateModified":"2025-08-11T10:13:40+00:00","breadcrumb":{"@id":"https://www.appsolutjeck.de/banner/details-banner/#breadcrumb"},"inLanguage":"de","potentialAction":[{"@type":"ReadAction","target":["https://www.appsolutjeck.de/banner/details-banner/"]}]},{"@type":"BreadcrumbList","@id":"https://www.appsolutjeck.de/banner/details-banner/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.appsolutjeck.de/"},{"@type":"ListItem","position":2,"name":"Details Banner"}]},{"@type":"WebSite","@id":"https://www.appsolutjeck.de/#website","url":"https://www.appsolutjeck.de/","name":"AppSolut Jeck","description":"AppSolut Jeck \u2013 der Blog zum K\u00f6lner Karneval","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.appsolutjeck.de/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"de"}]}</script>\n<!-- / Yoast SEO plugin. -->',
+    yoast_head_json: {
+      title: "Details Banner - AppSolut Jeck",
+      robots: {
+        index: "index",
+        follow: "follow",
+        "max-snippet": "max-snippet:-1",
+        "max-image-preview": "max-image-preview:large",
+        "max-video-preview": "max-video-preview:-1",
+      },
+      canonical: "https://www.appsolutjeck.de/banner/details-banner/",
+      og_locale: "de_DE",
+      og_type: "article",
+      og_title: "Details Banner - AppSolut Jeck",
+      og_url: "https://www.appsolutjeck.de/banner/details-banner/",
+      og_site_name: "AppSolut Jeck",
+      article_publisher: "https://www.facebook.com/appsolutjeck/",
+      article_modified_time: "2025-08-11T10:13:40+00:00",
+      og_image: [
+        {
+          width: 90,
+          height: 83,
+          url: "https://www.appsolutjeck.de/wp-content/uploads/2016/09/logo.gif",
+          type: "image/gif",
+        },
+      ],
+      twitter_card: "summary_large_image",
+      twitter_site: "@appsolutjeck",
+      schema: {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://www.appsolutjeck.de/banner/details-banner/",
+            url: "https://www.appsolutjeck.de/banner/details-banner/",
+            name: "Details Banner - AppSolut Jeck",
+            isPartOf: { "@id": "https://www.appsolutjeck.de/#website" },
+            datePublished: "2025-08-11T09:52:25+00:00",
+            dateModified: "2025-08-11T10:13:40+00:00",
+            breadcrumb: {
+              "@id":
+                "https://www.appsolutjeck.de/banner/details-banner/#breadcrumb",
+            },
+            inLanguage: "de",
+            potentialAction: [
+              {
+                "@type": "ReadAction",
+                target: ["https://www.appsolutjeck.de/banner/details-banner/"],
+              },
+            ],
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id":
+              "https://www.appsolutjeck.de/banner/details-banner/#breadcrumb",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Startseite",
+                item: "https://www.appsolutjeck.de/",
+              },
+              { "@type": "ListItem", position: 2, name: "Details Banner" },
+            ],
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.appsolutjeck.de/#website",
+            url: "https://www.appsolutjeck.de/",
+            name: "AppSolut Jeck",
+            description:
+              "AppSolut Jeck \u2013 der Blog zum K\u00f6lner Karneval",
+            potentialAction: [
+              {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate:
+                    "https://www.appsolutjeck.de/?s={search_term_string}",
+                },
+                "query-input": {
+                  "@type": "PropertyValueSpecification",
+                  valueRequired: true,
+                  valueName: "search_term_string",
+                },
+              },
+            ],
+            inLanguage: "de",
+          },
+        ],
+      },
+    },
+    _links: {
+      self: [
+        {
+          href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner/18032",
+          targetHints: { allow: ["GET"] },
+        },
+      ],
+      collection: [
+        { href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner" },
+      ],
+      about: [
+        { href: "https://www.appsolutjeck.de/wp-json/wp/v2/types/banner" },
+      ],
+      "wp:attachment": [
+        {
+          href: "https://www.appsolutjeck.de/wp-json/wp/v2/media?parent=18032",
+        },
+      ],
+      "wp:term": [
+        {
+          taxonomy: "banner-categories",
+          embeddable: true,
+          href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner-categories?post=18032",
+        },
+      ],
+      curies: [
+        { name: "wp", href: "https://api.w.org/{rel}", templated: true },
+      ],
+    },
+  },
+  {
+    id: 18029,
+    date: "2025-08-11T09:45:13",
+    date_gmt: "2025-08-11T09:45:13",
+    guid: {
+      rendered: "https://www.appsolutjeck.de/?post_type=banner&#038;p=18029",
+    },
+    modified: "2025-08-11T10:14:07",
+    modified_gmt: "2025-08-11T10:14:07",
+    slug: "start-banner",
+    status: "publish",
+    type: "banner",
+    link: "https://www.appsolutjeck.de/banner/start-banner/",
+    title: { rendered: "Start Banner" },
+    content: { rendered: "", protected: false },
+    featured_media: 0,
+    template: "",
+    meta: {
+      _acf_changed: false,
+      _monsterinsights_skip_tracking: false,
+      _monsterinsights_sitenote_active: false,
+      _monsterinsights_sitenote_note: "",
+      _monsterinsights_sitenote_category: 0,
+    },
+    "banner-categories": [3152],
+    class_list: [
+      "post-18029",
+      "banner",
+      "type-banner",
+      "status-publish",
+      "hentry",
+      "banner-categories-banner-start",
+    ],
+    acf: {
+      banner_url: "https://www.sparkasse-koelnbonn.de/",
+      banner_image_url:
+        "https://www.appsolutjeck.de/wp-content/uploads/2025/08/opening-page.png",
+    },
+    yoast_head:
+      '<!-- This site is optimized with the Yoast SEO plugin v25.6 - https://yoast.com/wordpress/plugins/seo/ -->\n<title>Start Banner - AppSolut Jeck</title>\n<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />\n<link rel="canonical" href="https://www.appsolutjeck.de/banner/start-banner/" />\n<meta property="og:locale" content="de_DE" />\n<meta property="og:type" content="article" />\n<meta property="og:title" content="Start Banner - AppSolut Jeck" />\n<meta property="og:url" content="https://www.appsolutjeck.de/banner/start-banner/" />\n<meta property="og:site_name" content="AppSolut Jeck" />\n<meta property="article:publisher" content="https://www.facebook.com/appsolutjeck/" />\n<meta property="article:modified_time" content="2025-08-11T10:14:07+00:00" />\n<meta property="og:image" content="https://www.appsolutjeck.de/wp-content/uploads/2016/09/logo.gif" />\n\t<meta property="og:image:width" content="90" />\n\t<meta property="og:image:height" content="83" />\n\t<meta property="og:image:type" content="image/gif" />\n<meta name="twitter:card" content="summary_large_image" />\n<meta name="twitter:site" content="@appsolutjeck" />\n<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.appsolutjeck.de/banner/start-banner/","url":"https://www.appsolutjeck.de/banner/start-banner/","name":"Start Banner - AppSolut Jeck","isPartOf":{"@id":"https://www.appsolutjeck.de/#website"},"datePublished":"2025-08-11T09:45:13+00:00","dateModified":"2025-08-11T10:14:07+00:00","breadcrumb":{"@id":"https://www.appsolutjeck.de/banner/start-banner/#breadcrumb"},"inLanguage":"de","potentialAction":[{"@type":"ReadAction","target":["https://www.appsolutjeck.de/banner/start-banner/"]}]},{"@type":"BreadcrumbList","@id":"https://www.appsolutjeck.de/banner/start-banner/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.appsolutjeck.de/"},{"@type":"ListItem","position":2,"name":"Start Banner"}]},{"@type":"WebSite","@id":"https://www.appsolutjeck.de/#website","url":"https://www.appsolutjeck.de/","name":"AppSolut Jeck","description":"AppSolut Jeck \u2013 der Blog zum K\u00f6lner Karneval","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.appsolutjeck.de/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"de"}]}</script>\n<!-- / Yoast SEO plugin. -->',
+    yoast_head_json: {
+      title: "Start Banner - AppSolut Jeck",
+      robots: {
+        index: "index",
+        follow: "follow",
+        "max-snippet": "max-snippet:-1",
+        "max-image-preview": "max-image-preview:large",
+        "max-video-preview": "max-video-preview:-1",
+      },
+      canonical: "https://www.appsolutjeck.de/banner/start-banner/",
+      og_locale: "de_DE",
+      og_type: "article",
+      og_title: "Start Banner - AppSolut Jeck",
+      og_url: "https://www.appsolutjeck.de/banner/start-banner/",
+      og_site_name: "AppSolut Jeck",
+      article_publisher: "https://www.facebook.com/appsolutjeck/",
+      article_modified_time: "2025-08-11T10:14:07+00:00",
+      og_image: [
+        {
+          width: 90,
+          height: 83,
+          url: "https://www.appsolutjeck.de/wp-content/uploads/2016/09/logo.gif",
+          type: "image/gif",
+        },
+      ],
+      twitter_card: "summary_large_image",
+      twitter_site: "@appsolutjeck",
+      schema: {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://www.appsolutjeck.de/banner/start-banner/",
+            url: "https://www.appsolutjeck.de/banner/start-banner/",
+            name: "Start Banner - AppSolut Jeck",
+            isPartOf: { "@id": "https://www.appsolutjeck.de/#website" },
+            datePublished: "2025-08-11T09:45:13+00:00",
+            dateModified: "2025-08-11T10:14:07+00:00",
+            breadcrumb: {
+              "@id":
+                "https://www.appsolutjeck.de/banner/start-banner/#breadcrumb",
+            },
+            inLanguage: "de",
+            potentialAction: [
+              {
+                "@type": "ReadAction",
+                target: ["https://www.appsolutjeck.de/banner/start-banner/"],
+              },
+            ],
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id":
+              "https://www.appsolutjeck.de/banner/start-banner/#breadcrumb",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Startseite",
+                item: "https://www.appsolutjeck.de/",
+              },
+              { "@type": "ListItem", position: 2, name: "Start Banner" },
+            ],
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.appsolutjeck.de/#website",
+            url: "https://www.appsolutjeck.de/",
+            name: "AppSolut Jeck",
+            description:
+              "AppSolut Jeck \u2013 der Blog zum K\u00f6lner Karneval",
+            potentialAction: [
+              {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate:
+                    "https://www.appsolutjeck.de/?s={search_term_string}",
+                },
+                "query-input": {
+                  "@type": "PropertyValueSpecification",
+                  valueRequired: true,
+                  valueName: "search_term_string",
+                },
+              },
+            ],
+            inLanguage: "de",
+          },
+        ],
+      },
+    },
+    _links: {
+      self: [
+        {
+          href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner/18029",
+          targetHints: { allow: ["GET"] },
+        },
+      ],
+      collection: [
+        { href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner" },
+      ],
+      about: [
+        { href: "https://www.appsolutjeck.de/wp-json/wp/v2/types/banner" },
+      ],
+      "wp:attachment": [
+        {
+          href: "https://www.appsolutjeck.de/wp-json/wp/v2/media?parent=18029",
+        },
+      ],
+      "wp:term": [
+        {
+          taxonomy: "banner-categories",
+          embeddable: true,
+          href: "https://www.appsolutjeck.de/wp-json/wp/v2/banner-categories?post=18029",
+        },
+      ],
+      curies: [
+        { name: "wp", href: "https://api.w.org/{rel}", templated: true },
+      ],
+    },
+  },
+];
+
+
+//  LOG  getBannerList [{"acf": {"banner_image_url": "https://www.appsolutjeck.de/wp-content/uploads/2024/07/header-banner-1.jpg", "banner_url": "https://banner.com"}}]
+//  LOG  getBannerDetails [{"acf": {"banner_image_url": "https://www.appsolutjeck.de/wp-content/uploads/2025/08/black-friday-1898114-1280.webp", "banner_url": "https://test.de"}}]
+//  LOG  getBannerStart [{"acf": {"banner_image_url": "https://www.appsolutjeck.de/wp-content/uploads/2025/08/opening-page.png", "banner_url": "https://www.sparkasse-koelnbonn.de/"}}]
