@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, SectionList, Pressable } from "react-native";
 
 import { Colors } from "../constants/colors";
-import { Font } from "../constants/fonts";
 
 function AlphabeticalSectionList<T>({
   sections,

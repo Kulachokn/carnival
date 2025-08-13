@@ -13,6 +13,7 @@ import { RouteProp } from "@react-navigation/native";
 
 import * as Clipboard from "expo-clipboard";
 import Feather from "@expo/vector-icons/Feather";
+import Toast from "react-native-toast-message";
 
 import { RootStackParamList } from "../types/navigation";
 import { Colors } from "../constants/colors";
@@ -33,9 +34,19 @@ const VeranstaltungsortScreen: React.FC<Props> = ({ route }) => {
 
   const { coords, isLoading } = useGeocodeAddress(ort.address);
 
+  // const handleCopyAddress = () => {
+  //   Clipboard.setStringAsync(ort.address);
+  //   Alert.alert("Adresse kopiert");
+  // };
+
   const handleCopyAddress = () => {
     Clipboard.setStringAsync(ort.address);
-    Alert.alert("Adresse kopiert");
+    Toast.show({
+      type: "success",
+      text1: "Adresse kopiert",
+      position: "bottom",
+      visibilityTime: 1500,
+    });
   };
 
   const handleOpenWebsite = () => {
@@ -87,10 +98,6 @@ const VeranstaltungsortScreen: React.FC<Props> = ({ route }) => {
       <TouchableOpacity style={styles.websiteBtn} onPress={handleOpenWebsite}>
         <Text style={styles.websiteBtnText}>Website des Veranstalters</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.routeBtn} onPress={handleRoute}>
-        <Text style={styles.routeBtnText}>Route berechnen</Text>
-        <Feather name="external-link" size={18} color={Colors.text800} style={{ marginLeft: 8 }} />
-      </TouchableOpacity> */}
     </ScrollView>
   );
 };
@@ -143,19 +150,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  // routeBtn: {
-  //   backgroundColor: Colors.card200,
-  //   borderRadius: 24,
-  //   paddingVertical: 12,
-  //   alignItems: "center",
-  //   flexDirection: "row",
-  //   justifyContent: "center",
-  // },
-  // routeBtnText: {
-  //   color: Colors.text800,
-  //   fontSize: 16,
-  //   fontWeight: "bold",
-  // },
 });
 
 export default VeranstaltungsortScreen;

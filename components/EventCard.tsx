@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Colors.card100,
     borderRadius: 16,
-    marginBottom: 16,
+    marginBottom: 18,
     shadowColor: Colors.text800,
     shadowOpacity: 0.08,
     shadowRadius: 8,
@@ -39,12 +39,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     alignItems: 'center',
     padding: 8,
-  },
-  cardImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 12,
-    marginRight: 12,
   },
   cardContent: {
     flex: 1,

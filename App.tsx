@@ -15,6 +15,7 @@ import OrteScreen from "./screens/OrteScreen";
 import VeranstaltungScreen from "./screens/VeranstaltungScreen";
 import GesellschaftScreen from "./screens/GesellschaftScreen";
 import VeranstaltungsortScreen from "./screens/VeranstaltungsortScreen";
+import Toast from 'react-native-toast-message';
 
 import { Colors } from "./constants/colors";
 import { RootStackParamList } from "./types/navigation";
@@ -54,7 +55,8 @@ function TermineStackScreen() {
           title: "Veranstaltung",
           headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
-          headerBackTitle: route.params?.from ?? "Zurück",
+          // headerBackTitle: route.params?.from ?? "Zurück",
+          headerBackTitle: "Termine",
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
@@ -244,7 +246,7 @@ export default function App() {
               fontWeight: "bold",
             },
             tabBarActiveTintColor: Colors.white,
-            tabBarInactiveTintColor: Colors.card100,
+            tabBarInactiveTintColor: Colors.card400,
             tabBarIconStyle: {
               marginBottom: 5,
             },
@@ -259,7 +261,7 @@ export default function App() {
                 <FontAwesome name="calendar-check-o" size={24} color={color} />
               ),
               tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card100,
+              tabBarInactiveTintColor: Colors.card400,
             }}
           />
           <BottomTab.Screen
@@ -271,7 +273,7 @@ export default function App() {
                 <FontAwesome name="search" size={24} color={color} />
               ),
               tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card100,
+              tabBarInactiveTintColor: Colors.card400,
             }}
           />
           <BottomTab.Screen
@@ -283,7 +285,7 @@ export default function App() {
                 <FontAwesome6 name="masks-theater" size={24} color={color} />
               ),
               tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card100,
+              tabBarInactiveTintColor: Colors.card400,
             }}
           />
           <BottomTab.Screen
@@ -295,11 +297,12 @@ export default function App() {
                 <FontAwesome6 name="location-dot" size={24} color={color} />
               ),
               tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card100,
+              tabBarInactiveTintColor: Colors.card400,
             }}
           />
         </BottomTab.Navigator>
       </NavigationContainer>
+      <Toast />
     </>
   );
 }

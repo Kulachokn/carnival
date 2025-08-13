@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import he from "he";
 
 import AlphabeticalSectionList from "./AlphabeticalSectionList";
 import InputSearch from "./InputSearch";
@@ -49,7 +50,7 @@ export default function SearchableAlphabeticalList<T>({
         sections={sections}
         keyExtractor={getItemKey}
         renderItem={(item) => (
-          <Text style={styles.itemBox}>{getItemLabel(item)}</Text>
+          <Text style={styles.itemBox}>{he.decode(getItemLabel(item))}</Text>
         )}
         onPressItem={onPressItem}
       />
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.card100,
     borderRadius: 12,
     marginHorizontal: 16,
-    marginBottom: 8,
+    marginVertical: 6,
     padding: 14,
   },
 });
