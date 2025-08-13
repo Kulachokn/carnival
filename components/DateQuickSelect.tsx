@@ -44,7 +44,7 @@ const DateQuickSelect: React.FC<DateQuickSelectProps> = ({
 const styles = StyleSheet.create({
   dateRow: {
     flexDirection: "row",
-    marginBottom: 12,
+    marginBottom: 20,
   },
   dateBtn: {
     flex: 1,

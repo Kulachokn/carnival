@@ -17,6 +17,7 @@ export default function CategoryDropdown({ categories, selectedCategory, onSelec
       data={categories}
       onSelect={onSelectCategory}
       searchPlaceHolder="Kategorie wählen"
+      dropdownStyle={{ borderRadius: 12 }}
       renderButton={() => (
         <View style={styles.button}>
           <Text style={styles.buttonText}>
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#ccc',
+    marginBottom: 20,
   },
   buttonText: {
     color: '#333',

@@ -4,6 +4,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ScrollView
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -116,7 +117,7 @@ function SucheScreen() {
   }
 
   return (
-    <View style={styles.container}>
+       <ScrollView contentContainerStyle={[styles.container, { flexGrow: 1 }]}>
       <InputSearch value={pendingSearch} onChangeText={setPendingSearch} />
       <Text style={styles.label}>Datum</Text>
       <DateQuickSelect
@@ -216,20 +217,19 @@ function SucheScreen() {
             Keine Ergebnisse gefunden.
           </Text>
         ) : (
-          <EventList events={filteredEvents} onPressEvent={onPressEvent} />
+          <EventList events={filteredEvents} onPressEvent={onPressEvent} disableScroll/>
         )
       ) : (
         <Text style={{ color: Colors.text500, marginTop: 10 }}>
           Bitte wähle mindestens einen Filter und drücke "Suche".
         </Text>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.white,
     padding: 16,
   },

@@ -43,7 +43,7 @@ export function EventMap({
             />
           </MapView>
           <Pressable style={styles.mapButtonFloating} onPress={onPressMapButton}>
-            <Feather name="external-link" size={24} color={Colors.primaryRed} />
+            <Feather name="external-link" size={24} color={Colors.white} />
           </Pressable>
         </>
       ) : (
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 12,
     right: 12,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.primaryRed,
     borderRadius: 16,
     paddingVertical: 6,
     paddingHorizontal: 14,

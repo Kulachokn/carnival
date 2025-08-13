@@ -1,5 +1,5 @@
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useRef, useEffect } from "react";
+import { View, TouchableOpacity, Text, StyleSheet, Animated } from "react-native";
 import { Colors } from "../constants/colors";
 
 interface Props {
@@ -8,24 +8,56 @@ interface Props {
 }
 
 export function ToggleButtons({ showUpcoming, setShowUpcoming }: Props) {
+  const translateX = useRef(new Animated.Value(showUpcoming ? 0 : 1)).current;
+
+  useEffect(() => {
+    Animated.timing(translateX, {
+      toValue: showUpcoming ? 0 : 1,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  }, [showUpcoming]);
+
+  // Interpolate pill position
+  const pillPosition = translateX.interpolate({
+    inputRange: [0, 1],
+    outputRange: [4, 160], // left padding to halfway (assuming container width is ~320px)
+  });
+
   return (
     <View style={styles.toggleContainer}>
+      <Animated.View
+        style={[
+          styles.pill,
+          {
+            left: pillPosition,
+          },
+        ]}
+      />
       <TouchableOpacity
-        style={[styles.toggleButton, showUpcoming && styles.toggleActive]}
+        style={styles.segment}
         onPress={() => setShowUpcoming(true)}
+        activeOpacity={0.8}
       >
         <Text
-          style={[styles.toggleText, showUpcoming && styles.toggleTextActive]}
+          style={[
+            styles.segmentText,
+            showUpcoming && styles.segmentTextActive,
+          ]}
         >
           Demnächst
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.toggleButton, !showUpcoming && styles.toggleActive]}
+        style={styles.segment}
         onPress={() => setShowUpcoming(false)}
+        activeOpacity={0.8}
       >
         <Text
-          style={[styles.toggleText, !showUpcoming && styles.toggleTextActive]}
+          style={[
+            styles.segmentText,
+            !showUpcoming && styles.segmentTextActive,
+          ]}
         >
           Zurückliegend
         </Text>
@@ -43,22 +75,30 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 4,
     width: "80%",
+    position: "relative",
+    overflow: "hidden",
   },
-  toggleButton: {
-    flex: 1,
-    paddingVertical: 8,
-    borderRadius: 20,
-    alignItems: "center",
-  },
-  toggleActive: {
+  pill: {
+    position: "absolute",
+    top: 4,
+    bottom: 4,
+    width: "48%",
     backgroundColor: Colors.primaryRed,
+    borderRadius: 20,
+    zIndex: 0,
   },
-  toggleText: {
+  segment: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+    zIndex: 1,
+  },
+  segmentText: {
     color: Colors.primaryRed,
     fontWeight: "bold",
     fontSize: 16,
   },
-  toggleTextActive: {
+  segmentTextActive: {
     color: Colors.white,
   },
 });
