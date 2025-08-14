@@ -16,21 +16,24 @@ import VeranstaltungScreen from "./screens/VeranstaltungScreen";
 import GesellschaftScreen from "./screens/GesellschaftScreen";
 import VeranstaltungsortScreen from "./screens/VeranstaltungsortScreen";
 import Toast from 'react-native-toast-message';
+import SplashAdScreen from "./screens/SplashAdScreen";
 
 import { Colors } from "./constants/colors";
 import { RootStackParamList } from "./types/navigation";
+
 
 const BottomTab = createBottomTabNavigator();
 const TermineStack = createStackNavigator<RootStackParamList>();
 const SucheStack = createStackNavigator<RootStackParamList>();
 const GesellschaftenStack = createStackNavigator<RootStackParamList>();
 const OrteStack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 function TermineStackScreen() {
   return (
     <TermineStack.Navigator>
       <TermineStack.Screen
-        name="Alle Termine"
+        name="Termine"
         component={TermineScreen}
         options={{
           title: "Alle Termine",
@@ -228,79 +231,88 @@ function OrteStackScreen() {
   );
 }
 
+function MainTabs() {
+  return (
+    <BottomTab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: Colors.primaryRed,
+          height: 80,
+          paddingTop: 5,
+        },
+        tabBarLabelStyle: {
+          fontSize: 14,
+          fontWeight: "bold",
+        },
+        tabBarActiveTintColor: Colors.white,
+        tabBarInactiveTintColor: Colors.card400,
+        tabBarIconStyle: {
+          marginBottom: 5,
+        },
+      }}
+    >
+      <BottomTab.Screen
+        name="AlleTermineTab"
+        component={TermineStackScreen}
+        options={{
+          tabBarLabel: "Termine",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="calendar-check-o" size={24} color={color} />
+          ),
+          tabBarActiveTintColor: Colors.white,
+          tabBarInactiveTintColor: Colors.card400,
+        }}
+      />
+      <BottomTab.Screen
+        name="SucheTab"
+        component={SucheStackScreen}
+        options={{
+          tabBarLabel: "Suche",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="search" size={24} color={color} />
+          ),
+          tabBarActiveTintColor: Colors.white,
+          tabBarInactiveTintColor: Colors.card400,
+        }}
+      />
+      <BottomTab.Screen
+        name="GesellschaftenTab"
+        component={GesellschaftenStackScreen}
+        options={{
+          tabBarLabel: "Gesellschaften",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome6 name="masks-theater" size={24} color={color} />
+          ),
+          tabBarActiveTintColor: Colors.white,
+          tabBarInactiveTintColor: Colors.card400,
+        }}
+      />
+      <BottomTab.Screen
+        name="OrteTab"
+        component={OrteStackScreen}
+        options={{
+          tabBarLabel: "Orte",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome6 name="location-dot" size={24} color={color} />
+          ),
+          tabBarActiveTintColor: Colors.white,
+          tabBarInactiveTintColor: Colors.card400,
+        }}
+      />
+    </BottomTab.Navigator>
+  );
+}
+
 export default function App() {
   return (
     <>
       <StatusBar style="light" />
       <NavigationContainer>
-        <BottomTab.Navigator
-          screenOptions={{
-            headerShown: false,
-            tabBarStyle: {
-              backgroundColor: Colors.primaryRed,
-              height: 80,
-              paddingTop: 5,
-            },
-            tabBarLabelStyle: {
-              fontSize: 14,
-              fontWeight: "bold",
-            },
-            tabBarActiveTintColor: Colors.white,
-            tabBarInactiveTintColor: Colors.card400,
-            tabBarIconStyle: {
-              marginBottom: 5,
-            },
-          }}
-        >
-          <BottomTab.Screen
-            name="AlleTermineTab"
-            component={TermineStackScreen}
-            options={{
-              tabBarLabel: "Termine",
-              tabBarIcon: ({ color }) => (
-                <FontAwesome name="calendar-check-o" size={24} color={color} />
-              ),
-              tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card400,
-            }}
-          />
-          <BottomTab.Screen
-            name="SucheTab"
-            component={SucheStackScreen}
-            options={{
-              tabBarLabel: "Suche",
-              tabBarIcon: ({ color }) => (
-                <FontAwesome name="search" size={24} color={color} />
-              ),
-              tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card400,
-            }}
-          />
-          <BottomTab.Screen
-            name="GesellschaftenTab"
-            component={GesellschaftenStackScreen}
-            options={{
-              tabBarLabel: "Gesellschaften",
-              tabBarIcon: ({ color }) => (
-                <FontAwesome6 name="masks-theater" size={24} color={color} />
-              ),
-              tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card400,
-            }}
-          />
-          <BottomTab.Screen
-            name="OrteTab"
-            component={OrteStackScreen}
-            options={{
-              tabBarLabel: "Orte",
-              tabBarIcon: ({ color }) => (
-                <FontAwesome6 name="location-dot" size={24} color={color} />
-              ),
-              tabBarActiveTintColor: Colors.white,
-              tabBarInactiveTintColor: Colors.card400,
-            }}
-          />
-        </BottomTab.Navigator>
+        <Stack.Navigator initialRouteName="SplashAd" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="SplashAd" component={SplashAdScreen} />
+          <Stack.Screen name="MainTabs" component={MainTabs} />
+        </Stack.Navigator>
       </NavigationContainer>
       <Toast />
     </>

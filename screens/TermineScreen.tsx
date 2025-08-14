@@ -13,7 +13,6 @@ import { EventOnEvent } from "../types/event";
 import { RootStackParamList } from "../types/navigation";
 
 import api from "../api/services";
-// import {getBannerDetails, getBannerList, getBannerStart} from "../api/services";
 
 function TermineScreen() {
   const [events, setEvents] = useState<EventOnEvent[]>([]);
@@ -21,7 +20,7 @@ function TermineScreen() {
 
   type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,
-    "Alle Termine"
+    "Termine"
   >;
 
   const navigation = useNavigation<NavigationProp>();
@@ -31,20 +30,6 @@ function TermineScreen() {
       setEvents(res);
     });
   }, []);
-
-  // Fetch banners for the screen
-  // useEffect(() => {
-  //   getBannerList().then((banners) => {
-  //     console.log("getBannerList", banners);
-  //   });
-  //   getBannerDetails().then((banners) => {
-  //     console.log("getBannerDetails", banners);
-  //   });
-  //   getBannerStart().then((banners) => {
-  //     console.log("getBannerStart", banners);
-  //   });
-  // }, []);
-
 
   const filteredEvents = useMemo(
     () => filterEvents(events, showUpcoming),
