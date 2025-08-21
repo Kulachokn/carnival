@@ -11,12 +11,16 @@ import { Colors } from "../constants/colors";
 
 import { EventOnEvent } from "../types/event";
 import { RootStackParamList } from "../types/navigation";
+import { Banner } from "../types/banner";
 
 import api from "../api/services";
 
 function TermineScreen() {
   const [events, setEvents] = useState<EventOnEvent[]>([]);
   const [showUpcoming, setShowUpcoming] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
+  const [bannersList, setBannersList] = useState<Banner[]>([]);
 
   type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -28,6 +32,10 @@ function TermineScreen() {
   useEffect(() => {
     api.fetchEvents().then((res) => {
       setEvents(res);
+    });
+    api.fetchBannersByType("list").then((banners) => {
+      setBannersList(banners);
+      console.log(banners);
     });
   }, []);
 
@@ -46,7 +54,7 @@ function TermineScreen() {
         showUpcoming={showUpcoming}
         setShowUpcoming={setShowUpcoming}
       />
-      <EventList events={filteredEvents} onPressEvent={onPressEvent} />
+      <EventList bannerList={bannersList} events={filteredEvents} onPressEvent={onPressEvent} />
     </View>
   );
 }

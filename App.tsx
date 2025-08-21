@@ -150,7 +150,7 @@ function GesellschaftenStackScreen() {
           headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
-          headerBackTitleStyle: { fontSize: 18 },
+          headerBackTitleStyle: { fontSize: 16 },
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (

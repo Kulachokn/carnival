@@ -4,7 +4,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -21,6 +21,7 @@ import { formatShortDate } from "../utils/formatFunctions";
 import DateQuickSelect from "../components/DateQuickSelect";
 import CalendarModal from "../components/CalendarModal";
 import InputSearch from "../components/InputSearch";
+import { Banner } from "../types/banner";
 
 configureGermanCalendarLocale();
 
@@ -51,11 +52,14 @@ function SucheScreen() {
   const [events, setEvents] = useState<EventOnEvent[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
 
+  const [bannersList, setBannersList] = useState<Banner[]>([]);
+  const BANNER_TYPE_LIST = 'list';
+
   type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Suche">;
   const navigation = useNavigation<NavigationProp>();
 
   useEffect(() => {
-    api.getCachedEvents().then((eventsArray) => {
+    api.fetchEvents().then((eventsArray: EventOnEvent[] | null) => {
       setEvents(eventsArray ?? []);
 
       // Extract unique categories
@@ -72,6 +76,10 @@ function SucheScreen() {
         ([id, name]) => ({ label: name, value: id })
       );
       setCategoriesList(categoriesList);
+    });
+   
+    api.fetchBannersByType(BANNER_TYPE_LIST).then((bannersArray: Banner[] | null) => {
+      setBannersList(bannersArray ?? []);
     });
   }, []);
 
@@ -117,7 +125,7 @@ function SucheScreen() {
   }
 
   return (
-       <ScrollView contentContainerStyle={[styles.container, { flexGrow: 1 }]}>
+    <ScrollView contentContainerStyle={[styles.container, { flexGrow: 1 }]}>
       <InputSearch value={pendingSearch} onChangeText={setPendingSearch} />
       <Text style={styles.label}>Datum</Text>
       <DateQuickSelect
@@ -217,7 +225,12 @@ function SucheScreen() {
             Keine Ergebnisse gefunden.
           </Text>
         ) : (
-          <EventList events={filteredEvents} onPressEvent={onPressEvent} disableScroll/>
+          <EventList
+            bannerList={bannersList}
+            events={filteredEvents}
+            onPressEvent={onPressEvent}
+            disableScroll
+          />
         )
       ) : (
         <Text style={{ color: Colors.text500, marginTop: 10 }}>

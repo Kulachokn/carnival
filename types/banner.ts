@@ -3,13 +3,7 @@ export type Banner = {
   acf: {
     banner_url: string;
     banner_image_url: string;
-    // add other fields if needed
-     image?: string;
-  link?: string;
-  category?: string;
-  title?: string;
   };
-
 };
 
 export type BannersResponse = {
