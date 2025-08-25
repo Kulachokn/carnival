@@ -3,6 +3,7 @@
     "name": "carnival",
     "slug": "carnival",
     "version": "1.0.0",
+    "owner": "kunoichi_dev",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -40,7 +41,6 @@
     },
     "updates": {
       "url": "https://u.expo.dev/0b6d4bc7-25a6-4247-bc60-7532aa2beef0"
-    },
-    "owner": "kunoichi_dev"
+    }
   }
 }

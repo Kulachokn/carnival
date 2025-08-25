@@ -7,6 +7,7 @@ import {
   Linking,
   Platform,
   Alert,
+  Image,
 } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 
@@ -19,6 +20,8 @@ import { InfoBox } from "../components/InfoBox";
 import { EventMap } from "../components/EventMap";
 import { useGeocodeAddress } from "../hooks/useGeocodeAddress";
 
+import { useDataContext } from "../context/DataContext";
+
 type VeranstaltungScreenRouteProp = RouteProp<
   RootStackParamList,
   "Veranstaltung"
@@ -30,6 +33,12 @@ type Props = {
 
 const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
   const event: EventOnEvent = route.params.event;
+
+  const { banners } = useDataContext();
+  const bannerForEvent =
+  banners.details && banners.details.length > 0
+    ? banners.details[Math.floor(Math.random() * banners.details.length)]
+    : undefined;
 
   const { coords, isLoading } = useGeocodeAddress(event.location_address);
 
@@ -84,10 +93,14 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
         <PrimaryButton onPress={handleBuyTickets}>Tickets kaufen</PrimaryButton>
       </View>
 
-      <View style={styles.adContainer}>
-        <Text style={styles.adText}>Werbung</Text>
+      <View style={styles.imgContainer}>
+        {bannerForEvent && bannerForEvent.acf && (
+          <Image
+            source={{ uri: bannerForEvent.acf.banner_image_url }}
+            style={styles.image}
+          />
+        )}
       </View>
-
       <InfoBox event={event} />
     </ScrollView>
   );
@@ -128,6 +141,16 @@ const styles = StyleSheet.create({
   adText: {
     color: Colors.text500,
     fontSize: 16,
+  },
+  imgContainer: {
+    borderRadius: 8,
+    overflow: "hidden",
+    marginBottom: 12,
+  },
+  image: {
+    width: "100%",
+    height: 140,
+    resizeMode: "stretch",
   },
 });
 
