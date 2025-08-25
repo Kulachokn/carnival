@@ -21,6 +21,8 @@ import SplashAdScreen from "./screens/SplashAdScreen";
 import { Colors } from "./constants/colors";
 import { RootStackParamList } from "./types/navigation";
 
+import {DataProvider} from "./context/DataContext";
+
 
 const BottomTab = createBottomTabNavigator();
 const TermineStack = createStackNavigator<RootStackParamList>();
@@ -171,6 +173,7 @@ function GesellschaftenStackScreen() {
           headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
+           headerBackTitleStyle: { fontSize: 16 },
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
           headerRight: () => (
@@ -306,7 +309,7 @@ function MainTabs() {
 
 export default function App() {
   return (
-    <>
+    <DataProvider>
       <StatusBar style="light" />
       <NavigationContainer>
         <Stack.Navigator initialRouteName="SplashAd" screenOptions={{ headerShown: false }}>
@@ -315,6 +318,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />
-    </>
+    </DataProvider>
   );
 }

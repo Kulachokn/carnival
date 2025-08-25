@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import api from "../api/services";
 import { Colors } from "../constants/colors";
 import { RootStackParamList } from "../types/navigation";
-import { Veranstaltungsort } from "../types/Veranstaltungsort";
+import { Veranstaltungsort } from "../types/veranstaltungsort";
 import SearchableAlphabeticalList from "../components/SearchableAlphabeticalList";
 
 function OrteScreen() {
@@ -17,7 +17,7 @@ function OrteScreen() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    api.getCachedEvents().then((eventsArray) => {
+    api.fetchEvents().then((eventsArray) => {
       const ortMap = new Map<string, Veranstaltungsort>();
       (eventsArray ?? []).forEach((event) => {
         if (event.organizer_name && event.organizer_tax) {

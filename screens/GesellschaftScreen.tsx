@@ -29,7 +29,6 @@ function GesellschaftScreen({ route }: Props) {
   const [events, setEvents] = useState<EventOnEvent[]>([]);
 
   const org: Gesellschaft = route.params.gesellschaft;
-  // console.log(route.params);
 
   type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -39,7 +38,7 @@ function GesellschaftScreen({ route }: Props) {
 
   useEffect(() => {
     api
-      .getCachedEvents()
+      .fetchEvents()
       .then((eventsArray) => {
         const filteredEvt = eventsArray?.filter(
           (event) => event.organizer_tax === org.tax
@@ -73,7 +72,7 @@ function GesellschaftScreen({ route }: Props) {
           </TouchableOpacity>
         ) : null}
       </View>
-      <EventList events={events} onPressEvent={onPressEvent} />
+      <EventList events={events} onPressEvent={onPressEvent} bannerList={[]} />
     </View>
   );
 }

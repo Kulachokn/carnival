@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { StyleSheet, View} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -11,16 +11,16 @@ import { Colors } from "../constants/colors";
 
 import { EventOnEvent } from "../types/event";
 import { RootStackParamList } from "../types/navigation";
-import { Banner } from "../types/banner";
 
-import api from "../api/services";
+import { useDataContext } from "../context/DataContext";
 
 function TermineScreen() {
-  const [events, setEvents] = useState<EventOnEvent[]>([]);
   const [showUpcoming, setShowUpcoming] = useState(true);
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState<string | null>(null);
-  const [bannersList, setBannersList] = useState<Banner[]>([]);
+
+  const { events, banners } = useDataContext();
+  const bannersList = banners.list;
 
   type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -28,16 +28,14 @@ function TermineScreen() {
   >;
 
   const navigation = useNavigation<NavigationProp>();
-
-  useEffect(() => {
-    api.fetchEvents().then((res) => {
-      setEvents(res);
-    });
-    api.fetchBannersByType("list").then((banners) => {
-      setBannersList(banners);
-      console.log(banners);
-    });
-  }, []);
+  //   api.fetchEvents().then((res) => {
+  //     setEvents(res);
+  //   });
+  //   api.fetchBannersByType("list").then((banners) => {
+  //     setBannersList(banners);
+  //     console.log(banners);
+  //   });
+  // }, []);
 
   const filteredEvents = useMemo(
     () => filterEvents(events, showUpcoming),

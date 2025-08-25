@@ -20,7 +20,7 @@ function GesellschaftenScreen() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    api.getCachedEvents().then((eventsArray) => {
+    api.fetchEvents().then((eventsArray) => {
       const orgMap = new Map<string, Gesellschaft>();
       (eventsArray ?? []).forEach((event) => {
         orgMap.set(String(event.organizer_tax), {

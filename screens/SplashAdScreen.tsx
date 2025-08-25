@@ -15,9 +15,16 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import api from "../api/services";
 import { RootStackParamList } from "../types/navigation";
 
+import { useDataContext } from "../context/DataContext";
+
 function SplashAdScreen() {
   const [banner, setBanner] = useState<Banner | null>(null);
-  const [countdown, setCountdown] = useState(3);
+  const [countdown, setCountdown] = useState(5);
+
+  const { setEvents, setBanners } = useDataContext();
+
+  const { banners } = useDataContext();
+  const splashBanner = banners.start[0];
 
   type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -26,58 +33,67 @@ function SplashAdScreen() {
 
   const navigation = useNavigation<NavigationProp>();
 
-//   useEffect(() => {
-//     let timer: NodeJS.Timeout;
+  //   useEffect(() => {
+  //     let isMounted = true;
+  //     let timer: NodeJS.Timeout;
 
-//     api.fetchBannersByType("start").then((banners) => {
-//         console.log(banners[0]);
-//       if (banners.length > 0) setBanner(banners[0]);
-//     });
+  //     api.fetchBannersByType("start").then((banners) => {
+  //       if (isMounted && banners.length > 0) {
+  //         setBanner(banners[0]);
+  //       }
+  //     });
 
-//     // Запускаємо таймер
-//     timer = setInterval(() => {
-//       setCountdown((prev) => {
-//         if (prev <= 1) {
-//           clearInterval(timer);
-//             navigation.replace("MainTabs");
-//           return 0;
-//         }
-//         return prev - 1;
-//       });
-//     }, 1000);
+  //   timer = setInterval(() => {
+  //     setCountdown((prev) => {
+  //       if (prev <= 1) {
+  //         clearInterval(timer);
 
-//     // Cleanup function to clear interval on unmount
-//     return () => clearInterval(timer);
-//   }, []);
+  //         setTimeout(() => navigation.replace("MainTabs"), 0);
+  //         return 0;
+  //       }
+  //       return prev - 1;
+  //     });
+  //   }, 1000);
 
-useEffect(() => {
-  let isMounted = true;
-  let timer: NodeJS.Timeout;
+  //   return () => {
+  //     isMounted = false;
+  //     clearInterval(timer);
+  //   };
+  //   }, []);
 
-  api.fetchBannersByType("start").then((banners) => {
-    if (isMounted && banners.length > 0) {
-      setBanner(banners[0]);
-    }
-  });
+  useEffect(() => {
+    let isMounted = true;
+    let timer: NodeJS.Timeout;
 
-  timer = setInterval(() => {
-    setCountdown((prev) => {
-      if (prev <= 1) {
-        clearInterval(timer);
+    Promise.all([api.fetchEvents(), api.fetchAllBanners()]).then(
+      ([events, banners]) => {
+        if (isMounted) {
+          setEvents(events);
+          setBanners(banners);
+        }
 
-        setTimeout(() => navigation.replace("MainTabs"), 0);
-        return 0;
+        timer = setInterval(() => {
+          setCountdown((prev) => {
+            if (prev <= 1) {
+              clearInterval(timer);
+
+              setTimeout(() => navigation.replace("MainTabs"), 0);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+
+        return () => {
+          isMounted = false;
+          clearInterval(timer);
+        };
       }
-      return prev - 1;
-    });
-  }, 1000);
-
-  return () => {
-    isMounted = false;
-    clearInterval(timer);
-  };
-}, []);
-
+    );
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -88,14 +104,14 @@ useEffect(() => {
       <TouchableOpacity
         style={styles.bannerWrapper}
         onPress={() => {
-          if (banner?.acf.banner_url) {
-            Linking.openURL(banner.acf.banner_url);
+          if (splashBanner?.acf.banner_url) {
+            Linking.openURL(splashBanner.acf.banner_url);
           }
         }}
         activeOpacity={0.9}
       >
         <Image
-          source={{ uri: banner?.acf.banner_image_url }}
+          source={{ uri: splashBanner?.acf.banner_image_url }}
           style={styles.banner}
         />
       </TouchableOpacity>
