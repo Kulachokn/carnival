@@ -1,7 +1,9 @@
 export const Colors = {
-  primaryRed: "#B11226",
+  // primaryRed: "#B11226",
+  primaryRed: "#D80027",
   secondaryRed: "#D72638",
   white: "#FFFFFF",
+  label: "#E4E5E7",
   card100: "#FAFAFA",
   card200: "#F3F6F7",
   card300: "#EAEBEC",
