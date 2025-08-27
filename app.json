@@ -7,7 +7,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -36,11 +35,10 @@
         "projectId": "0b6d4bc7-25a6-4247-bc60-7532aa2beef0"
       }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
     "updates": {
       "url": "https://u.expo.dev/0b6d4bc7-25a6-4247-bc60-7532aa2beef0"
-    }
+    },
+    "runtimeVersion": "exposdk:53.0.22"
+
   }
 }
