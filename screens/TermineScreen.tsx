@@ -3,7 +3,6 @@ import { StyleSheet, View} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { ToggleButtons } from "../components/ToggleButtons";
 import EventList from "../components/EventList";
 import { filterEvents } from "../utils/filterEvents";
 
@@ -16,8 +15,6 @@ import { useDataContext } from "../context/DataContext";
 
 function TermineScreen() {
   const [showUpcoming, setShowUpcoming] = useState(true);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState<string | null>(null);
 
   const { events, banners } = useDataContext();
   const bannersList = banners.list;
@@ -48,10 +45,6 @@ function TermineScreen() {
 
   return (
     <View style={styles.container}>
-      <ToggleButtons
-        showUpcoming={showUpcoming}
-        setShowUpcoming={setShowUpcoming}
-      />
       <EventList bannerList={bannersList} events={filteredEvents} onPressEvent={onPressEvent} />
     </View>
   );
