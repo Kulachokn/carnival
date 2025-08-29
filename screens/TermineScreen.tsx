@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { StyleSheet, View} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -12,6 +12,8 @@ import { EventOnEvent } from "../types/event";
 import { RootStackParamList } from "../types/navigation";
 
 import { useDataContext } from "../context/DataContext";
+import { useLayoutEffect } from "react";
+import Feather from "@expo/vector-icons/Feather";
 
 function TermineScreen() {
   const [showUpcoming, setShowUpcoming] = useState(true);
@@ -25,14 +27,17 @@ function TermineScreen() {
   >;
 
   const navigation = useNavigation<NavigationProp>();
-  //   api.fetchEvents().then((res) => {
-  //     setEvents(res);
-  //   });
-  //   api.fetchBannersByType("list").then((banners) => {
-  //     setBannersList(banners);
-  //     console.log(banners);
-  //   });
-  // }, []);
+  const { openImpressum } = useDataContext();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={openImpressum} style={{ marginLeft: 12 }}>
+          <Feather name="info" size={24} color={Colors.white} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, openImpressum]);
 
   const filteredEvents = useMemo(
     () => filterEvents(events, showUpcoming),
@@ -45,7 +50,11 @@ function TermineScreen() {
 
   return (
     <View style={styles.container}>
-      <EventList bannerList={bannersList} events={filteredEvents} onPressEvent={onPressEvent} />
+      <EventList
+        bannerList={bannersList}
+        events={filteredEvents}
+        onPressEvent={onPressEvent}
+      />
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -9,12 +9,28 @@ import { RootStackParamList } from "../types/navigation";
 import { Veranstaltungsort } from "../types/veranstaltungsort";
 import SearchableAlphabeticalList from "../components/SearchableAlphabeticalList";
 
+import { useDataContext } from "../context/DataContext";
+import { useLayoutEffect } from "react";
+import Feather from "@expo/vector-icons/Feather";
+
 function OrteScreen() {
   type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Orte">;
   const navigation = useNavigation<NavigationProp>();
 
   const [allLocs, setAllLocs] = useState<Veranstaltungsort[]>([]);
   const [search, setSearch] = useState("");
+
+  const { openImpressum } = useDataContext();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={openImpressum} style={{ marginLeft: 12 }}>
+          <Feather name="info" size={24} color={Colors.white} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, openImpressum]);
 
   useEffect(() => {
     api.fetchEvents().then((eventsArray) => {

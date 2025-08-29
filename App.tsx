@@ -65,7 +65,6 @@ function TermineStackScreen() {
           title: "Veranstaltung",
           headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
           headerTintColor: Colors.white,
-          // headerBackTitle: route.params?.from ?? "Zurück",
           headerBackTitle: "Termine",
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
@@ -88,21 +87,7 @@ function SucheStackScreen() {
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
-          headerRight: () => (
-            <Pressable
-              onPress={() => Linking.openURL("https://koelnerkarneval.de")}
-            >
-              <Image
-                source={Logo}
-                style={{
-                  width: 45,
-                  height: 45,
-                  marginRight: 16,
-                  marginBottom: 10,
-                }}
-              />
-            </Pressable>
-          ),
+          headerRight: () => <HeaderLogoButton />,
         }}
       />
       <SucheStack.Screen
@@ -270,7 +255,7 @@ function MainTabs() {
   );
 }
 
-export default function App() {
+export default function App() {  
   return (
     <DataProvider>
       <StatusBar style="light" />

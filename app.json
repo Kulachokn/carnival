@@ -28,15 +28,15 @@
       "package": "dev.kunoichi.appsolutjeck"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/itunesartwork_1024.png"
     },
     "extra": {
       "eas": {
-        "projectId": "0b6d4bc7-25a6-4247-bc60-7532aa2beef0"
+        "projectId": "f9b26001-c930-41d8-96c2-7a5ffe9f8709"
       }
     },
     "updates": {
-      "url": "https://u.expo.dev/0b6d4bc7-25a6-4247-bc60-7532aa2beef0"
+      "url": "https://u.expo.dev/f9b26001-c930-41d8-96c2-7a5ffe9f8709"
     },
     "runtimeVersion": "exposdk:53.0.22"
   }

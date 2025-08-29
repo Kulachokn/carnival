@@ -22,6 +22,7 @@
     "expo": "^53.0.22",
     "expo-clipboard": "~7.1.5",
     "expo-dev-client": "~5.2.4",
+    "expo-file-system": "~18.1.11",
     "expo-status-bar": "~2.2.3",
     "expo-updates": "~0.28.17",
     "he": "^1.2.0",
@@ -33,6 +34,7 @@
     "react-native-maps": "1.20.1",
     "react-native-modal-datetime-picker": "^18.0.0",
     "react-native-modal-selector": "^2.1.2",
+    "react-native-pdf": "^6.7.7",
     "react-native-picker-select": "^9.3.1",
     "react-native-root-toast": "^4.0.1",
     "react-native-safe-area-context": "^5.4.0",
@@ -42,7 +44,8 @@
     "react-native-svg-transformer": "^1.5.1",
     "react-native-switch": "^1.5.1",
     "react-native-toast-message": "^2.3.3",
-    "react-native-web": "^0.20.0"
+    "react-native-web": "^0.20.0",
+    "react-native-webview": "13.13.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

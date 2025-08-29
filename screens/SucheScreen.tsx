@@ -23,6 +23,10 @@ import CalendarModal from "../components/CalendarModal";
 import InputSearch from "../components/InputSearch";
 import { Banner } from "../types/banner";
 
+import { useDataContext } from "../context/DataContext";
+import { useLayoutEffect } from "react";
+import Feather from "@expo/vector-icons/Feather";
+
 configureGermanCalendarLocale();
 
 function SucheScreen() {
@@ -57,6 +61,18 @@ function SucheScreen() {
 
   type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Suche">;
   const navigation = useNavigation<NavigationProp>();
+
+   const { openImpressum } = useDataContext();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={openImpressum} style={{ marginLeft: 12 }}>
+          <Feather name="info" size={24} color={Colors.white} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, openImpressum]);
 
   useEffect(() => {
     api.fetchEvents().then((eventsArray: EventOnEvent[] | null) => {
