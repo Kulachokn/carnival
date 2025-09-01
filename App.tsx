@@ -22,6 +22,9 @@ import { RootStackParamList } from "./types/navigation";
 
 import { DataProvider } from "./context/DataContext";
 
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 const BottomTab = createBottomTabNavigator();
 const TermineStack = createStackNavigator<RootStackParamList>();
 const SucheStack = createStackNavigator<RootStackParamList>();
@@ -43,6 +46,7 @@ const HeaderLogoButton = () => (
 );
 
 function TermineStackScreen() {
+   const insets = useSafeAreaInsets();
   return (
     <TermineStack.Navigator>
       <TermineStack.Screen
@@ -50,7 +54,7 @@ function TermineStackScreen() {
         component={TermineScreen}
         options={{
           title: "Alle Termine",
-          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
@@ -63,7 +67,7 @@ function TermineStackScreen() {
         options={({ route }) => ({
           headerShown: true,
           title: "Veranstaltung",
-          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
           headerBackTitle: "Termine",
           headerTitleAlign: "center",
@@ -76,6 +80,7 @@ function TermineStackScreen() {
 }
 
 function SucheStackScreen() {
+  const insets = useSafeAreaInsets();
   return (
     <SucheStack.Navigator>
       <SucheStack.Screen
@@ -83,7 +88,7 @@ function SucheStackScreen() {
         component={SucheScreen}
         options={{
           title: "Suche",
-          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
@@ -96,7 +101,7 @@ function SucheStackScreen() {
         options={({ route }) => ({
           headerShown: true,
           title: "Veranstaltung",
-          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
@@ -109,6 +114,7 @@ function SucheStackScreen() {
 }
 
 function GesellschaftenStackScreen() {
+  const insets = useSafeAreaInsets();
   return (
     <GesellschaftenStack.Navigator>
       <GesellschaftenStack.Screen
@@ -116,7 +122,7 @@ function GesellschaftenStackScreen() {
         component={GesellschaftenScreen}
         options={{
           title: "Gesellschaften",
-          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
@@ -129,7 +135,7 @@ function GesellschaftenStackScreen() {
         options={({ route }) => ({
           headerShown: true,
           title: "Gesellschaft",
-          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerBackTitleStyle: { fontSize: 16 },
@@ -144,7 +150,7 @@ function GesellschaftenStackScreen() {
         options={({ route }) => ({
           headerShown: true,
           title: "Veranstaltung",
-          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerBackTitleStyle: { fontSize: 16 },
@@ -158,6 +164,7 @@ function GesellschaftenStackScreen() {
 }
 
 function OrteStackScreen() {
+  const insets = useSafeAreaInsets();
   return (
     <OrteStack.Navigator>
       <OrteStack.Screen
@@ -165,7 +172,7 @@ function OrteStackScreen() {
         component={OrteScreen}
         options={{
           title: "Orte",
-          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
@@ -178,7 +185,7 @@ function OrteStackScreen() {
         options={({ route }) => ({
           headerShown: true,
           title: "Veranstaltungsort",
-          headerStyle: { backgroundColor: Colors.primaryRed, height: 100 },
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
@@ -191,13 +198,15 @@ function OrteStackScreen() {
 }
 
 function MainTabs() {
+   const insets = useSafeAreaInsets();
   return (
     <BottomTab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
           backgroundColor: Colors.primaryRed,
-          height: 80,
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom,
           paddingTop: 5,
         },
         tabBarLabelStyle: {
@@ -255,20 +264,22 @@ function MainTabs() {
   );
 }
 
-export default function App() {  
+export default function App() {
   return (
-    <DataProvider>
-      <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="SplashAd"
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="SplashAd" component={SplashAdScreen} />
-          <Stack.Screen name="MainTabs" component={MainTabs} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      <Toast />
-    </DataProvider>
+    <SafeAreaProvider>
+      <DataProvider>
+        <StatusBar style="light" backgroundColor={Colors.primaryRed} />
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="SplashAd"
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="SplashAd" component={SplashAdScreen} />
+            <Stack.Screen name="MainTabs" component={MainTabs} />
+          </Stack.Navigator>
+        </NavigationContainer>
+        <Toast />
+      </DataProvider>
+    </SafeAreaProvider>
   );
 }
