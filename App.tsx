@@ -268,7 +268,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <DataProvider>
-        <StatusBar style="light" backgroundColor={Colors.primaryRed} />
+        <StatusBar style="light"/>
         <NavigationContainer>
           <Stack.Navigator
             initialRouteName="SplashAd"

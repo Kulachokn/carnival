@@ -7,19 +7,25 @@ import { Colors } from "../constants/colors";
 import { EventOnEvent } from "../types/event";
 
 export function InfoRow({ event }: { event: EventOnEvent }) {
+  const locationName = event.location_name
+    ? he.decode(event.location_name)
+    : "Ort unbekannt";
+  const date = event.start ? formatShortDate(event.start) : "-";
+  const time = event.start ? `${formatTimeHHMM(event.start)} Uhr` : "-";
+  
   return (
     <View style={styles.infoRow}>
       <View style={styles.infoItem}>
         <AntDesign name="calendar" size={24} color={Colors.text800} />
-        <Text style={styles.infoText}>{formatShortDate(event.start)}</Text>
+        <Text style={styles.infoText}>{date}</Text>
       </View>
       <View style={styles.infoItem}>
         <Feather name="clock" size={24} color={Colors.text800} />
-        <Text style={styles.infoText}>{formatTimeHHMM(event.start)} Uhr</Text>
+        <Text style={styles.infoText}>{time}</Text>
       </View>
       <View style={styles.infoItem}>
         <Ionicons name="location-outline" size={25} color={Colors.text800} />
-        <Text style={styles.infoText}>{he.decode(event.location_name)}</Text>
+        <Text style={styles.infoText}>{locationName}</Text>
       </View>
     </View>
   );
