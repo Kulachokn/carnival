@@ -89,6 +89,8 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
         onPressMapButton={openInMaps}
       />
 
+           <InfoBox event={event} />
+
       <View style={styles.btnContainer}>
         <PrimaryButton onPress={handleBuyTickets}>Tickets kaufen</PrimaryButton>
       </View>
@@ -101,7 +103,6 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
           />
         )}
       </View>
-      <InfoBox event={event} />
     </ScrollView>
   );
 };
