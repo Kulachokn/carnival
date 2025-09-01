@@ -4,9 +4,16 @@ export function groupByFirstLetter<T>(
 ): { title: string; data: T[] }[] {
   const groups: { [letter: string]: T[] } = {};
   items.forEach((item) => {
-    const label = getItemLabel(item);
-    if (!label || !label[0]) return; 
-    const letter = label[0].toUpperCase();
+    let label = getItemLabel(item);
+    if (!label || !label[0]) return;
+    // Normalize diacritics and remove quotes/apostrophes
+    const normalized = label
+      .normalize("NFD")
+      // Remove quotes/apostrophes including German-style quotes
+      .replace(/["'`“”„«»]/g, "")
+      .replace(/\p{Diacritic}/gu, "") // remove diacritics (unicode)
+      .replace(/[\u0300-\u036f]/g, ""); // remove diacritics (legacy)
+    const letter = normalized[0].toUpperCase();
     if (!groups[letter]) groups[letter] = [];
     groups[letter].push(item);
   });
