@@ -42,9 +42,8 @@ const styles = StyleSheet.create({
   itemBox: {
     backgroundColor: Colors.card100,
     borderRadius: 12,
-    marginHorizontal: 16,
     marginBottom: 8,
-    padding: 14,
+    paddingHorizontal: 14,
   },
   itemText: {
     fontSize: 16,

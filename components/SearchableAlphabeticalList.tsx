@@ -62,13 +62,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    padding: 16,
+    paddingVertical: 16,
   },
   itemBox: {
     backgroundColor: Colors.card100,
     borderRadius: 12,
     marginHorizontal: 16,
-    marginVertical: 6,
+    marginVertical: 0,
     padding: 14,
   },
 });

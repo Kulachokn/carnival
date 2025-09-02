@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import React from "react";
+import { View, TextInput, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Colors } from "../constants/colors";
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 18,
     paddingVertical: 8,
-      paddingHorizontal: 12,
+    paddingHorizontal: 12,
+    marginHorizontal: 16,
   },
   icon: {
     marginRight: 10,
