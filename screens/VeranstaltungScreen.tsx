@@ -19,8 +19,11 @@ import { InfoRow } from "../components/InfoRow";
 import { InfoBox } from "../components/InfoBox";
 import { EventMap } from "../components/EventMap";
 import { useGeocodeAddress } from "../hooks/useGeocodeAddress";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { useDataContext } from "../context/DataContext";
+
+import { AddToCalendarButton } from "../components/AddToCalendarButton";
 
 type VeranstaltungScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -36,9 +39,9 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
 
   const { banners } = useDataContext();
   const bannerForEvent =
-  banners.details && banners.details.length > 0
-    ? banners.details[Math.floor(Math.random() * banners.details.length)]
-    : undefined;
+    banners.details && banners.details.length > 0
+      ? banners.details[Math.floor(Math.random() * banners.details.length)]
+      : undefined;
 
   const { coords, isLoading } = useGeocodeAddress(event.location_address);
 
@@ -89,10 +92,19 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
         onPressMapButton={openInMaps}
       />
 
-           <InfoBox event={event} />
+      <InfoBox event={event} />
 
       <View style={styles.btnContainer}>
-        <PrimaryButton onPress={handleBuyTickets}>Tickets kaufen</PrimaryButton>
+        <PrimaryButton
+          onPress={handleBuyTickets}
+          icon={<Ionicons name="ticket" size={24} color="white" />}
+        >
+          Tickets kaufen
+        </PrimaryButton>
+      </View>
+
+      <View style={styles.btnContainer}>
+        <AddToCalendarButton event={event} />
       </View>
 
       <View style={styles.imgContainer}>
