@@ -3,14 +3,60 @@ import { useEffect, useState, useCallback } from "react";
 // Known location coordinates for venues that might be hard to geocode
 const KNOWN_VENUES: Record<string, { latitude: number; longitude: number }> = {
   "Gut Clarenhof 6": { latitude: 50.9661, longitude: 6.8790 },
-  "Gut Clarenhof": { latitude: 50.9661, longitude: 6.8790 },
   "Schanzenstraße 6-20 (Gebäude 3.12)": { latitude: 50.9512, longitude: 6.9157 },
   "Schanzenstraße 6-20": { latitude: 50.9512, longitude: 6.9157 },
+  "Markmanngasse 13-15": { latitude: 50.9360, longitude: 6.9570 }, // Approximate coordinates for Köln
   // Add more venues as needed
 };
 
 // Cache for geocoded addresses to avoid redundant API calls
 const geocodeCache: Record<string, { latitude: number; longitude: number } | null> = {};
+
+// Fallback coordinates for Köln city center
+const KOLN_CENTER = { latitude: 50.9375, longitude: 6.9603 };
+
+/**
+ * Geocode using Photon API (primary service)
+ */
+async function geocodeWithPhoton(address: string): Promise<{ latitude: number; longitude: number } | null> {
+  try {
+    // Format address for Photon
+    let searchAddress = address;
+    if (!searchAddress.toLowerCase().includes('köln') && 
+        !searchAddress.toLowerCase().includes('cologne')) {
+      searchAddress += ', Köln, Germany';
+    } else if (!searchAddress.toLowerCase().includes('germany')) {
+      searchAddress += ', Germany';
+    }
+
+    // Handle address ranges (like 13-15) which can be problematic
+    searchAddress = searchAddress.replace(/(\d+)-(\d+)/, '$1');
+
+    // Photon API call
+    const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(searchAddress)}&limit=1&lang=de`;
+    const response = await fetch(url);
+    
+    if (!response.ok) throw new Error('Photon geocoding request failed');
+    
+    const data = await response.json();
+    
+    if (data.features && data.features.length > 0) {
+      const coordinates = data.features[0].geometry.coordinates;
+      // Photon returns [longitude, latitude] so we need to swap them
+      const result = {
+        latitude: coordinates[1],
+        longitude: coordinates[0]
+      };
+      console.log(`Photon geocoded ${address} to:`, result.latitude, result.longitude);
+      return result;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error("Photon geocoding error:", error);
+    return null;
+  }
+}
 
 export function useGeocodeAddress(address: string) {
   const [coords, setCoords] = useState<null | { latitude: number; longitude: number }>(null);
@@ -41,15 +87,28 @@ export function useGeocodeAddress(address: string) {
       }
     }
     
-    // Prepare address for geocoding
-    let fullAddress = addressToGeocode;
-    if (!fullAddress.toLowerCase().includes('köln') && 
-        !fullAddress.toLowerCase().includes('cologne')) {
-      fullAddress += ', Köln';
-    }
-    fullAddress += ', Germany';
-
     try {
+      // STEP 1: Try with Photon API first (primary service)
+      const photonResult = await geocodeWithPhoton(addressToGeocode);
+      
+      if (photonResult) {
+        // Cache the result
+        geocodeCache[addressToGeocode] = photonResult;
+        return photonResult;
+      }
+      
+      // If Photon fails, log and try Nominatim as fallback
+      console.log(`Photon failed to geocode ${addressToGeocode}, trying Nominatim...`);
+      
+      // STEP 2: Fallback to Nominatim (OpenStreetMap)
+      // Prepare address for Nominatim
+      let fullAddress = addressToGeocode;
+      if (!fullAddress.toLowerCase().includes('köln') && 
+          !fullAddress.toLowerCase().includes('cologne')) {
+        fullAddress += ', Köln';
+      }
+      fullAddress += ', Germany';
+
       // First try with the full address
       const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json&limit=1`;
       const response = await fetch(url, {
@@ -59,7 +118,7 @@ export function useGeocodeAddress(address: string) {
         },
       });
       
-      if (!response.ok) throw new Error('Geocoding request failed');
+      if (!response.ok) throw new Error('Nominatim geocoding request failed');
       
       const data = await response.json();
       
@@ -70,7 +129,7 @@ export function useGeocodeAddress(address: string) {
         };
         // Cache the result
         geocodeCache[addressToGeocode] = result;
-        console.log(`Geocoded ${addressToGeocode} to:`, data[0].lat, data[0].lon, data[0].display_name);
+        console.log(`Nominatim geocoded ${addressToGeocode} to:`, data[0].lat, data[0].lon, data[0].display_name);
         return result;
       }
       
@@ -94,86 +153,20 @@ export function useGeocodeAddress(address: string) {
           };
           // Cache the result
           geocodeCache[addressToGeocode] = result;
-          console.log(`Geocoded ${streetOnly}, Köln to:`, cityData[0].lat, cityData[0].lon, cityData[0].display_name);
+          console.log(`Nominatim geocoded ${streetOnly}, Köln to:`, cityData[0].lat, cityData[0].lon, cityData[0].display_name);
           return result;
         }
       }
       
-      // If we still have no results, try with a more structured approach for addresses that might have special formats
-      // Some addresses may have building numbers or additional details that confuse the geocoder
-      const structuredAddressUrl = `https://nominatim.openstreetmap.org/search?street=${encodeURIComponent(streetOnly)}&city=Köln&format=json&addressdetails=1&limit=1`;
+      // If we still have no results with either service, use the fallback
+      console.log(`All geocoding attempts failed for ${addressToGeocode}, using Köln city center`);
+      geocodeCache[addressToGeocode] = KOLN_CENTER;
+      return KOLN_CENTER;
       
-      const structuredResponse = await fetch(structuredAddressUrl, {
-        headers: { 
-          "User-Agent": "VeranstaltungApp/1.0",
-          "Accept-Language": "de"
-        },
-      });
-      
-      if (structuredResponse.ok) {
-        const structuredData = await structuredResponse.json();
-        if (structuredData.length > 0) {
-          const result = {
-            latitude: parseFloat(structuredData[0].lat),
-            longitude: parseFloat(structuredData[0].lon),
-          };
-          // Cache the result
-          geocodeCache[addressToGeocode] = result;
-          console.log(`Geocoded with structured approach:`, structuredData[0].lat, structuredData[0].lon, structuredData[0].display_name);
-          return result;
-        }
-      }
-      
-      // Specially handle "Gut" addresses which are often estates/farms with specific locations
-      if (addressToGeocode.toLowerCase().includes('gut')) {
-        try {
-          // Try wider area search
-          const gutSearchUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(addressToGeocode)}&viewbox=6.7,50.8,7.2,51.1&bounded=1&format=json&limit=1`;
-          
-          const gutResponse = await fetch(gutSearchUrl, {
-            headers: { 
-              "User-Agent": "VeranstaltungApp/1.0",
-              "Accept-Language": "de"
-            },
-          });
-          
-          if (gutResponse.ok) {
-            const gutData = await gutResponse.json();
-            if (gutData.length > 0) {
-              const result = {
-                latitude: parseFloat(gutData[0].lat),
-                longitude: parseFloat(gutData[0].lon),
-              };
-              // Cache the result
-              geocodeCache[addressToGeocode] = result;
-              console.log(`Geocoded estate address:`, gutData[0].lat, gutData[0].lon, gutData[0].display_name);
-              return result;
-            }
-          }
-          
-          // If still no result, try a hardcoded value for this specific address
-          if (addressToGeocode === "Gut Clarenhof 6") {
-            // This is an approximate location for Gut Clarenhof near Köln
-            const hardcodedResult = {
-              latitude: 50.9661,
-              longitude: 6.8790
-            };
-            geocodeCache[addressToGeocode] = hardcodedResult;
-            console.log(`Using hardcoded location for Gut Clarenhof 6`);
-            return hardcodedResult;
-          }
-        } catch (gutError) {
-          console.error("Error geocoding estate address:", gutError);
-        }
-      }
-      
-      // No results found with any method
-      console.log(`Failed to geocode ${addressToGeocode}`);
-      geocodeCache[addressToGeocode] = null;
-      return null;
     } catch (error) {
       console.error("Geocoding error:", error);
-      return null;
+      // Use Köln center as fallback in case of error
+      return KOLN_CENTER;
     }
   }, []);
 
@@ -196,7 +189,8 @@ export function useGeocodeAddress(address: string) {
       } catch (error) {
         console.error("Error in useGeocodeAddress:", error);
         if (isMounted) {
-          setCoords(null);
+          // Use Köln center as fallback in case of complete failure
+          setCoords(KOLN_CENTER);
         }
       } finally {
         if (isMounted) {
