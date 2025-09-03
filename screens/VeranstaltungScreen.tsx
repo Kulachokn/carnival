@@ -9,6 +9,8 @@ import {
   Alert,
   Image,
 } from "react-native";
+import { openLocationInMaps } from "../utils/mapHelpers";
+import { openAddressInMaps } from "../utils/mapAddressHelper";
 import { RouteProp } from "@react-navigation/native";
 
 import { Colors } from "../constants/colors";
@@ -46,21 +48,27 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
   const { coords, isLoading } = useGeocodeAddress(event.location_address);
 
   const openInMaps = () => {
-    if (!coords) {
-      Alert.alert("Adresse nicht gefunden");
-      return;
+    if (coords) {
+      // If we have coordinates, use them
+      const { latitude, longitude } = coords;
+      openLocationInMaps(
+        latitude,
+        longitude,
+        event.location_name || "Event Location"
+      );
+    } else if (event.location_address) {
+      // If we have an address but no coordinates, try to open by address directly
+      openAddressInMaps(
+        event.location_address,
+        event.location_name || "Event Location",
+        "Köln" // Assuming most events are in Cologne/Köln
+      );
+    } else {
+      Alert.alert(
+        "Adresse nicht gefunden",
+        "Keine Adressinformationen verfügbar."
+      );
     }
-
-    const { latitude, longitude } = coords;
-    const label = encodeURIComponent(event.location_name || "Event Location");
-
-    const url = Platform.select({
-      ios: `http://maps.apple.com/?daddr=${latitude},${longitude}&q=${label}`,
-      android: `google.navigation:q=${latitude},${longitude}`,
-      default: `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`,
-    });
-
-    Linking.openURL(url!);
   };
 
   const handleBuyTickets = () => {

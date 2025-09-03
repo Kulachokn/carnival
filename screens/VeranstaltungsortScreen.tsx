@@ -19,6 +19,7 @@ import { RootStackParamList } from "../types/navigation";
 import { Colors } from "../constants/colors";
 import { EventMap } from "../components/EventMap";
 import { useGeocodeAddress } from "../hooks/useGeocodeAddress";
+import { openLocation } from "../utils/mapHelpers";
 
 type VeranstaltungsortScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -33,11 +34,6 @@ const VeranstaltungsortScreen: React.FC<Props> = ({ route }) => {
   const { ort } = route.params;
 
   const { coords, isLoading } = useGeocodeAddress(ort.address);
-
-  // const handleCopyAddress = () => {
-  //   Clipboard.setStringAsync(ort.address);
-  //   Alert.alert("Adresse kopiert");
-  // };
 
   const handleCopyAddress = () => {
     Clipboard.setStringAsync(ort.address);
@@ -55,22 +51,22 @@ const VeranstaltungsortScreen: React.FC<Props> = ({ route }) => {
     }
   };
 
-  const openInMaps = () => {
-    if (!coords) {
-      Alert.alert("Adresse nicht gefunden");
-      return;
+  const openInMaps = async () => {
+    try {
+      const success = await openLocation({
+        coords: coords,
+        address: ort.address,
+        title: ort.name || "Event Location",
+        preferOsm: true,
+      });
+
+      if (!success) {
+        throw new Error("Could not open any map app");
+      }
+    } catch (err) {
+      console.error("Error opening map:", err);
+      Alert.alert("Fehler", "Die Karten-App konnte nicht geöffnet werden.");
     }
-
-    const { latitude, longitude } = coords;
-    const label = encodeURIComponent(ort.name || "Event Location");
-
-    const url = Platform.select({
-      ios: `http://maps.apple.com/?daddr=${latitude},${longitude}&q=${label}`,
-      android: `google.navigation:q=${latitude},${longitude}`,
-      default: `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`,
-    });
-
-    Linking.openURL(url!);
   };
 
   return (

@@ -25,7 +25,16 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "dev.kunoichi.appsolutjeck"
+      "package": "dev.kunoichi.appsolutjeck",
+      "config": {
+        "googleMaps": {
+          "useOpenStreetMap": true
+        }
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/itunesartwork_1024.png"
@@ -38,6 +47,9 @@
     "updates": {
       "url": "https://u.expo.dev/f9b26001-c930-41d8-96c2-7a5ffe9f8709"
     },
-    "runtimeVersion": "exposdk:53.0.22"
+    "runtimeVersion": "exposdk:53.0.22",
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }
