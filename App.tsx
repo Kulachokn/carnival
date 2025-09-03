@@ -21,6 +21,7 @@ import { Colors } from "./constants/colors";
 import { RootStackParamList } from "./types/navigation";
 
 import { DataProvider } from "./context/DataContext";
+import { SearchProvider } from "./context/SearchContext";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -268,17 +269,19 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <DataProvider>
-        <StatusBar style="light"/>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="SplashAd"
-            screenOptions={{ headerShown: false }}
-          >
-            <Stack.Screen name="SplashAd" component={SplashAdScreen} />
-            <Stack.Screen name="MainTabs" component={MainTabs} />
-          </Stack.Navigator>
-        </NavigationContainer>
-        <Toast />
+        <SearchProvider>
+          <StatusBar style="light"/>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName="SplashAd"
+              screenOptions={{ headerShown: false }}
+            >
+              <Stack.Screen name="SplashAd" component={SplashAdScreen} />
+              <Stack.Screen name="MainTabs" component={MainTabs} />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <Toast />
+        </SearchProvider>
       </DataProvider>
     </SafeAreaProvider>
   );

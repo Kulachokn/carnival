@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,8 +12,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/navigation";
 import { EventOnEvent } from "../types/event";
 import { Colors } from "../constants/colors";
-import api from "../api/services";
-import useFilteredEvents from "../hooks/useFilteredEvents";
 import CategoryDropdown from "../components/CategoryDropdown";
 import EventList from "../components/EventList";
 import { configureGermanCalendarLocale } from "../constants/calendarLocale";
@@ -24,45 +22,29 @@ import InputSearch from "../components/InputSearch";
 import { Banner } from "../types/banner";
 
 import { useDataContext } from "../context/DataContext";
-import { useLayoutEffect } from "react";
+import { useSearchContext } from "../context/SearchContext";
 import Feather from "@expo/vector-icons/Feather";
 
 configureGermanCalendarLocale();
 
 function SucheScreen() {
-  const [pendingSearch, setPendingSearch] = useState("");
-  const [pendingDate, setPendingDate] = useState<
-    Date | { start: Date; end: Date } | null
-  >(null);
-  const [pendingCategory, setPendingCategory] = useState<{
-    label: string;
-    value: string;
-  } | null>(null);
-
-  const [search, setSearch] = useState("");
-  const [date, setDate] = useState<Date | { start: Date; end: Date } | null>(
-    null
-  );
-  const [category, setCategory] = useState<{
-    label: string;
-    value: string;
-  } | null>(null);
-
-  const [categoriesList, setCategoriesList] = useState<
-    { label: string; value: string }[]
-  >([]);
-
   const [isCalendarVisible, setCalendarVisible] = useState(false);
-  const [events, setEvents] = useState<EventOnEvent[]>([]);
-  const [hasSearched, setHasSearched] = useState(false);
-
-  const [bannersList, setBannersList] = useState<Banner[]>([]);
   const BANNER_TYPE_LIST = 'list';
 
   type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Suche">;
   const navigation = useNavigation<NavigationProp>();
 
-   const { openImpressum } = useDataContext();
+  const { openImpressum, banners } = useDataContext();
+  const { 
+    pendingSearch, setPendingSearch,
+    pendingDate, setPendingDate,
+    pendingCategory, setPendingCategory,
+    categoriesList,
+    handleSearch,
+    isModified,
+    hasSearched,
+    filteredEvents
+  } = useSearchContext();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -73,50 +55,6 @@ function SucheScreen() {
       ),
     });
   }, [navigation, openImpressum]);
-
-  useEffect(() => {
-    api.fetchEvents().then((eventsArray: EventOnEvent[] | null) => {
-      setEvents(eventsArray ?? []);
-
-      // Extract unique categories
-      const categoryMap = new Map<string, string>();
-      (eventsArray ?? []).forEach((event) => {
-        if (event.event_type) {
-          Object.entries(event.event_type).forEach(([id, name]) => {
-            categoryMap.set(id, name as string);
-          });
-        }
-      });
-
-      const categoriesList = Array.from(categoryMap.entries()).map(
-        ([id, name]) => ({ label: name, value: id })
-      );
-      setCategoriesList(categoriesList);
-    });
-   
-    api.fetchBannersByType(BANNER_TYPE_LIST).then((bannersArray: Banner[] | null) => {
-      setBannersList(bannersArray ?? []);
-    });
-  }, []);
-
-  const isModified =
-    search !== pendingSearch ||
-    JSON.stringify(date) !== JSON.stringify(pendingDate) ||
-    JSON.stringify(category) !== JSON.stringify(pendingCategory);
-
-  const filteredEvents = useFilteredEvents({
-    events,
-    search,
-    date,
-    category: category ? category.value : null,
-  });
-
-  const handleSearch = () => {
-    setSearch(pendingSearch);
-    setDate(pendingDate);
-    setCategory(pendingCategory);
-    setHasSearched(true);
-  };
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -206,7 +144,7 @@ function SucheScreen() {
         <View style={styles.calendarModal}>
           <CalendarModal
             pendingDate={pendingDate}
-            setPendingDate={setPendingDate}
+            setPendingDate={setPendingDate as React.Dispatch<React.SetStateAction<Date | { start: Date; end: Date } | null>>}
             setCalendarVisible={setCalendarVisible}
           />
           <TouchableOpacity
@@ -242,7 +180,7 @@ function SucheScreen() {
           </Text>
         ) : (
           <EventList
-            bannerList={bannersList}
+            bannerList={banners.list}
             events={filteredEvents}
             onPressEvent={onPressEvent}
             disableScroll
