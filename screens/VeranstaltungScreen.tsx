@@ -38,7 +38,6 @@ type Props = {
 
 const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
   const event: EventOnEvent = route.params.event;
-  console.log("Event details:", event);
 
   const { banners } = useDataContext();
   const bannerForEvent =

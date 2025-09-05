@@ -4,6 +4,7 @@ import MapView, { Marker } from "react-native-maps";
 import Feather from "@expo/vector-icons/Feather";
 import { Colors } from "../constants/colors";
 import { OpenStreetMapTiles } from "./OpenStreetMapTiles";
+import { decodeHtmlEntities } from "../utils/decodeHtmlEntities";
 
 type Props = {
   coords: { latitude: number; longitude: number } | null;
@@ -37,7 +38,7 @@ export function EventMap({
       <View style={styles.mapContainer}>
         <View style={styles.noMapContainer}>
           <Text style={styles.mapError}>Karte nicht verfügbar</Text>
-          <Text style={styles.addressText}>{locationName}</Text>
+          <Text style={styles.addressText}>{decodeHtmlEntities(locationName)}</Text>
           <Pressable 
             style={styles.mapButton} 
             onPress={onPressMapButton}
@@ -69,7 +70,7 @@ export function EventMap({
         <OpenStreetMapTiles />
         <Marker
           coordinate={coords}
-          title={locationName || eventName}
+          title={decodeHtmlEntities(locationName || eventName)}
         />
       </MapView>
       <Pressable style={styles.mapButtonFloating} onPress={onPressMapButton}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { decodeHtmlEntities } from '../utils/decodeHtmlEntities';
 
 import { formatDateTimeShort } from '../utils/formatFunctions';
 import { Colors } from '../constants/colors';
@@ -16,10 +17,10 @@ const EventCard: React.FC<EventCardProps> = React.memo (({ image, start, name, l
   <View style={styles.card}>
     <View style={styles.cardContent}>
       <Text style={styles.cardDate}>{formatDateTimeShort(start)}</Text>
-      <Text style={styles.cardTitle}>{name}</Text>
+      <Text style={styles.cardTitle}>{decodeHtmlEntities(name)}</Text>
       <View style={styles.cardLocationRow}>
         <FontAwesome name="map-marker" size={16} color={Colors.primaryRed} style={{ marginRight: 4 }} />
-        <Text style={styles.cardLocation}>{location}</Text>
+        <Text style={styles.cardLocation}>{decodeHtmlEntities(location)}</Text>
       </View>
     </View>
     <FontAwesome name="chevron-right" size={20} color={Colors.primaryRed} style={styles.cardArrow} />

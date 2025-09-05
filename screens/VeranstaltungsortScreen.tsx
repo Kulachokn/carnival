@@ -20,6 +20,7 @@ import { Colors } from "../constants/colors";
 import { EventMap } from "../components/EventMap";
 import { useGeocodeAddress } from "../hooks/useGeocodeAddress";
 import { openLocation } from "../utils/mapHelpers";
+import { decodeHtmlEntities } from "../utils/decodeHtmlEntities";
 
 type VeranstaltungsortScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -71,12 +72,12 @@ const VeranstaltungsortScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.addressTitle}>{ort.name}</Text>
+      <Text style={styles.addressTitle}>{decodeHtmlEntities(ort.name)}</Text>
       <EventMap
         coords={coords}
         isLoading={isLoading}
-        locationName={ort.name}
-        eventName={ort.name}
+        locationName={decodeHtmlEntities(ort.name)}
+        eventName={decodeHtmlEntities(ort.name)}
         onPressMapButton={openInMaps}
       />
       <View style={styles.addressRow}>
@@ -90,7 +91,7 @@ const VeranstaltungsortScreen: React.FC<Props> = ({ route }) => {
           />
         </TouchableOpacity>
       </View>
-      <Text style={styles.addressText}>{ort.address}</Text>
+      <Text style={styles.addressText}>{decodeHtmlEntities(ort.address)}</Text>
       <TouchableOpacity style={styles.websiteBtn} onPress={handleOpenWebsite}>
         <Text style={styles.websiteBtnText}>Website des Veranstalters</Text>
       </TouchableOpacity>
