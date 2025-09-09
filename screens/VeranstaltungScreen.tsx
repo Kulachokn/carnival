@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   Linking,
-  Platform,
   Alert,
   Image,
 } from "react-native";
@@ -24,7 +23,6 @@ import { useGeocodeAddress } from "../hooks/useGeocodeAddress";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { useDataContext } from "../context/DataContext";
-
 import { AddToCalendarButton } from "../components/AddToCalendarButton";
 
 type VeranstaltungScreenRouteProp = RouteProp<
@@ -45,29 +43,26 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
       ? banners.details[Math.floor(Math.random() * banners.details.length)]
       : undefined;
 
-  const { coords, isLoading } = useGeocodeAddress(event.location_address);
+  // If no address, fallback to event name (handled in useGeocodeAddress with KNOWN_VENUES)
+  const addressToGeocode = event.location_address || event.name;
+  
+  const { coords, isLoading } = useGeocodeAddress(addressToGeocode);
 
   const openInMaps = () => {
     if (coords) {
-      // If we have coordinates, use them
-      const { latitude, longitude } = coords;
       openLocationInMaps(
-        latitude,
-        longitude,
+        coords.latitude,
+        coords.longitude,
         event.location_name || "Event Location"
       );
     } else if (event.location_address) {
-      // If we have an address but no coordinates, try to open by address directly
       openAddressInMaps(
         event.location_address,
         event.location_name || "Event Location",
-        "Köln" // Assuming most events are in Cologne/Köln
+        "Köln"
       );
     } else {
-      Alert.alert(
-        "Adresse nicht gefunden",
-        "Keine Adressinformationen verfügbar."
-      );
+      Alert.alert("Adresse nicht gefunden", "Keine Adressinformationen verfügbar.");
     }
   };
 
@@ -76,15 +71,53 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
       Linking.openURL(event.learnmore_link).catch(() => {
         Alert.alert("Fehler", "Die Website konnte nicht geöffnet werden.");
       });
-    } else {
-      Alert.alert(
-        "Keine Tickets",
-        "Für diese Veranstaltung sind keine Tickets verfügbar."
-      );
     }
   };
 
-  return (
+  // return (
+  //   <ScrollView style={styles.container}>
+  //     <Text style={styles.title}>{event.name}</Text>
+
+  //     <View style={styles.infoCard}>
+  //       <InfoRow event={event} />
+  //     </View>
+
+  //     <EventMap
+  //       coords={coords}
+  //       isLoading={isLoading}
+  //       locationName={event.location_name || ""}
+  //       eventName={event.name}
+  //       onPressMapButton={openInMaps}
+  //     />
+
+  //     <InfoBox event={event} />
+
+  //     {event.learnmore_link && (
+  //       <View style={styles.btnContainer}>
+  //         <PrimaryButton
+  //           onPress={handleBuyTickets}
+  //           icon={<Ionicons name="ticket" size={24} color="white" />}
+  //         >
+  //           Tickets kaufen
+  //         </PrimaryButton>
+  //       </View>
+  //     )}
+
+  //     <View style={styles.btnContainer}>
+  //       <AddToCalendarButton event={event} />
+  //     </View>
+
+  //     {bannerForEvent?.acf && (
+  //       <View style={styles.imgContainer}>
+  //         <Image
+  //           source={{ uri: bannerForEvent.acf.banner_image_url }}
+  //           style={styles.image}
+  //         />
+  //       </View>
+  //     )}
+  //   </ScrollView>
+  // );
+return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>{event.name}</Text>
 
@@ -151,18 +184,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
   },
-  adContainer: {
-    backgroundColor: Colors.card200,
-    borderRadius: 12,
-    height: 80,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 16,
-  },
-  adText: {
-    color: Colors.text500,
-    fontSize: 16,
-  },
   imgContainer: {
     borderRadius: 8,
     overflow: "hidden",
@@ -171,7 +192,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 140,
-    resizeMode: "stretch",
+    resizeMode: "cover", // changed from "stretch"
   },
 });
 

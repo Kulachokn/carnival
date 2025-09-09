@@ -13,7 +13,6 @@ async function saveCacheDebounced() {
   saveTimeout = setTimeout(async () => {
     try {
       await AsyncStorage.setItem(GEOCODE_CACHE_KEY, JSON.stringify(geocodeCache));
-      console.log("Geocoding cache saved:", Object.keys(geocodeCache).length, "entries");
     } catch (err) {
       console.error("Failed to save geocoding cache:", err);
     }
@@ -25,20 +24,17 @@ async function loadCache() {
   try {
     const storedCache = await AsyncStorage.getItem(GEOCODE_CACHE_KEY);
     if (storedCache) {
-      const parsedCache = JSON.parse(storedCache);
-      Object.assign(geocodeCache, parsedCache);
-      console.log("Loaded geocoding cache:", Object.keys(geocodeCache).length, "entries");
+      Object.assign(geocodeCache, JSON.parse(storedCache));
     }
   } catch (err) {
     console.error("Failed to load geocoding cache:", err);
   }
 }
 
-// Delay helper (rate limit protection)
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 /** Photon API */
-async function geocodeWithPhoton(address: string): Promise<{ latitude: number; longitude: number } | null> {
+async function geocodeWithPhoton(address: string) {
   try {
     let query = address;
     if (!query.toLowerCase().includes("köln") && !query.toLowerCase().includes("cologne")) {
@@ -46,12 +42,11 @@ async function geocodeWithPhoton(address: string): Promise<{ latitude: number; l
     } else if (!query.toLowerCase().includes("germany")) {
       query += ", Germany";
     }
-
-    // Replace 13-15 → 13 (handles address ranges which can be problematic)
     query = query.replace(/(\d+)-(\d+)/, "$1");
 
-    const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=1&lang=de`;
-    const res = await fetch(url);
+    const res = await fetch(
+      `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=1&lang=de`
+    );
     if (!res.ok) return null;
 
     const data = await res.json();
@@ -60,14 +55,13 @@ async function geocodeWithPhoton(address: string): Promise<{ latitude: number; l
       return { latitude: lat, longitude: lon };
     }
     return null;
-  } catch (err) {
-    console.error("Photon geocoding error:", err);
+  } catch {
     return null;
   }
 }
 
 /** Nominatim API */
-async function geocodeWithNominatim(address: string): Promise<{ latitude: number; longitude: number } | null> {
+async function geocodeWithNominatim(address: string) {
   try {
     let query = address;
     if (!query.toLowerCase().includes("köln") && !query.toLowerCase().includes("cologne")) {
@@ -75,18 +69,18 @@ async function geocodeWithNominatim(address: string): Promise<{ latitude: number
     }
     query += ", Germany";
 
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`;
-    const res = await fetch(url, {
-      headers: {
-        "User-Agent": "CarnivalApp/1.0 (https://example.com; contact@example.com)",
-        "Accept-Language": "de",
-        "Referer": "https://example.com",
-      },
-    });
-
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`,
+      {
+        headers: {
+          "User-Agent": "CarnivalApp/1.0 (https://example.com; contact@example.com)",
+          "Accept-Language": "de",
+        },
+      }
+    );
     if (!res.ok) return null;
-    const data = await res.json();
 
+    const data = await res.json();
     if (data.length > 0) {
       return {
         latitude: parseFloat(data[0].lat),
@@ -94,18 +88,15 @@ async function geocodeWithNominatim(address: string): Promise<{ latitude: number
       };
     }
     return null;
-  } catch (err) {
-    console.error("Nominatim geocoding error:", err);
+  } catch {
     return null;
   }
 }
 
-/** Hook */
 export function useGeocodeAddress(address: string) {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load cache once
   const cacheLoaded = useRef(false);
   useEffect(() => {
     if (!cacheLoaded.current) {
@@ -114,19 +105,13 @@ export function useGeocodeAddress(address: string) {
     }
   }, []);
 
-  const geocodeAddress = useCallback(async (addr: string): Promise<{ latitude: number; longitude: number } | null> => {
-    // 1. Check cache
-    if (geocodeCache[addr] !== undefined) {
-      console.log(`Cache hit for ${addr}`);
-      return geocodeCache[addr];
-    }
+  const geocodeAddress = useCallback(async (addr: string) => {
+    if (!addr || addr.trim() === "") return null;
 
-    // 2. Known venues
-    if (KNOWN_VENUES[addr]) {
-      geocodeCache[addr] = KNOWN_VENUES[addr];
-      saveCacheDebounced();
-      return KNOWN_VENUES[addr];
-    }
+    // 1. Cache
+    if (geocodeCache[addr] !== undefined) return geocodeCache[addr];
+
+    // 2. Known venues (exact or partial match)
     for (const venue in KNOWN_VENUES) {
       if (addr.includes(venue) || venue.includes(addr)) {
         geocodeCache[addr] = KNOWN_VENUES[venue];
@@ -135,7 +120,7 @@ export function useGeocodeAddress(address: string) {
       }
     }
 
-    // 3. Photon first
+    // 3. Photon
     const photonResult = await geocodeWithPhoton(addr);
     if (photonResult) {
       geocodeCache[addr] = photonResult;
@@ -143,7 +128,7 @@ export function useGeocodeAddress(address: string) {
       return photonResult;
     }
 
-    // 4. Nominatim fallback
+    // 4. Nominatim (fallback)
     await delay(1000);
     const nominatimResult = await geocodeWithNominatim(addr);
     if (nominatimResult) {
@@ -152,42 +137,26 @@ export function useGeocodeAddress(address: string) {
       return nominatimResult;
     }
 
-    // 5. Final fallback → Köln Center
-    console.warn(`Geocoding failed for "${addr}", using Köln center`);
+    // 5. Default: Köln center
     geocodeCache[addr] = KOLN_CENTER;
     saveCacheDebounced();
     return KOLN_CENTER;
   }, []);
 
   useEffect(() => {
-    if (!address) {
-      setCoords(null);
-      setIsLoading(false);
-      return;
-    }
-
     let mounted = true;
     const run = async () => {
       setIsLoading(true);
       try {
         const result = await geocodeAddress(address);
-        if (mounted) {
-          setCoords(result);
-        }
-      } catch (error) {
-        console.error("Error in useGeocodeAddress:", error);
-        if (mounted) {
-          // Use Köln center as fallback in case of complete failure
-          setCoords(KOLN_CENTER);
-        }
+        if (mounted) setCoords(result);
+      } catch {
+        if (mounted) setCoords(KOLN_CENTER);
       } finally {
-        if (mounted) {
-          setIsLoading(false);
-        }
+        if (mounted) setIsLoading(false);
       }
     };
     run();
-
     return () => {
       mounted = false;
     };

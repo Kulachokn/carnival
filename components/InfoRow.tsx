@@ -7,12 +7,12 @@ import { Colors } from "../constants/colors";
 import { EventOnEvent } from "../types/event";
 
 export function InfoRow({ event }: { event: EventOnEvent }) {
-  const locationName = event.location_name
-    ? he.decode(event.location_name)
-    : "Ort unbekannt";
+  const locationName = he.decode(
+    event.location_name || event.location_address || "Ort unbekannt"
+  );
   const date = event.start ? formatShortDate(event.start) : "-";
   const time = event.start ? `${formatTimeHHMM(event.start)} Uhr` : "-";
-  
+
   return (
     <View style={styles.infoRow}>
       <View style={styles.infoItem}>
