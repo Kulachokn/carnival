@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import he from "he";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 
@@ -6,7 +6,12 @@ import { formatShortDate, formatTimeHHMM } from "../utils/formatFunctions";
 import { Colors } from "../constants/colors";
 import { EventOnEvent } from "../types/event";
 
-export function InfoRow({ event }: { event: EventOnEvent }) {
+type InfoRowProps = { 
+  event: EventOnEvent; 
+  openInMaps?: () => void;
+};
+
+export function InfoRow({ event, openInMaps }: InfoRowProps) {
   const locationName = he.decode(
     event.location_name || event.location_address || "Ort unbekannt"
   );
@@ -23,10 +28,30 @@ export function InfoRow({ event }: { event: EventOnEvent }) {
         <Feather name="clock" size={24} color={Colors.text800} />
         <Text style={styles.infoText}>{time}</Text>
       </View>
-      <View style={styles.infoItem}>
-        <Ionicons name="location-outline" size={25} color={Colors.text800} />
-        <Text style={styles.infoText}>{locationName}</Text>
-      </View>
+      <Pressable 
+        style={[
+          styles.infoItem, 
+          { opacity: locationName === "Ort unbekannt" ? 0.7 : 1 }
+        ]}
+        onPress={openInMaps}
+        disabled={!openInMaps || locationName === "Ort unbekannt"}
+        android_ripple={openInMaps ? { color: "rgba(0,0,0,0.1)" } : undefined}
+      >
+        <Ionicons 
+          name="location-outline" 
+          size={25} 
+          color={Colors.text800}
+        />
+        <Text 
+          style={[
+            styles.infoText, 
+            openInMaps && locationName !== "Ort unbekannt" ? { textDecorationLine: 'underline' } : {}
+          ]}
+          numberOfLines={2}
+        >
+          {locationName}
+        </Text>
+      </Pressable>
     </View>
   );
 }
@@ -34,6 +59,8 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
   },
   infoItem: {
     alignItems: "center",
@@ -44,5 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: "center",
     marginTop: 8,
+    fontWeight: "400",
+    maxWidth: 100, // Ensure text has a reasonable width limit
   },
 });

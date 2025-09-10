@@ -36,6 +36,7 @@ type Props = {
 
 const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
   const event: EventOnEvent = route.params.event;
+  console.log(event);
 
   const { banners } = useDataContext();
   const bannerForEvent =
@@ -122,7 +123,7 @@ return (
       <Text style={styles.title}>{event.name}</Text>
 
       <View style={styles.infoCard}>
-        <InfoRow event={event} />
+        <InfoRow event={event} openInMaps={openInMaps} />
       </View>
 
       <EventMap
