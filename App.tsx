@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { Pressable, Image } from "react-native";
 import { Linking } from "react-native";
 
@@ -14,6 +15,7 @@ import OrteScreen from "./screens/OrteScreen";
 import VeranstaltungScreen from "./screens/VeranstaltungScreen";
 import GesellschaftScreen from "./screens/GesellschaftScreen";
 import VeranstaltungsortScreen from "./screens/VeranstaltungsortScreen";
+import EintragenScreen from "./screens/EintragenScreen";
 import Toast from "react-native-toast-message";
 import SplashAdScreen from "./screens/SplashAdScreen";
 
@@ -31,6 +33,7 @@ const TermineStack = createStackNavigator<RootStackParamList>();
 const SucheStack = createStackNavigator<RootStackParamList>();
 const GesellschaftenStack = createStackNavigator<RootStackParamList>();
 const OrteStack = createStackNavigator<RootStackParamList>();
+const EintragenStack = createStackNavigator<RootStackParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
 
 const Logo = require("./assets/itunesartwork.png");
@@ -198,6 +201,26 @@ function OrteStackScreen() {
   );
 }
 
+function EintragenStackScreen() {
+  const insets = useSafeAreaInsets();
+  return (
+    <EintragenStack.Navigator>
+      <EintragenStack.Screen
+        name="Eintragen"
+        component={EintragenScreen}
+        options={{
+          title: "Veranstaltung eintragen",
+          headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
+          headerTintColor: Colors.white,
+          headerTitleAlign: "center",
+          headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
+          headerRight: () => <HeaderLogoButton />,
+        }}
+      />
+    </EintragenStack.Navigator>
+  );
+}
+
 function MainTabs() {
    const insets = useSafeAreaInsets();
   return (
@@ -258,6 +281,16 @@ function MainTabs() {
           tabBarLabel: "Orte",
           tabBarIcon: ({ color }) => (
             <FontAwesome6 name="location-dot" size={24} color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="EintragenTab"
+        component={EintragenStackScreen}
+        options={{
+          tabBarLabel: "Eintragen",
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="pluscircleo" size={24} color={color} />
           ),
         }}
       />
