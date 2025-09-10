@@ -7,6 +7,7 @@ import {
   Linking,
   Alert,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import { openLocationInMaps } from "../utils/mapHelpers";
 import { openAddressInMaps } from "../utils/mapAddressHelper";
@@ -75,49 +76,6 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
     }
   };
 
-  // return (
-  //   <ScrollView style={styles.container}>
-  //     <Text style={styles.title}>{event.name}</Text>
-
-  //     <View style={styles.infoCard}>
-  //       <InfoRow event={event} />
-  //     </View>
-
-  //     <EventMap
-  //       coords={coords}
-  //       isLoading={isLoading}
-  //       locationName={event.location_name || ""}
-  //       eventName={event.name}
-  //       onPressMapButton={openInMaps}
-  //     />
-
-  //     <InfoBox event={event} />
-
-  //     {event.learnmore_link && (
-  //       <View style={styles.btnContainer}>
-  //         <PrimaryButton
-  //           onPress={handleBuyTickets}
-  //           icon={<Ionicons name="ticket" size={24} color="white" />}
-  //         >
-  //           Tickets kaufen
-  //         </PrimaryButton>
-  //       </View>
-  //     )}
-
-  //     <View style={styles.btnContainer}>
-  //       <AddToCalendarButton event={event} />
-  //     </View>
-
-  //     {bannerForEvent?.acf && (
-  //       <View style={styles.imgContainer}>
-  //         <Image
-  //           source={{ uri: bannerForEvent.acf.banner_image_url }}
-  //           style={styles.image}
-  //         />
-  //       </View>
-  //     )}
-  //   </ScrollView>
-  // );
 return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>{event.name}</Text>
@@ -151,10 +109,20 @@ return (
 
       <View style={styles.imgContainer}>
         {bannerForEvent && bannerForEvent.acf && (
-          <Image
-            source={{ uri: bannerForEvent.acf.banner_image_url }}
-            style={styles.image}
-          />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              if (bannerForEvent.acf.banner_url) {
+                Linking.openURL(bannerForEvent.acf.banner_url);
+              }
+            }}
+            disabled={!bannerForEvent.acf.banner_url}
+          >
+            <Image
+              source={{ uri: bannerForEvent.acf.banner_image_url }}
+              style={styles.image}
+            />
+          </TouchableOpacity>
         )}
       </View>
     </ScrollView>
@@ -192,8 +160,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 140,
-    resizeMode: "cover", // changed from "stretch"
+    height: 100,
+    resizeMode: "cover", 
   },
 });
 
