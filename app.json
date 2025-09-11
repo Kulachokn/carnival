@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "owner": "kunoichi_dev",
     "orientation": "portrait",
+    "platforms": ["ios", "android"],
     "icon": "./assets/itunesartwork_1024.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -35,9 +36,6 @@
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION"
       ]
-    },
-    "web": {
-      "favicon": "./assets/itunesartwork_1024.png"
     },
     "extra": {
       "eas": {
