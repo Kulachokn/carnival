@@ -73,6 +73,7 @@ function TermineStackScreen() {
           title: "Veranstaltung",
           headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
+          headerBackVisible: true,
           headerBackTitle: "Termine",
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
@@ -107,6 +108,7 @@ function SucheStackScreen() {
           title: "Veranstaltung",
           headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
+          headerBackVisible: true,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
@@ -141,6 +143,7 @@ function GesellschaftenStackScreen() {
           title: "Gesellschaft",
           headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
+          headerBackVisible: true,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerBackTitleStyle: { fontSize: 16 },
           headerTitleAlign: "center",
@@ -156,6 +159,7 @@ function GesellschaftenStackScreen() {
           title: "Veranstaltung",
           headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
+          headerBackVisible: true,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerBackTitleStyle: { fontSize: 16 },
           headerTitleAlign: "center",
@@ -191,6 +195,7 @@ function OrteStackScreen() {
           title: "Veranstaltungsort",
           headerStyle: { backgroundColor: Colors.primaryRed, height: 60 + insets.top },
           headerTintColor: Colors.white,
+          headerBackVisible: true,
           headerBackTitle: route.params?.from ?? "Zurück",
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 22, fontWeight: "bold" },
@@ -232,15 +237,18 @@ function MainTabs() {
           height: 60 + insets.bottom,
           paddingBottom: insets.bottom,
           paddingTop: 5,
+          paddingHorizontal: 0,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: "bold",
+          marginTop: 0,
+          paddingHorizontal: 0,
         },
         tabBarActiveTintColor: Colors.white,
         tabBarInactiveTintColor: Colors.label,
         tabBarIconStyle: {
-          marginBottom: 5,
+          marginBottom: 3,
         },
       }}
     >
@@ -268,7 +276,7 @@ function MainTabs() {
         name="GesellschaftenTab"
         component={GesellschaftenStackScreen}
         options={{
-          tabBarLabel: "Gesellschaften",
+          tabBarLabel: "Verbände",
           tabBarIcon: ({ color }) => (
             <FontAwesome6 name="masks-theater" size={24} color={color} />
           ),
@@ -289,9 +297,7 @@ function MainTabs() {
         component={EintragenStackScreen}
         listeners={{
           tabPress: (e) => {
-            // Prevent default navigation
             e.preventDefault();
-            // Open URL in browser
             Linking.openURL('https://koelnerkarneval.de');
           },
         }}
