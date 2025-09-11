@@ -36,7 +36,7 @@ const OrteStack = createStackNavigator<RootStackParamList>();
 const EintragenStack = createStackNavigator<RootStackParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
 
-const Logo = require("./assets/iTunesArtwork.png");
+const Logo = require("./assets/iTunesArtwork.png"); 
 const HeaderLogoButton = () => (
   <Pressable
     onPress={() => Linking.openURL("https://koelnerkarneval.de")}
