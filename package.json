@@ -28,7 +28,7 @@
     "expo-status-bar": "~2.2.3",
     "expo-updates": "~0.28.17",
     "he": "^1.2.0",
-    "npm": "^11.5.2",
+    "npm": "^11.6.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "^0.79.5",

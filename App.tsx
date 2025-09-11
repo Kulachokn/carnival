@@ -287,6 +287,14 @@ function MainTabs() {
       <BottomTab.Screen
         name="EintragenTab"
         component={EintragenStackScreen}
+        listeners={{
+          tabPress: (e) => {
+            // Prevent default navigation
+            e.preventDefault();
+            // Open URL in browser
+            Linking.openURL('https://koelnerkarneval.de');
+          },
+        }}
         options={{
           tabBarLabel: "Eintragen",
           tabBarIcon: ({ color }) => (
