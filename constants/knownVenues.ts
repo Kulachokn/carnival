@@ -32,6 +32,7 @@ export const KNOWN_VENUES: Record<string, { latitude: number; longitude: number 
   "WDR 4 Sessionseröffnung 2025": { latitude: 50.9399, longitude: 6.9564 },
   "WDR 4 Sessionseröffnung 2025 \"Immer wieder neue Lieder\"": { latitude: 50.9399, longitude: 6.9564 },
   "Immer wieder neue Lieder": { latitude: 50.9399, longitude: 6.9564 },
+  "WDR 4 Sessionseröffnung 2025 Immer wieder neue Lieder": { latitude: 50.9399, longitude: 6.9564 },
 };
 
 // Fallback coordinates for Köln city center

@@ -31,12 +31,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
     marginBottom: 12,
-    display: 'flex'
   },
   image: {
     width: '100%',
-    height: 70,
-    resizeMode: 'cover',
+    height: 80,
+    resizeMode: 'stretch',
   },
 });
 

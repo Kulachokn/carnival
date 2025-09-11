@@ -20,7 +20,7 @@ const EventCard: React.FC<EventCardProps> = React.memo (({ image, start, name, l
       <Text style={styles.cardTitle}>{decodeHtmlEntities(name)}</Text>
       <View style={styles.cardLocationRow}>
         <FontAwesome name="map-marker" size={16} color={Colors.primaryRed} style={{ marginRight: 4 }} />
-        <Text style={styles.cardLocation}>{decodeHtmlEntities(location)}</Text>
+        <Text style={styles.cardLocation}>{decodeHtmlEntities(location) || "Köln"}</Text>
       </View>
     </View>
     <FontAwesome name="chevron-right" size={20} color={Colors.primaryRed} style={styles.cardArrow} />

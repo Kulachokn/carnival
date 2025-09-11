@@ -37,7 +37,7 @@ type Props = {
 
 const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
   const event: EventOnEvent = route.params.event;
-  console.log(event);
+  // console.log(event);
 
   const { banners } = useDataContext();
   const bannerForEvent =
@@ -45,11 +45,9 @@ const VeranstaltungScreen: React.FC<Props> = ({ route }) => {
       ? banners.details[Math.floor(Math.random() * banners.details.length)]
       : undefined;
 
-  // If no address, fallback to event name (handled in useGeocodeAddress with KNOWN_VENUES)
-  const addressToGeocode = event.location_address || event.name;
+ const addressToGeocode = event.location_address || event.location_name || event.name;
   
   const { coords, isLoading } = useGeocodeAddress(addressToGeocode);
-
   const openInMaps = () => {
     if (coords) {
       openLocationInMaps(
