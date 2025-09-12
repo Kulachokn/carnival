@@ -1,7 +1,6 @@
 {
   "cli": {
-    "version": ">= 16.17.4",
-    "appVersionSource": "remote"
+    "version": ">= 16.17.4"
   },
   "build": {
     "development": {
@@ -16,9 +15,9 @@
       },
       "channel": "preview"
     },
-    "production": {
-      "autoIncrement": true,
-      "channel": "production"
+   "production": {
+      "distribution": "store",
+      "installCommand": "npm install --legacy-peer-deps"
     }
   },
   "submit": {
