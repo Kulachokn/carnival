@@ -16,7 +16,8 @@
       "channel": "preview"
     },
     "production": {
-      "distribution": "store"
+      "distribution": "store",
+       "channel": "production"
     }
   },
   "submit": {
