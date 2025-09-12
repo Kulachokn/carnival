@@ -304,7 +304,7 @@ function MainTabs() {
         options={{
           tabBarLabel: "Eintragen",
           tabBarIcon: ({ color }) => (
-            <AntDesign name="pluscircleo" size={24} color={color} />
+            <AntDesign name="plus-circle" size={24} color={color} />
           ),
         }}
       />

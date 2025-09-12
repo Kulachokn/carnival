@@ -45,7 +45,6 @@
     "updates": {
       "url": "https://u.expo.dev/f9b26001-c930-41d8-96c2-7a5ffe9f8709"
     },
-    "runtimeVersion": "exposdk:53.0.22",
     "plugins": [
       "expo-asset"
     ]
