@@ -15,9 +15,13 @@
       },
       "channel": "preview"
     },
-   "production": {
+    "production": {
       "distribution": "store",
-      "installCommand": "npm install --legacy-peer-deps"
+      "node": {
+        "npm": {
+          "installCommand": "npm install --legacy-peer-deps"
+        }
+      }
     }
   },
   "submit": {
