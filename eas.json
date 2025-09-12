@@ -16,8 +16,7 @@
       "channel": "preview"
     },
     "production": {
-      "distribution": "store",
-      "command": "npm install --legacy-peer-deps"
+      "distribution": "store"
     }
   },
   "submit": {
