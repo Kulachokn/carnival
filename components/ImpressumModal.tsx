@@ -15,7 +15,7 @@ const ImpressumModal = ({ visible, onClose }: ImpressumModalProps) => {
         <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
           <EvilIcons name="close" size={30} color="black" />
         </TouchableOpacity>
-        <WebView source={require("../assets/impressum.html")} style={{ flex: 1 }} />
+        <WebView source={require("../resources/impressum.html")} style={{ flex: 1 }} />
       </View>
     </Modal>
   );
