@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import he from "he";
+const he = require("he");
 import { AntDesign, Feather, Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
 import { formatShortDate, formatTimeHHMM } from "../utils/formatFunctions";
