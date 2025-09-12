@@ -17,11 +17,7 @@
     },
     "production": {
       "distribution": "store",
-      "node": {
-        "npm": {
-          "installCommand": "npm install --legacy-peer-deps"
-        }
-      }
+      "command": "npm install --legacy-peer-deps"
     }
   },
   "submit": {
